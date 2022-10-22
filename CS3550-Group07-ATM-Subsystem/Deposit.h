@@ -1,5 +1,11 @@
 #pragma once
-class Deposit
+#include "Transaction.h"
+class Deposit : public Transaction
 {
+public:
+	void printName()
+	{
+		Transaction::getName();
+		cout << "Deposit" << endl;
+	}
 };
-

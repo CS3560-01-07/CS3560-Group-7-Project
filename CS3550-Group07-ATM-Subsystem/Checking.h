@@ -1,5 +1,6 @@
 #pragma once
-class Checking
+#include "Account.h"
+class Checking : public Account
 {
 };
 

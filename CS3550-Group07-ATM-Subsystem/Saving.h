@@ -1,5 +1,6 @@
 #pragma once
-class Saving
+#include "Account.h"
+class Saving : public Account
 {
 };
 

@@ -1,5 +1,6 @@
 #pragma once
-class Withdrawl
+#include "Transaction.h"
+class Withdrawl : public Transaction
 {
 };
 
