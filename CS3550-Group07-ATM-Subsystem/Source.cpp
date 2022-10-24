@@ -13,7 +13,49 @@ using namespace std;
 
 int main()
 {
-	//Get 16 digit card number from user
+
+}
+static String enterCardNo()
+{
+    /*
+    prompt user for card number
+    prompt user for pin number
+
+    if (Object card Number !equals _cardNo || Object pin number !equal input pin number)
+    {
+        throw exception
+    }
+    
+    fetch user account information 
+
+    prompt user to choose account
+   
+    return account type name
+    
+    */
+}
+
+static void createTransfer()
+{
+    /*
+    Ask user what account to transfer to
+
+    Ask ammount to transfer
+
+    Withdraw from first account
+
+    Desposit ammount withrdawed from first account into second account.
+
+    send digitial reciept to user's email
+
+    */
+
+}
+
+// will seperate use cases later
+static void createDepositOrWithdraw(int )
+{
+    /*Get 16 digit card number from user
 	if (card exists in system)
 	{
 		
@@ -41,6 +83,7 @@ int main()
 					}
 					update the user balance
 					display new balance
+                    send digitial reciept to user's email
 					ask user if they would like to try again
 				}
 				else (transaction is a Withdrawl)
@@ -54,16 +97,19 @@ int main()
 						}
 						else if (Withdrawl amount >= maxWithdrawl)
 						{
-							dipalay an error saying they can't Withdrawl this amount
 							reprompt user to enter a valid Withdrawl amount
 						}
 						else
 						{
-							update the user balance
-								display new balance
-								ask user if they would like to try again
+                            if (Withdrawl amount > balance)
+                            {    
+                                overdraft protection function
+							}
+                            update the user balance
+							display new balance
+                            send digitial reciept to user's email
+							ask user if they would like to try again
 						}
-					
 				}
 		}
 		else
@@ -77,5 +123,19 @@ int main()
 	{
 		throw an exception
 	}
-	
+    */
+}
+
+static void overdraftProtection() 
+{
+    /*
+        if(saving account balance >= checking account balance - withdrawl amount)
+        {    
+            transfer money from savings account to checking account
+        }
+        else
+        {
+            throw exception 
+        }
+    */
 }
