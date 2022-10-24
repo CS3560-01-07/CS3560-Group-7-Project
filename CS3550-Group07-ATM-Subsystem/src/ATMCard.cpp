@@ -1,4 +1,4 @@
-#include "ATMCard.h"
+#include "../include/ATMCard.h"
 
 using namespace std;
 
@@ -39,7 +39,7 @@ void ATMCard::setCarNo(int _cardNo)
 }
 void ATMCard::setExpirDate(string _expirDate)
 {
-    expirDate = _expirDate
+    expirDate = _expirDate;
 }
 void ATMCard::setSecrCode(int _securityCode)
 {
@@ -47,7 +47,7 @@ void ATMCard::setSecrCode(int _securityCode)
 }
 void ATMCard::setPinNo(int _pinNo)
 {
-    pinNo = _pinNo
+    pinNo = _pinNo;
 }
 void ATMCard::setcurrBal(int _currBal)
 {

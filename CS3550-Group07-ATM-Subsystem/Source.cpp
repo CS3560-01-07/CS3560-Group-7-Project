@@ -1,21 +1,20 @@
 //This is a test comment
 #include<iostream>
-#include "Deposit.h"
-#include "Account.h"
-#include "ATMCard.h"
-#include "Checking.h"
-#include "Customer.h"
-#include "Deposit.h"
-#include "Saving.h"
-#include "Transaction.h"
-#include "Withdrawl.h"
+#include "include/Account.h"
+#include "include/ATMCard.h"
+#include "include/Checking.h"
+#include "include/Customer.h"
+#include "include/Deposit.h"
+#include "include/Saving.h"
+#include "include/Transaction.h"
+#include "include/Withdrawl.h"
 using namespace std;
 
 int main()
 {
 
 }
-static String enterCardNo()
+static void enterCardNo()
 {
     /*
     prompt user for card number

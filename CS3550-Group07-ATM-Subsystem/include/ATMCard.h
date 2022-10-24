@@ -1,9 +1,14 @@
 #pragma once
 #include<iostream>
+#ifndef ATMCard_h
+#define ATMCard_h
+
 using namespace std;
 class ATMCard
 {
     public:
+        ATMCard(const int &_cardNo, string _expirDate, int 
+        _securityCode, int _pinNo, int _currBal);
         int getCarNo();
         string getExpirDate();
         int getSecrCode();
@@ -18,7 +23,7 @@ class ATMCard
     
 
     private:
-        const int cardNo;
+        int cardNo;
         string expirDate;
         int securityCode;
         int pinNo;
@@ -27,3 +32,4 @@ class ATMCard
 
 };
 
+#endif /* ATMCard_h */
