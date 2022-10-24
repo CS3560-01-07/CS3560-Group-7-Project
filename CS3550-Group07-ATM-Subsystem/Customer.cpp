@@ -1,5 +1,17 @@
 #include "Customer.h"
 
+Customer::Customer(const int& _custID, const int& _SSN, const int& _phoneNum, string& _email, string& _Name, string& _DOB, string& _address)
+{
+	customerID = _custID;
+	socialSecurityNum = _SSN;
+	phoneNum = _phoneNum;
+	email = _email;
+	name = _Name;
+	dateOfBirth = _DOB;
+	address = _address;
+}
+
+
 int Customer:: getCustomerID() const
 {
 	return customerID;

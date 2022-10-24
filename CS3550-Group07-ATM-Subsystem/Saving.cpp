@@ -1,5 +1,11 @@
 #include "Saving.h"
 
+Saving::Saving(const double& _IR, const double& _minDeposit)
+{
+	intrestRate = _IR;
+	minDeposit = _minDeposit;
+}
+
 
 double Saving::getIntrestRate() const
 {

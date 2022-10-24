@@ -1,5 +1,9 @@
 #include "Checking.h"
 
+Checking::Checking(const double& _maxWithdrawl)
+{
+	maxWithdrawl = _maxWithdrawl;
+}
 
 double Checking::getMaxWithdrawl() const
 {
