@@ -7,5 +7,6 @@ public:
 	{
 		Transaction::getName();
 		cout << "Deposit" << endl;
+		cout << "Hello" << endl;
 	}
 };
