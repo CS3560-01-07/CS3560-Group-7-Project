@@ -5,13 +5,26 @@ using namespace std;
 class Customer
 {
 public:
-	int getCustomerID();
-	int getSocialSecurityNum();
-	int getPhoneNum();
-	string getEmail();
-	string getName();
-	string getDateOfBirth();
-	string getAddress();
+	int getCustomerID() const;
+	void setCustomerID(int _custID);
+
+	int getSocialSecurityNum() const;
+	void setSocialSecurityNum(int _SSN);
+
+	int getPhoneNum() const;
+	void getPhoneNum(int _phoneNum);
+
+	string getEmail() const;
+	void getEmail(string _email);
+
+	string getName() const;
+	void setName(string _Name);
+
+	string getDateOfBirth() const;
+	void setDateOfBirth(string _DOB);
+
+	string getAddress() const;
+	void setAddress(string _address);
 private:
 	int customerID;
 	int socialSecurityNum;
