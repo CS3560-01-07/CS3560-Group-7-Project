@@ -123,6 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CheckBalanceForm.cpp" />
     <ClCompile Include="CheckingForm.cpp" />
     <ClCompile Include="DepositForm.cpp" />
     <ClCompile Include="Form2.cpp" />
@@ -132,6 +133,9 @@
     <ClCompile Include="WithdrawlForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CheckBalanceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="CheckingForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

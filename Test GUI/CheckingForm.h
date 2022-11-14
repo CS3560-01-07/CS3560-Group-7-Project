@@ -1,5 +1,8 @@
 #pragma once
-
+#include "DepositForm.h"
+#include "TransferForm.h"
+#include "WithdrawlForm.h"
+#include "CheckBalanceForm.h"
 namespace TestGUI {
 
 	using namespace System;
@@ -58,13 +61,13 @@ namespace TestGUI {
 		void InitializeComponent(void)
 		{
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->btnWithdraw = (gcnew System::Windows::Forms::Button());
 			this->btnDeposit = (gcnew System::Windows::Forms::Button());
 			this->btnTransfer = (gcnew System::Windows::Forms::Button());
+			this->btnWithdraw = (gcnew System::Windows::Forms::Button());
+			this->btnCheckBalance = (gcnew System::Windows::Forms::Button());
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->lbTransactionType = (gcnew System::Windows::Forms::Label());
-			this->btnCheckBalance = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -92,19 +95,6 @@ namespace TestGUI {
 			this->tableLayoutPanel1->Size = System::Drawing::Size(1121, 212);
 			this->tableLayoutPanel1->TabIndex = 8;
 			// 
-			// btnWithdraw
-			// 
-			this->btnWithdraw->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->btnWithdraw->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->btnWithdraw->Location = System::Drawing::Point(283, 3);
-			this->btnWithdraw->Name = L"btnWithdraw";
-			this->btnWithdraw->Size = System::Drawing::Size(274, 206);
-			this->btnWithdraw->TabIndex = 6;
-			this->btnWithdraw->Text = L"Withdraw";
-			this->btnWithdraw->UseVisualStyleBackColor = true;
-			// 
 			// btnDeposit
 			// 
 			this->btnDeposit->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
@@ -117,6 +107,7 @@ namespace TestGUI {
 			this->btnDeposit->TabIndex = 4;
 			this->btnDeposit->Text = L"Deposit";
 			this->btnDeposit->UseVisualStyleBackColor = true;
+			this->btnDeposit->Click += gcnew System::EventHandler(this, &CheckingForm::btnDeposit_Click);
 			// 
 			// btnTransfer
 			// 
@@ -130,6 +121,35 @@ namespace TestGUI {
 			this->btnTransfer->TabIndex = 5;
 			this->btnTransfer->Text = L"Transfer";
 			this->btnTransfer->UseVisualStyleBackColor = true;
+			this->btnTransfer->Click += gcnew System::EventHandler(this, &CheckingForm::btnTransfer_Click);
+			// 
+			// btnWithdraw
+			// 
+			this->btnWithdraw->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnWithdraw->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnWithdraw->Location = System::Drawing::Point(283, 3);
+			this->btnWithdraw->Name = L"btnWithdraw";
+			this->btnWithdraw->Size = System::Drawing::Size(274, 206);
+			this->btnWithdraw->TabIndex = 6;
+			this->btnWithdraw->Text = L"Withdraw";
+			this->btnWithdraw->UseVisualStyleBackColor = true;
+			this->btnWithdraw->Click += gcnew System::EventHandler(this, &CheckingForm::btnWithdraw_Click);
+			// 
+			// btnCheckBalance
+			// 
+			this->btnCheckBalance->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnCheckBalance->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnCheckBalance->Location = System::Drawing::Point(843, 3);
+			this->btnCheckBalance->Name = L"btnCheckBalance";
+			this->btnCheckBalance->Size = System::Drawing::Size(275, 206);
+			this->btnCheckBalance->TabIndex = 7;
+			this->btnCheckBalance->Text = L"CheckBalance";
+			this->btnCheckBalance->UseVisualStyleBackColor = true;
+			this->btnCheckBalance->Click += gcnew System::EventHandler(this, &CheckingForm::btnCheckBalance_Click);
 			// 
 			// btnPrev
 			// 
@@ -139,6 +159,7 @@ namespace TestGUI {
 			this->btnPrev->TabIndex = 9;
 			this->btnPrev->Text = L"Prev";
 			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->Click += gcnew System::EventHandler(this, &CheckingForm::btnPrev_Click);
 			// 
 			// btnLogout
 			// 
@@ -163,19 +184,6 @@ namespace TestGUI {
 			this->lbTransactionType->TabIndex = 11;
 			this->lbTransactionType->Text = L"Please Select a Transaction Type";
 			// 
-			// btnCheckBalance
-			// 
-			this->btnCheckBalance->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->btnCheckBalance->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->btnCheckBalance->Location = System::Drawing::Point(843, 3);
-			this->btnCheckBalance->Name = L"btnCheckBalance";
-			this->btnCheckBalance->Size = System::Drawing::Size(275, 206);
-			this->btnCheckBalance->TabIndex = 7;
-			this->btnCheckBalance->Text = L"CheckBalance";
-			this->btnCheckBalance->UseVisualStyleBackColor = true;
-			// 
 			// CheckingForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -199,5 +207,28 @@ namespace TestGUI {
 	
 	private: System::Void CheckingForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
+private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	DepositForm^ f1 = gcnew DepositForm();
+	f1->ShowDialog();
+}
+private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	WithdrawlForm^ f2 = gcnew WithdrawlForm();
+	f2->ShowDialog();
+}
+private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	TransferForm^ f3 = gcnew TransferForm();
+	f3->ShowDialog();
+}
+private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	CheckBalanceForm^ f4 = gcnew CheckBalanceForm();
+	f4->ShowDialog();
+}
+private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+}
 };
 }

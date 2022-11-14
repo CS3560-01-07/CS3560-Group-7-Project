@@ -1,7 +1,6 @@
 #pragma once
 
 namespace TestGUI {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -35,7 +34,8 @@ namespace TestGUI {
 			}
 		}
 	private: System::Windows::Forms::Label^ lbDepositAmount;
-	private: System::Windows::Forms::TextBox^ txtDeposit;
+	private: System::Windows::Forms::TextBox^ tbDeposit;
+
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnClear;
 	private: System::Windows::Forms::Button^ btnSubmit;
@@ -55,7 +55,7 @@ namespace TestGUI {
 		void InitializeComponent(void)
 		{
 			this->lbDepositAmount = (gcnew System::Windows::Forms::Label());
-			this->txtDeposit = (gcnew System::Windows::Forms::TextBox());
+			this->tbDeposit = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
@@ -74,12 +74,13 @@ namespace TestGUI {
 			this->lbDepositAmount->Text = L"Please Enter A Deposit Amount";
 			this->lbDepositAmount->Click += gcnew System::EventHandler(this, &DepositForm::lbDepositAmount_Click);
 			// 
-			// txtDeposit
+			// tbDeposit
 			// 
-			this->txtDeposit->Location = System::Drawing::Point(18, 73);
-			this->txtDeposit->Name = L"txtDeposit";
-			this->txtDeposit->Size = System::Drawing::Size(267, 22);
-			this->txtDeposit->TabIndex = 2;
+			this->tbDeposit->Location = System::Drawing::Point(18, 73);
+			this->tbDeposit->Name = L"tbDeposit";
+			this->tbDeposit->Size = System::Drawing::Size(344, 22);
+			this->tbDeposit->TabIndex = 2;
+			this->tbDeposit->TextChanged += gcnew System::EventHandler(this, &DepositForm::txtDeposit_TextChanged);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -124,6 +125,7 @@ namespace TestGUI {
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
 			this->btnSubmit->UseVisualStyleBackColor = true;
+			this->btnSubmit->Click += gcnew System::EventHandler(this, &DepositForm::btnSubmit_Click);
 			// 
 			// DepositForm
 			// 
@@ -132,7 +134,7 @@ namespace TestGUI {
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(600, 253);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->txtDeposit);
+			this->Controls->Add(this->tbDeposit);
 			this->Controls->Add(this->lbDepositAmount);
 			this->Name = L"DepositForm";
 			this->Text = L"DepositForm";
@@ -144,5 +146,10 @@ namespace TestGUI {
 #pragma endregion
 	private: System::Void lbDepositAmount_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-	};
+	private: System::Void txtDeposit_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+	
+}
+};
 }

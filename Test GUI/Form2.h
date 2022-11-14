@@ -161,11 +161,13 @@ namespace TestGUI {
 		this->Hide();
 		CheckingForm^ f1 = gcnew CheckingForm();
 		f1->ShowDialog();
+		this->Show();
 	}
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		SavingForm^ f2 = gcnew SavingForm();
 		f2->ShowDialog();
+		this->Show();
 	}
 
 

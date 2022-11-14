@@ -1,5 +1,7 @@
 #pragma once
-
+#include "DepositForm.h"
+#include "TransferForm.h"
+#include "CheckBalanceForm.h"
 namespace TestGUI {
 
 	using namespace System;
@@ -90,6 +92,7 @@ namespace TestGUI {
 			this->btnPrev->TabIndex = 11;
 			this->btnPrev->Text = L"Prev";
 			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->Click += gcnew System::EventHandler(this, &SavingForm::btnPrev_Click);
 			// 
 			// lbTransactionType
 			// 
@@ -135,6 +138,7 @@ namespace TestGUI {
 			this->btnCheckBalance->TabIndex = 6;
 			this->btnCheckBalance->Text = L"CheckBalance";
 			this->btnCheckBalance->UseVisualStyleBackColor = true;
+			this->btnCheckBalance->Click += gcnew System::EventHandler(this, &SavingForm::btnCheckBalance_Click);
 			// 
 			// btnDeposit
 			// 
@@ -148,6 +152,7 @@ namespace TestGUI {
 			this->btnDeposit->TabIndex = 4;
 			this->btnDeposit->Text = L"Deposit";
 			this->btnDeposit->UseVisualStyleBackColor = true;
+			this->btnDeposit->Click += gcnew System::EventHandler(this, &SavingForm::btnDeposit_Click);
 			// 
 			// btnTransfer
 			// 
@@ -161,6 +166,7 @@ namespace TestGUI {
 			this->btnTransfer->TabIndex = 5;
 			this->btnTransfer->Text = L"Transfer";
 			this->btnTransfer->UseVisualStyleBackColor = true;
+			this->btnTransfer->Click += gcnew System::EventHandler(this, &SavingForm::btnTransfer_Click);
 			// 
 			// SavingForm
 			// 
@@ -182,5 +188,24 @@ namespace TestGUI {
 		}
 #pragma endregion
 
-	};
+	
+private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	DepositForm^ f1 = gcnew DepositForm();
+	f1->ShowDialog();
+}
+private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	TransferForm^ f2 = gcnew TransferForm();
+	f2->ShowDialog();
+}
+private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	CheckBalanceForm^ f3 = gcnew CheckBalanceForm();
+	f3->ShowDialog();
+}
+private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+}
+};
 }
