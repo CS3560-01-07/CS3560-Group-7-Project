@@ -17,6 +17,8 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		String^ cardNum;
+		String^ pinNum;
 		Form2(void)
 		{
 			InitializeComponent();
@@ -24,10 +26,18 @@ namespace TestGUI {
 			//TODO: Add the constructor code here
 			//
 		}
-
 		Form2(Form^ _obj)
 		{
 			obj = _obj;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+		Form2(Form^ _obj, String^ _cardNum)
+		{
+			obj = _obj;
+			cardNum = _cardNum;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -169,7 +179,7 @@ namespace TestGUI {
 #pragma endregion
 	private: System::Void btnChecking_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckingForm^ f1 = gcnew CheckingForm();
+		CheckingForm^ f1 = gcnew CheckingForm(obj);
 		f1->ShowDialog();
 		this->Show();
 	}

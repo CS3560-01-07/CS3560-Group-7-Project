@@ -7,6 +7,7 @@ namespace TestGUI {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace MySql::Data::MySqlClient;
 
 	/// <summary>
 	/// Summary for DepositForm
@@ -15,6 +16,8 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		String^ cardNum;
+		String^ pinNum;
 		DepositForm(void)
 		{
 			InitializeComponent();
@@ -26,6 +29,16 @@ namespace TestGUI {
 		DepositForm(Form^ _obj)
 		{
 			obj = _obj;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		DepositForm(Form^ _obj, String^ _cardNum)
+		{
+			obj = _obj;
+			cardNum = _cardNum;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -126,6 +139,7 @@ namespace TestGUI {
 			this->btnClear->TabIndex = 4;
 			this->btnClear->Text = L"Clear";
 			this->btnClear->UseVisualStyleBackColor = true;
+			this->btnClear->Click += gcnew System::EventHandler(this, &DepositForm::btnClear_Click);
 			// 
 			// btnSubmit
 			// 
@@ -177,11 +191,41 @@ namespace TestGUI {
 	private: System::Void txtDeposit_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ depositAmount = this->tbDeposit->Text;
+		String^ newBalance = "";
+		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set balance = balance + '"+this->tbDeposit->Text+"' where Eid = 1;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase1);
+		MySqlDataReader^ myReader;
+		MySqlDataReader^ myReader1;
+		try
+		{
+			conDatabase->Open();
+			myReader = cmDataBase->ExecuteReader();
 
+			conDatabase1->Open();
+			myReader1 = cmDataBase1->ExecuteReader();
+
+			if (myReader1->Read())
+			{
+				newBalance = myReader1->GetInt32("balance").ToString();
+			}
+			MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+		this->tbDeposit->Text = "";
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		obj->Show();
 	}
+private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->tbDeposit->Text = "";
+}
 };
 }

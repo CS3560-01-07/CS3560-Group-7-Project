@@ -17,6 +17,8 @@ namespace TestGUI {
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
+		String^ cardNum;
+		String^ pinNum;
 		MainForm(void)
 		{
 			InitializeComponent();
@@ -181,6 +183,7 @@ namespace TestGUI {
 			this->tb4DigitPinNum->PasswordChar = '*';
 			this->tb4DigitPinNum->Size = System::Drawing::Size(607, 22);
 			this->tb4DigitPinNum->TabIndex = 6;
+			this->tb4DigitPinNum->TextChanged += gcnew System::EventHandler(this, &MainForm::tb4DigitPinNum_TextChanged);
 			// 
 			// label1
 			// 
@@ -232,6 +235,8 @@ namespace TestGUI {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ sixTeenDigitCardNum = this->tb16DigitCardNum->Text;
 		String^ fourDigitPinNum = this->tb4DigitPinNum->Text;
+		pinNum = fourDigitPinNum;
+		cardNum = sixTeenDigitCardNum;
 		if (sixTeenDigitCardNum->Length != 16 || fourDigitPinNum->Length != 4)
 		{
 			this->lbDisplay->Text = "Error: You entered in a " + sixTeenDigitCardNum->Length + " card number";
@@ -274,7 +279,7 @@ namespace TestGUI {
 			this->Hide();
 			this->tb16DigitCardNum->Text = "";
 			this->tb4DigitPinNum->Text = "";
-			Form2^ f2 = gcnew Form2(this);
+			Form2^ f2 = gcnew Form2(this, cardNum);
 			f2->ShowDialog();
 		}
 		catch (Exception^ ex)
@@ -290,5 +295,7 @@ namespace TestGUI {
 		this->lbDisplay->Text = "";
 	}
 	
+private: System::Void tb4DigitPinNum_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }
