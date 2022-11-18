@@ -34,6 +34,9 @@ namespace TestGUI {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Label^ lbWithdrawlAmount;
+	private: System::Windows::Forms::Label^ lbCurrentBalance;
+	protected:
 
 	private:
 		/// <summary>
@@ -48,11 +51,43 @@ namespace TestGUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"CheckBalanceForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->lbWithdrawlAmount = (gcnew System::Windows::Forms::Label());
+			this->lbCurrentBalance = (gcnew System::Windows::Forms::Label());
+			this->SuspendLayout();
+			// 
+			// lbWithdrawlAmount
+			// 
+			this->lbWithdrawlAmount->AutoSize = true;
+			this->lbWithdrawlAmount->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbWithdrawlAmount->Location = System::Drawing::Point(12, 26);
+			this->lbWithdrawlAmount->Name = L"lbWithdrawlAmount";
+			this->lbWithdrawlAmount->Size = System::Drawing::Size(149, 23);
+			this->lbWithdrawlAmount->TabIndex = 4;
+			this->lbWithdrawlAmount->Text = L"Current Balance";
+			// 
+			// lbCurrentBalance
+			// 
+			this->lbCurrentBalance->AutoSize = true;
+			this->lbCurrentBalance->Location = System::Drawing::Point(36, 105);
+			this->lbCurrentBalance->Name = L"lbCurrentBalance";
+			this->lbCurrentBalance->Size = System::Drawing::Size(46, 17);
+			this->lbCurrentBalance->TabIndex = 5;
+			this->lbCurrentBalance->Text = L"label1";
+			// 
+			// CheckBalanceForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->ClientSize = System::Drawing::Size(635, 253);
+			this->Controls->Add(this->lbCurrentBalance);
+			this->Controls->Add(this->lbWithdrawlAmount);
+			this->Name = L"CheckBalanceForm";
+			this->Text = L"CheckBalanceForm";
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
 		}
 #pragma endregion
 	};

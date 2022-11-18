@@ -16,8 +16,18 @@ namespace TestGUI {
 	public ref class Form2 : public System::Windows::Forms::Form
 	{
 	public:
+		Form^ obj;
 		Form2(void)
 		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		Form2(Form^ _obj)
+		{
+			obj = _obj;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -165,15 +175,17 @@ namespace TestGUI {
 	}
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		SavingForm^ f2 = gcnew SavingForm();
+		SavingForm^ f2 = gcnew SavingForm(obj);
 		f2->ShowDialog();
 		this->Show();
 	}
 
 
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		obj->Show();
 	}
-private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-};
+	private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	};
 }

@@ -2,6 +2,7 @@
 #include "DepositForm.h"
 #include "TransferForm.h"
 #include "CheckBalanceForm.h"
+
 namespace TestGUI {
 
 	using namespace System;
@@ -17,12 +18,19 @@ namespace TestGUI {
 	public ref class SavingForm : public System::Windows::Forms::Form
 	{
 	public:
+		Form^ obj;
 		SavingForm(void)
 		{
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
+		}
+		SavingForm(Form^ _obj)
+		{
+			obj = _obj;
+
+			InitializeComponent();
 		}
 
 	protected:
@@ -83,6 +91,7 @@ namespace TestGUI {
 			this->btnLogout->TabIndex = 10;
 			this->btnLogout->Text = L"Logout";
 			this->btnLogout->UseVisualStyleBackColor = false;
+			this->btnLogout->Click += gcnew System::EventHandler(this, &SavingForm::btnLogout_Click);
 			// 
 			// btnPrev
 			// 
@@ -188,24 +197,29 @@ namespace TestGUI {
 		}
 #pragma endregion
 
+
+	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		DepositForm^ f1 = gcnew DepositForm();
+		f1->ShowDialog();
+	}
+	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		TransferForm^ f2 = gcnew TransferForm();
+		f2->ShowDialog();
+	}
+	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		CheckBalanceForm^ f3 = gcnew CheckBalanceForm();
+		f3->ShowDialog();
+	}
+	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+	}
 	
-private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	DepositForm^ f1 = gcnew DepositForm();
-	f1->ShowDialog();
-}
-private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	TransferForm^ f2 = gcnew TransferForm();
-	f2->ShowDialog();
-}
-private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	CheckBalanceForm^ f3 = gcnew CheckBalanceForm();
-	f3->ShowDialog();
-}
-private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-}
+	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		obj->Show();
+	}
 };
 }

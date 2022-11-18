@@ -159,6 +159,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CheckBalanceForm.resx">
+      <DependentUpon>CheckBalanceForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CheckingForm.resx">
       <DependentUpon>CheckingForm.h</DependentUpon>
     </EmbeddedResource>

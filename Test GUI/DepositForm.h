@@ -14,8 +14,18 @@ namespace TestGUI {
 	public ref class DepositForm : public System::Windows::Forms::Form
 	{
 	public:
+		Form^ obj;
 		DepositForm(void)
 		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		DepositForm(Form^ _obj)
+		{
+			obj = _obj;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -39,13 +49,14 @@ namespace TestGUI {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnClear;
 	private: System::Windows::Forms::Button^ btnSubmit;
+	private: System::Windows::Forms::Button^ btnLogout;
 	protected:
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -59,6 +70,7 @@ namespace TestGUI {
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
+			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -76,6 +88,8 @@ namespace TestGUI {
 			// 
 			// tbDeposit
 			// 
+			this->tbDeposit->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->tbDeposit->Location = System::Drawing::Point(18, 73);
 			this->tbDeposit->Name = L"tbDeposit";
 			this->tbDeposit->Size = System::Drawing::Size(344, 22);
@@ -97,7 +111,7 @@ namespace TestGUI {
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(350, 64);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(356, 64);
 			this->tableLayoutPanel1->TabIndex = 3;
 			// 
 			// btnClear
@@ -106,9 +120,9 @@ namespace TestGUI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnClear->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnClear->Location = System::Drawing::Point(178, 3);
+			this->btnClear->Location = System::Drawing::Point(181, 3);
 			this->btnClear->Name = L"btnClear";
-			this->btnClear->Size = System::Drawing::Size(169, 58);
+			this->btnClear->Size = System::Drawing::Size(172, 58);
 			this->btnClear->TabIndex = 4;
 			this->btnClear->Text = L"Clear";
 			this->btnClear->UseVisualStyleBackColor = true;
@@ -121,21 +135,35 @@ namespace TestGUI {
 				static_cast<System::Byte>(0)));
 			this->btnSubmit->Location = System::Drawing::Point(3, 3);
 			this->btnSubmit->Name = L"btnSubmit";
-			this->btnSubmit->Size = System::Drawing::Size(169, 58);
+			this->btnSubmit->Size = System::Drawing::Size(172, 58);
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
 			this->btnSubmit->UseVisualStyleBackColor = true;
 			this->btnSubmit->Click += gcnew System::EventHandler(this, &DepositForm::btnSubmit_Click);
+			// 
+			// btnLogout
+			// 
+			this->btnLogout->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->btnLogout->BackColor = System::Drawing::Color::MistyRose;
+			this->btnLogout->Location = System::Drawing::Point(360, 12);
+			this->btnLogout->Name = L"btnLogout";
+			this->btnLogout->Size = System::Drawing::Size(108, 32);
+			this->btnLogout->TabIndex = 11;
+			this->btnLogout->Text = L"Logout";
+			this->btnLogout->UseVisualStyleBackColor = false;
+			this->btnLogout->Click += gcnew System::EventHandler(this, &DepositForm::btnLogout_Click);
 			// 
 			// DepositForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(600, 253);
+			this->ClientSize = System::Drawing::Size(480, 235);
+			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbDeposit);
 			this->Controls->Add(this->lbDepositAmount);
+			this->MinimumSize = System::Drawing::Size(498, 282);
 			this->Name = L"DepositForm";
 			this->Text = L"DepositForm";
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -148,8 +176,12 @@ namespace TestGUI {
 	}
 	private: System::Void txtDeposit_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
-private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
-	
-}
+	private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	}
+	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		obj->Show();
+	}
 };
 }

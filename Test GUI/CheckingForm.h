@@ -18,8 +18,18 @@ namespace TestGUI {
 	public ref class CheckingForm : public System::Windows::Forms::Form
 	{
 	public:
+		Form^ obj;
 		CheckingForm(void)
 		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		CheckingForm(Form^ _obj)
+		{
+			obj = _obj;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -51,7 +61,7 @@ namespace TestGUI {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -172,6 +182,7 @@ namespace TestGUI {
 			this->btnLogout->TabIndex = 10;
 			this->btnLogout->Text = L"Logout";
 			this->btnLogout->UseVisualStyleBackColor = false;
+			this->btnLogout->Click += gcnew System::EventHandler(this, &CheckingForm::btnLogout_Click);
 			// 
 			// lbTransactionType
 			// 
@@ -204,31 +215,35 @@ namespace TestGUI {
 
 		}
 #pragma endregion
-	
+
 	private: System::Void CheckingForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	DepositForm^ f1 = gcnew DepositForm();
-	f1->ShowDialog();
-}
-private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	WithdrawlForm^ f2 = gcnew WithdrawlForm();
-	f2->ShowDialog();
-}
-private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	TransferForm^ f3 = gcnew TransferForm();
-	f3->ShowDialog();
-}
-private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	CheckBalanceForm^ f4 = gcnew CheckBalanceForm();
-	f4->ShowDialog();
-}
-private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-}
+	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		DepositForm^ f1 = gcnew DepositForm();
+		f1->ShowDialog();
+	}
+	private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		WithdrawlForm^ f2 = gcnew WithdrawlForm();
+		f2->ShowDialog();
+	}
+	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		TransferForm^ f3 = gcnew TransferForm();
+		f3->ShowDialog();
+	}
+	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		CheckBalanceForm^ f4 = gcnew CheckBalanceForm();
+		f4->ShowDialog();
+	}
+	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+	}
+	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		obj->Show();
+	}
 };
 }
