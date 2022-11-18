@@ -8,6 +8,7 @@ namespace TestGUI {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace MySql::Data::MySqlClient;
 
 	/// <summary>
 	/// Summary for TransferForm
@@ -137,6 +138,7 @@ namespace TestGUI {
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
 			this->btnSubmit->UseVisualStyleBackColor = true;
+			this->btnSubmit->Click += gcnew System::EventHandler(this, &TransferForm::btnSubmit_Click);
 			// 
 			// btnLogout
 			// 
@@ -175,6 +177,49 @@ namespace TestGUI {
 		obj->Show();
 	}
 private: System::Void TransferForm_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+	String^ transferAmount = this->tbTransfer->Text;
+	String^ checkingBalance = "";
+	String^ savingBalance = "";
+	String^ newSavingsBalance = "";
+	String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+	MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+	MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+	MySqlConnection^ conDatabase2 = gcnew MySqlConnection(consting);
+	MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set checkingBalance = checkingBalance + '" + this->tbTransfer->Text + "' where Eid = 1;", conDatabase);
+	MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase1);
+	MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' where Eid = 1;", conDatabase2);
+	MySqlDataReader^ myReader;
+	MySqlDataReader^ myReader1;
+	MySqlDataReader^ myReader2;
+	try
+	{
+
+		conDatabase1->Open();
+		myReader1 = cmDataBase1->ExecuteReader();
+		if (myReader1->Read())
+		{
+			savingBalance = myReader1->GetInt32("savingBalance").ToString();
+			newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+		}
+		if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+		{
+			conDatabase->Open();
+			myReader = cmDataBase->ExecuteReader();
+			
+			conDatabase2->Open();
+			myReader2 = cmDataBase2->ExecuteReader();
+			
+			
+		}
+		MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your savings account into your checkings account. \nCurrent savings balance is $" + newSavingsBalance);
+	}
+	catch (Exception^ ex)
+	{
+		MessageBox::Show(ex->Message);
+	}
+	this->tbTransfer->Text = "";
 }
 };
 }

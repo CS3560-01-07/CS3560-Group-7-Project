@@ -196,7 +196,7 @@ namespace TestGUI {
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set balance = balance + '"+this->tbDeposit->Text+"' where Eid = 1;", conDatabase);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set checkingBalance = checkingBalance + '"+this->tbDeposit->Text+"' where Eid = 1;", conDatabase);
 		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase1);
 		MySqlDataReader^ myReader;
 		MySqlDataReader^ myReader1;
@@ -210,7 +210,7 @@ namespace TestGUI {
 
 			if (myReader1->Read())
 			{
-				newBalance = myReader1->GetInt32("balance").ToString();
+				newBalance = myReader1->GetInt32("checkingBalance").ToString();
 			}
 			MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
 		}

@@ -200,17 +200,17 @@ namespace TestGUI {
 
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		DepositForm^ f1 = gcnew DepositForm();
+		DepositForm^ f1 = gcnew DepositForm(obj);
 		f1->ShowDialog();
 	}
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		TransferForm^ f2 = gcnew TransferForm();
+		TransferForm^ f2 = gcnew TransferForm(obj);
 		f2->ShowDialog();
 	}
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckBalanceForm^ f3 = gcnew CheckBalanceForm();
+		CheckBalanceForm^ f3 = gcnew CheckBalanceForm(obj);
 		f3->ShowDialog();
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
