@@ -200,9 +200,9 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 
 	if (prev->Name == L"CheckingForm")
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
-		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase2);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
+		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
 		MySqlDataReader^ myReader;
 		MySqlDataReader^ myReader1;
 		MySqlDataReader^ myReader2;
@@ -235,9 +235,9 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	}
 	else if (prev->Name == L"SavingForm")
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
-		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase2);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
+		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
 		MySqlDataReader^ myReader;
 		MySqlDataReader^ myReader1;
 		MySqlDataReader^ myReader2;

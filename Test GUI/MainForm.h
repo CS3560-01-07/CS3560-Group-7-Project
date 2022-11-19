@@ -17,8 +17,8 @@ namespace TestGUI {
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
-		String^ cardNum;
-		String^ pinNum;
+		String^ email;
+		String^ cID;
 		MainForm(void)
 		{
 			InitializeComponent();
@@ -38,10 +38,15 @@ namespace TestGUI {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Label^ lb16DigitCardNum;
+	private: System::Windows::Forms::Label^ lbEmail;
 	protected:
 
-	private: System::Windows::Forms::TextBox^ tb16DigitCardNum;
+	private: System::Windows::Forms::TextBox^ tbEmail;
+	protected:
+
+	protected:
+
+
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnClear;
 
@@ -49,10 +54,12 @@ namespace TestGUI {
 	private: System::Windows::Forms::Button^ btnSubmit;
 	private: System::Windows::Forms::Label^ lbDisplay;
 	private: System::Windows::Forms::ContextMenuStrip^ contextMenuStrip1;
-	private: System::Windows::Forms::TextBox^ tb4DigitPinNum;
+	private: System::Windows::Forms::TextBox^ tbCustomerID;
+
+	private: System::Windows::Forms::Label^ lbCustomerID;
 
 
-	private: System::Windows::Forms::Label^ label1;
+
 	private: System::Windows::Forms::Label^ lbWelcome;
 
 
@@ -78,39 +85,39 @@ namespace TestGUI {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			this->lb16DigitCardNum = (gcnew System::Windows::Forms::Label());
-			this->tb16DigitCardNum = (gcnew System::Windows::Forms::TextBox());
+			this->lbEmail = (gcnew System::Windows::Forms::Label());
+			this->tbEmail = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
 			this->lbDisplay = (gcnew System::Windows::Forms::Label());
 			this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
-			this->tb4DigitPinNum = (gcnew System::Windows::Forms::TextBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->tbCustomerID = (gcnew System::Windows::Forms::TextBox());
+			this->lbCustomerID = (gcnew System::Windows::Forms::Label());
 			this->lbWelcome = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
-			// lb16DigitCardNum
+			// lbEmail
 			// 
-			this->lb16DigitCardNum->AutoSize = true;
-			this->lb16DigitCardNum->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lbEmail->AutoSize = true;
+			this->lbEmail->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lb16DigitCardNum->Location = System::Drawing::Point(33, 122);
-			this->lb16DigitCardNum->Name = L"lb16DigitCardNum";
-			this->lb16DigitCardNum->Size = System::Drawing::Size(195, 23);
-			this->lb16DigitCardNum->TabIndex = 0;
-			this->lb16DigitCardNum->Text = L"16 Digit Card Number";
+			this->lbEmail->Location = System::Drawing::Point(36, 134);
+			this->lbEmail->Name = L"lbEmail";
+			this->lbEmail->Size = System::Drawing::Size(130, 23);
+			this->lbEmail->TabIndex = 0;
+			this->lbEmail->Text = L"Email Address";
 			// 
-			// tb16DigitCardNum
+			// tbEmail
 			// 
-			this->tb16DigitCardNum->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+			this->tbEmail->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->tb16DigitCardNum->Location = System::Drawing::Point(37, 160);
-			this->tb16DigitCardNum->MaxLength = 16;
-			this->tb16DigitCardNum->Name = L"tb16DigitCardNum";
-			this->tb16DigitCardNum->Size = System::Drawing::Size(607, 22);
-			this->tb16DigitCardNum->TabIndex = 1;
+			this->tbEmail->Location = System::Drawing::Point(37, 160);
+			//this->tbEmail->MaxLength = 16;
+			this->tbEmail->Name = L"tbEmail";
+			this->tbEmail->Size = System::Drawing::Size(607, 22);
+			this->tbEmail->TabIndex = 1;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -173,28 +180,28 @@ namespace TestGUI {
 			this->contextMenuStrip1->Name = L"contextMenuStrip1";
 			this->contextMenuStrip1->Size = System::Drawing::Size(61, 4);
 			// 
-			// tb4DigitPinNum
+			// tbCustomerID
 			// 
-			this->tb4DigitPinNum->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+			this->tbCustomerID->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->tb4DigitPinNum->Location = System::Drawing::Point(37, 230);
-			this->tb4DigitPinNum->MaxLength = 4;
-			this->tb4DigitPinNum->Name = L"tb4DigitPinNum";
-			this->tb4DigitPinNum->PasswordChar = '*';
-			this->tb4DigitPinNum->Size = System::Drawing::Size(607, 22);
-			this->tb4DigitPinNum->TabIndex = 6;
-			this->tb4DigitPinNum->TextChanged += gcnew System::EventHandler(this, &MainForm::tb4DigitPinNum_TextChanged);
+			this->tbCustomerID->Location = System::Drawing::Point(37, 230);
+			this->tbCustomerID->MaxLength = 4;
+			this->tbCustomerID->Name = L"tbCustomerID";
+			this->tbCustomerID->PasswordChar = '*';
+			this->tbCustomerID->Size = System::Drawing::Size(607, 22);
+			this->tbCustomerID->TabIndex = 6;
+			this->tbCustomerID->TextChanged += gcnew System::EventHandler(this, &MainForm::tb4DigitPinNum_TextChanged);
 			// 
-			// label1
+			// lbCustomerID
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lbCustomerID->AutoSize = true;
+			this->lbCustomerID->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label1->Location = System::Drawing::Point(33, 204);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(170, 23);
-			this->label1->TabIndex = 7;
-			this->label1->Text = L"4 Digit Pin Number";
+			this->lbCustomerID->Location = System::Drawing::Point(33, 204);
+			this->lbCustomerID->Name = L"lbCustomerID";
+			this->lbCustomerID->Size = System::Drawing::Size(118, 23);
+			this->lbCustomerID->TabIndex = 7;
+			this->lbCustomerID->Text = L"Customer ID";
 			// 
 			// lbWelcome
 			// 
@@ -216,12 +223,12 @@ namespace TestGUI {
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(821, 435);
 			this->Controls->Add(this->lbWelcome);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->tb4DigitPinNum);
+			this->Controls->Add(this->lbCustomerID);
+			this->Controls->Add(this->tbCustomerID);
 			this->Controls->Add(this->lbDisplay);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->tb16DigitCardNum);
-			this->Controls->Add(this->lb16DigitCardNum);
+			this->Controls->Add(this->tbEmail);
+			this->Controls->Add(this->lbEmail);
 			this->MinimumSize = System::Drawing::Size(839, 482);
 			this->Name = L"MainForm";
 			this->Text = L"ATM Login";
@@ -233,11 +240,11 @@ namespace TestGUI {
 #pragma endregion
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ sixTeenDigitCardNum = this->tb16DigitCardNum->Text;
-		String^ fourDigitPinNum = this->tb4DigitPinNum->Text;
-		pinNum = fourDigitPinNum;
-		cardNum = sixTeenDigitCardNum;
-		if (sixTeenDigitCardNum->Length != 16 || fourDigitPinNum->Length != 4)
+		String^ custEmail = this->tbEmail->Text;
+		String^ custID = this->tbCustomerID->Text;
+		email = custEmail;
+		cID = custID;
+		/*if (sixTeenDigitCardNum->Length != 16 || fourDigitPinNum->Length != 4)
 		{
 			this->lbDisplay->Text = "Error: You entered in a " + sixTeenDigitCardNum->Length + " card number";
 		}
@@ -249,10 +256,10 @@ namespace TestGUI {
 		{
 			this->lbDisplay->Text += sixTeenDigitCardNum;
 			this->lbDisplay->Text += fourDigitPinNum;
-		}
+		}*/
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where cardNo ='" + this->tb16DigitCardNum->Text + "' and accountNo='" + this->tb4DigitPinNum->Text + "';", conDatabase);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.customer where customerID ='" + this->tbCustomerID->Text + "' and email='" + this->tbEmail->Text + "';", conDatabase);
 		MySqlDataReader^ myReader;
 		try
 		{
@@ -266,20 +273,20 @@ namespace TestGUI {
 			}
 			if (count == 1)
 			{
-				MessageBox::Show("Card Number and Pin are correct");
+				MessageBox::Show("Email and ID are correct");
 			}
 			else if (count > 1)
 			{
-				MessageBox::Show("There are Duplicate Card Number and Pin ...Access Denied");
+				MessageBox::Show("There are Duplicate Emails and IDs ...Access Denied");
 			}
 			else
 			{
-				MessageBox::Show("Card Number and/or Pin Incorrect ...Please Try Again");
+				MessageBox::Show("Email and/or ID Incorrect ...Please Try Again");
 			}
 			this->Hide();
-			this->tb16DigitCardNum->Text = "";
-			this->tb4DigitPinNum->Text = "";
-			Form2^ f2 = gcnew Form2(this, cardNum);
+			this->tbEmail->Text = "";
+			this->tbCustomerID->Text = "";
+			Form2^ f2 = gcnew Form2(this, cID);
 			f2->ShowDialog();
 		}
 		catch (Exception^ ex)
@@ -288,8 +295,8 @@ namespace TestGUI {
 		}
 	}
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->tb16DigitCardNum->Text = "";
-		this->tb4DigitPinNum->Text = "";
+		this->tbEmail->Text = "";
+		this->tbCustomerID->Text = "";
 	}
 	private: System::Void label1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 		this->lbDisplay->Text = "";

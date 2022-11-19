@@ -242,7 +242,7 @@ namespace TestGUI {
 		this->Hide();
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();
+		this->Close();
 		obj->Show();
 	}
 };

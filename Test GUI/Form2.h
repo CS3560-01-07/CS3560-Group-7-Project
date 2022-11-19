@@ -17,8 +17,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
-		String^ cardNum;
-		String^ pinNum;
+		String^ cID;
 		Form2(void)
 		{
 			InitializeComponent();
@@ -34,10 +33,10 @@ namespace TestGUI {
 			//TODO: Add the constructor code here
 			//
 		}
-		Form2(Form^ _obj, String^ _cardNum)
+		Form2(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
-			cardNum = _cardNum;
+			cID = _cID;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -192,7 +191,7 @@ namespace TestGUI {
 
 
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();
+		this->Close();
 		obj->Show();
 	}
 	private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {

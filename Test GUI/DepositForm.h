@@ -220,8 +220,8 @@ namespace TestGUI {
 		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 		if (prev->Name == L"CheckingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 1266;", conDatabase);
-			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
 			MySqlDataReader^ myReader;
 			MySqlDataReader^ myReader1;
 
@@ -246,8 +246,8 @@ namespace TestGUI {
 		}
 		else if (prev->Name == L"SavingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 1266;", conDatabase);
-			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
 			MySqlDataReader^ myReader;
 			MySqlDataReader^ myReader1;
 

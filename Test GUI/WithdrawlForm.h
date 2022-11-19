@@ -198,8 +198,8 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 	if (prev->Name == L"CheckingForm")
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbWithdrawl->Text + "' where accountNo = 1266;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbWithdrawl->Text + "' where accountNo = 5326;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
 		MySqlDataReader^ myReader;
 		MySqlDataReader^ myReader1;
 
@@ -224,8 +224,8 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	}
 	else if (prev->Name == L"SavingForm")
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbWithdrawl->Text + "' where accountNo = 1266;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbWithdrawl->Text + "' where accountNo = 5326;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
 		MySqlDataReader^ myReader;
 		MySqlDataReader^ myReader1;
 

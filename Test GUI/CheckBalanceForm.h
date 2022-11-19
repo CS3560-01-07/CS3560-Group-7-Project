@@ -153,7 +153,7 @@ namespace TestGUI {
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		if (prev->Name == L"CheckingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
@@ -172,7 +172,7 @@ namespace TestGUI {
 		}
 		else if (prev->Name == L"SavingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
