@@ -242,8 +242,15 @@ namespace TestGUI {
 		this->Hide();
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Close();
-		obj->Show();
+		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			this->Close();
+			obj->Show();
+		}
+		else
+		{
+
+		}
 	}
 };
 }

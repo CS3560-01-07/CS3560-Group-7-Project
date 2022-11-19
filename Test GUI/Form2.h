@@ -191,8 +191,15 @@ namespace TestGUI {
 
 
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Close();
-		obj->Show();
+		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			this->Close();
+			obj->Show();
+		}
+		else
+		{
+			
+		}
 	}
 	private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

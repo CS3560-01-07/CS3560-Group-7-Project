@@ -118,6 +118,7 @@ namespace TestGUI {
 			this->btnLogout->TabIndex = 12;
 			this->btnLogout->Text = L"Logout";
 			this->btnLogout->UseVisualStyleBackColor = false;
+			this->btnLogout->Click += gcnew System::EventHandler(this, &CheckBalanceForm::btnLogout_Click);
 			// 
 			// btnPrev
 			// 
@@ -195,5 +196,16 @@ namespace TestGUI {
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 	}
+private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+	{
+		this->Close();
+		obj->Show();
+	}
+	else
+	{
+
+	}
+}
 };
 }

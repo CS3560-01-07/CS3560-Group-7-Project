@@ -18,6 +18,8 @@ namespace TestGUI {
 		Form^ obj;
 		Form^ prev;
 		String^ cardNum;
+	private: System::Windows::Forms::Button^ btnPrev;
+	public:
 		String^ pinNum;
 		DepositForm(void)
 		{
@@ -106,6 +108,7 @@ namespace TestGUI {
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
+			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -189,17 +192,28 @@ namespace TestGUI {
 			this->btnLogout->UseVisualStyleBackColor = false;
 			this->btnLogout->Click += gcnew System::EventHandler(this, &DepositForm::btnLogout_Click);
 			// 
+			// btnPrev
+			// 
+			this->btnPrev->Location = System::Drawing::Point(12, 225);
+			this->btnPrev->Name = L"btnPrev";
+			this->btnPrev->Size = System::Drawing::Size(90, 31);
+			this->btnPrev->TabIndex = 14;
+			this->btnPrev->Text = L"Prev";
+			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->Click += gcnew System::EventHandler(this, &DepositForm::btnPrev_Click);
+			// 
 			// DepositForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(480, 235);
+			this->ClientSize = System::Drawing::Size(480, 268);
+			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbDeposit);
 			this->Controls->Add(this->lbDepositAmount);
-			this->MinimumSize = System::Drawing::Size(498, 282);
+			this->MinimumSize = System::Drawing::Size(498, 315);
 			this->Name = L"DepositForm";
 			this->Text = L"DepositForm";
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -275,11 +289,21 @@ namespace TestGUI {
 		this->tbDeposit->Text = "";
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();
-		obj->Show();
+		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			this->Close();
+			obj->Show();
+		}
+		else
+		{
+
+		}
 	}
 private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->tbDeposit->Text = "";
+}
+private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
 }
 };
 }
