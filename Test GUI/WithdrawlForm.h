@@ -8,6 +8,7 @@ namespace TestGUI {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace MySql::Data::MySqlClient;
 
 	/// <summary>
 	/// Summary for WithdrawlForm
@@ -16,6 +17,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		WithdrawlForm(void)
 		{
 			InitializeComponent();
@@ -27,6 +29,16 @@ namespace TestGUI {
 		WithdrawlForm(Form^ _obj)
 		{
 			obj = _obj;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		WithdrawlForm(Form^ _obj, Form^ _prev)
+		{
+			obj = _obj;
+			prev = _prev;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -45,7 +57,8 @@ namespace TestGUI {
 			}
 		}
 	private: System::Windows::Forms::Label^ lbWithdrawlAmount;
-	private: System::Windows::Forms::TextBox^ tbTransfer;
+	private: System::Windows::Forms::TextBox^ tbWithdrawl;
+
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnClear;
 	private: System::Windows::Forms::Button^ btnSubmit;
@@ -68,7 +81,7 @@ namespace TestGUI {
 		void InitializeComponent(void)
 		{
 			this->lbWithdrawlAmount = (gcnew System::Windows::Forms::Label());
-			this->tbTransfer = (gcnew System::Windows::Forms::TextBox());
+			this->tbWithdrawl = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
@@ -88,12 +101,12 @@ namespace TestGUI {
 			this->lbWithdrawlAmount->Text = L"Please Enter A Withdrawl Amount";
 			this->lbWithdrawlAmount->Click += gcnew System::EventHandler(this, &WithdrawlForm::lbTransferAmount_Click);
 			// 
-			// tbTransfer
+			// tbWithdrawl
 			// 
-			this->tbTransfer->Location = System::Drawing::Point(13, 62);
-			this->tbTransfer->Name = L"tbTransfer";
-			this->tbTransfer->Size = System::Drawing::Size(344, 22);
-			this->tbTransfer->TabIndex = 4;
+			this->tbWithdrawl->Location = System::Drawing::Point(13, 62);
+			this->tbWithdrawl->Name = L"tbWithdrawl";
+			this->tbWithdrawl->Size = System::Drawing::Size(344, 22);
+			this->tbWithdrawl->TabIndex = 4;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -138,6 +151,7 @@ namespace TestGUI {
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
 			this->btnSubmit->UseVisualStyleBackColor = true;
+			this->btnSubmit->Click += gcnew System::EventHandler(this, &WithdrawlForm::btnSubmit_Click);
 			// 
 			// btnLogout
 			// 
@@ -159,7 +173,7 @@ namespace TestGUI {
 			this->ClientSize = System::Drawing::Size(480, 235);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->tbTransfer);
+			this->Controls->Add(this->tbWithdrawl);
 			this->Controls->Add(this->lbWithdrawlAmount);
 			this->MinimumSize = System::Drawing::Size(498, 282);
 			this->Name = L"WithdrawlForm";
@@ -176,5 +190,67 @@ namespace TestGUI {
 		this->Hide();
 		obj->Show();
 	}
+private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+	String^ withdrawlAmount = this->tbWithdrawl->Text;
+	String^ newBalance = "";
+	String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+	MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+	MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+	if (prev->Name == L"CheckingForm")
+	{
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbWithdrawl->Text + "' where accountNo = 1266;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlDataReader^ myReader;
+		MySqlDataReader^ myReader1;
+
+		try
+		{
+			conDatabase->Open();
+			myReader = cmDataBase->ExecuteReader();
+
+			conDatabase1->Open();
+			myReader1 = cmDataBase1->ExecuteReader();
+
+			if (myReader1->Read())
+			{
+				newBalance = myReader1->GetInt32("balance").ToString();
+			}
+			MessageBox::Show("You Have Succsesfully Deposited $" + withdrawlAmount + " into your account. \nCurrent balance is $" + newBalance);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+	}
+	else if (prev->Name == L"SavingForm")
+	{
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbWithdrawl->Text + "' where accountNo = 1266;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlDataReader^ myReader;
+		MySqlDataReader^ myReader1;
+
+		try
+		{
+			conDatabase->Open();
+			myReader = cmDataBase->ExecuteReader();
+
+			conDatabase1->Open();
+			myReader1 = cmDataBase1->ExecuteReader();
+
+			if (myReader1->Read())
+			{
+				newBalance = myReader1->GetInt32("balance").ToString();
+			}
+			MessageBox::Show("You Have Succsesfully Deposited $" + withdrawlAmount + " into your account. \nCurrent balance is $" + newBalance);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+
+	}
+
+	this->tbWithdrawl->Text = "";
+}
 };
 }

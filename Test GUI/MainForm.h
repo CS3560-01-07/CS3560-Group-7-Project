@@ -243,7 +243,7 @@ namespace TestGUI {
 		}
 		if (fourDigitPinNum->Length != 4)
 		{
-			this->lbDisplay->Text = "Error: You entered in a " + fourDigitPinNum->Length + " pin number";
+			this->lbDisplay->Text = "Error: You entered in a " + fourDigitPinNum->Length + " ID number";
 		}
 		else
 		{
@@ -252,7 +252,7 @@ namespace TestGUI {
 		}
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from testcreation.edata where sixTeenDigitCardNum ='" + this->tb16DigitCardNum->Text + "' and fourDigitPinNum='" + this->tb4DigitPinNum->Text + "';", conDatabase);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where cardNo ='" + this->tb16DigitCardNum->Text + "' and accountNo='" + this->tb4DigitPinNum->Text + "';", conDatabase);
 		MySqlDataReader^ myReader;
 		try
 		{

@@ -17,6 +17,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		String^ cardNum;
 		CheckBalanceForm(void)
 		{
@@ -29,6 +30,16 @@ namespace TestGUI {
 		CheckBalanceForm(Form^ _obj)
 		{
 			obj = _obj;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		CheckBalanceForm(Form^ _obj, Form^ _prev)
+		{
+			obj = _obj;
+			prev = _prev;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -140,22 +151,45 @@ namespace TestGUI {
 		String^ curBalance = "";
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase);
-		MySqlDataReader^ myReader;
-		try
+		if (prev->Name == L"CheckingForm")
 		{
-			conDatabase->Open();
-			myReader = cmDataBase->ExecuteReader();
-
-			if (myReader->Read())
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase);
+			MySqlDataReader^ myReader;
+			try
 			{
-				curBalance = myReader->GetInt32("balance").ToString();
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				if (myReader->Read())
+				{
+					curBalance = myReader->GetInt32("balance").ToString();
+				}
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
 			}
 		}
-		catch (Exception^ ex)
+		else if (prev->Name == L"SavingForm")
 		{
-			MessageBox::Show(ex->Message);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase);
+			MySqlDataReader^ myReader;
+			try
+			{
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				if (myReader->Read())
+				{
+					curBalance = myReader->GetInt32("balance").ToString();
+				}
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
 		}
+
 		this->lbCurrentBalance->Text = L"Current Balance: $" + curBalance;
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {

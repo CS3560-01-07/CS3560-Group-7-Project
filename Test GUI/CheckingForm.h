@@ -220,22 +220,22 @@ namespace TestGUI {
 	}
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		DepositForm^ f1 = gcnew DepositForm();
+		DepositForm^ f1 = gcnew DepositForm(obj, this);
 		f1->ShowDialog();
 	}
 	private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		WithdrawlForm^ f2 = gcnew WithdrawlForm();
+		WithdrawlForm^ f2 = gcnew WithdrawlForm(obj, this);
 		f2->ShowDialog();
 	}
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		TransferForm^ f3 = gcnew TransferForm();
+		TransferForm^ f3 = gcnew TransferForm(obj, this);
 		f3->ShowDialog();
 	}
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckBalanceForm^ f4 = gcnew CheckBalanceForm();
+		CheckBalanceForm^ f4 = gcnew CheckBalanceForm(obj, this);
 		f4->ShowDialog();
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {

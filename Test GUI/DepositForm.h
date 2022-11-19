@@ -16,6 +16,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		String^ cardNum;
 		String^ pinNum;
 		DepositForm(void)
@@ -38,6 +39,27 @@ namespace TestGUI {
 		DepositForm(Form^ _obj, String^ _cardNum)
 		{
 			obj = _obj;
+			cardNum = _cardNum;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+		DepositForm(Form^ _obj, Form^ _prev)
+		{
+			obj = _obj;
+			prev = _prev;
+			
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		DepositForm(Form^ _obj, Form^ _prev, String^ _cardNum)
+		{
+			obj = _obj;
+			prev = _prev;
 			cardNum = _cardNum;
 			InitializeComponent();
 			//
@@ -196,28 +218,60 @@ namespace TestGUI {
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set checkingBalance = checkingBalance + '"+this->tbDeposit->Text+"' where Eid = 1;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase1);
-		MySqlDataReader^ myReader;
-		MySqlDataReader^ myReader1;
-		try
+		if (prev->Name == L"CheckingForm")
 		{
-			conDatabase->Open();
-			myReader = cmDataBase->ExecuteReader();
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 1266;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+			MySqlDataReader^ myReader;
+			MySqlDataReader^ myReader1;
 
-			conDatabase1->Open();
-			myReader1 = cmDataBase1->ExecuteReader();
-
-			if (myReader1->Read())
+			try
 			{
-				newBalance = myReader1->GetInt32("checkingBalance").ToString();
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				conDatabase1->Open();
+				myReader1 = cmDataBase1->ExecuteReader();
+
+				if (myReader1->Read())
+				{
+					newBalance = myReader1->GetInt32("balance").ToString();
+				}
+				MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
 			}
-			MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
 		}
-		catch (Exception^ ex)
+		else if (prev->Name == L"SavingForm")
 		{
-			MessageBox::Show(ex->Message);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 1266;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+			MySqlDataReader^ myReader;
+			MySqlDataReader^ myReader1;
+
+			try
+			{
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				conDatabase1->Open();
+				myReader1 = cmDataBase1->ExecuteReader();
+
+				if (myReader1->Read())
+				{
+					newBalance = myReader1->GetInt32("balance").ToString();
+				}
+				MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+
 		}
+		
 		this->tbDeposit->Text = "";
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {

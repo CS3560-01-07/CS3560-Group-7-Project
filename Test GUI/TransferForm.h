@@ -17,6 +17,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		TransferForm(void)
 		{
 			InitializeComponent();
@@ -27,6 +28,15 @@ namespace TestGUI {
 		TransferForm(Form^ _obj)
 		{
 			obj = _obj;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+		TransferForm(Form^ _obj, Form^ _prev)
+		{
+			obj = _obj;
+			prev = _prev;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -187,37 +197,76 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 	MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 	MySqlConnection^ conDatabase2 = gcnew MySqlConnection(consting);
-	MySqlCommand^ cmDataBase = gcnew MySqlCommand("update testcreation.edata set checkingBalance = checkingBalance + '" + this->tbTransfer->Text + "' where Eid = 1;", conDatabase);
-	MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from testcreation.edata where Eid = 1;", conDatabase1);
-	MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' where Eid = 1;", conDatabase2);
-	MySqlDataReader^ myReader;
-	MySqlDataReader^ myReader1;
-	MySqlDataReader^ myReader2;
-	try
-	{
 
-		conDatabase1->Open();
-		myReader1 = cmDataBase1->ExecuteReader();
-		if (myReader1->Read())
-		{
-			savingBalance = myReader1->GetInt32("savingBalance").ToString();
-			newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
-		}
-		if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
-		{
-			conDatabase->Open();
-			myReader = cmDataBase->ExecuteReader();
-			
-			conDatabase2->Open();
-			myReader2 = cmDataBase2->ExecuteReader();
-			
-			
-		}
-		MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your savings account into your checkings account. \nCurrent savings balance is $" + newSavingsBalance);
-	}
-	catch (Exception^ ex)
+	if (prev->Name == L"CheckingForm")
 	{
-		MessageBox::Show(ex->Message);
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase2);
+		MySqlDataReader^ myReader;
+		MySqlDataReader^ myReader1;
+		MySqlDataReader^ myReader2;
+		try
+		{
+
+			conDatabase1->Open();
+			myReader1 = cmDataBase1->ExecuteReader();
+			if (myReader1->Read())
+			{
+				savingBalance = myReader1->GetInt32("balance").ToString();
+				newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+			}
+			if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+			{
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				conDatabase2->Open();
+				myReader2 = cmDataBase2->ExecuteReader();
+
+
+			}
+			MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your checking account into your savings account. \nCurrent savings balance is $" + newSavingsBalance);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+	}
+	else if (prev->Name == L"SavingForm")
+	{
+		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase);
+		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 1266;", conDatabase1);
+		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 1266;", conDatabase2);
+		MySqlDataReader^ myReader;
+		MySqlDataReader^ myReader1;
+		MySqlDataReader^ myReader2;
+		try
+		{
+
+			conDatabase1->Open();
+			myReader1 = cmDataBase1->ExecuteReader();
+			if (myReader1->Read())
+			{
+				savingBalance = myReader1->GetInt32("balance").ToString();
+				newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+			}
+			if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+			{
+				conDatabase->Open();
+				myReader = cmDataBase->ExecuteReader();
+
+				conDatabase2->Open();
+				myReader2 = cmDataBase2->ExecuteReader();
+
+
+			}
+			MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your savings account into your checkings account. \nCurrent savings balance is $" + newSavingsBalance);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
 	}
 	this->tbTransfer->Text = "";
 }
