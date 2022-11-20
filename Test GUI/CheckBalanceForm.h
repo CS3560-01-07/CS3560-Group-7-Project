@@ -172,7 +172,7 @@ namespace TestGUI {
 		String^ curBalance = "";
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-		if (prev->Name == L"CheckingForm")
+		if (prev->Text == L"CheckingForm")
 		{
 			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM checking INNER JOIN accounts ON checking.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
@@ -191,7 +191,7 @@ namespace TestGUI {
 				MessageBox::Show(ex->Message);
 			}
 		}
-		else if (prev->Name == L"SavingForm")
+		else if (prev->Text == L"SavingForm")
 		{
 			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM saving INNER JOIN accounts ON saving.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;

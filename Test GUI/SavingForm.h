@@ -191,6 +191,7 @@ namespace TestGUI {
 			this->MinimumSize = System::Drawing::Size(1168, 545);
 			this->Name = L"SavingForm";
 			this->Text = L"SavingForm";
+			this->Load += gcnew System::EventHandler(this, &SavingForm::SavingForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -201,17 +202,17 @@ namespace TestGUI {
 
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		DepositForm^ f1 = gcnew DepositForm(obj, cID);
+		DepositForm^ f1 = gcnew DepositForm(obj, this, cID);
 		f1->ShowDialog();
 	}
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		TransferForm^ f2 = gcnew TransferForm(obj, cID);
+		TransferForm^ f2 = gcnew TransferForm(obj, this, cID);
 		f2->ShowDialog();
 	}
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckBalanceForm^ f3 = gcnew CheckBalanceForm(obj, cID);
+		CheckBalanceForm^ f3 = gcnew CheckBalanceForm(obj, this, cID);
 		f3->ShowDialog();
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -229,5 +230,7 @@ namespace TestGUI {
 
 		}
 	}
+private: System::Void SavingForm_Load(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }
