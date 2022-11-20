@@ -174,7 +174,7 @@ namespace TestGUI {
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		if (prev->Text == L"CheckingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM checking INNER JOIN accounts ON checking.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo=atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
@@ -193,7 +193,7 @@ namespace TestGUI {
 		}
 		else if (prev->Text == L"SavingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM saving INNER JOIN accounts ON saving.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo=atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
