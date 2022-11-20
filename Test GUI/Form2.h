@@ -178,13 +178,13 @@ namespace TestGUI {
 #pragma endregion
 	private: System::Void btnChecking_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckingForm^ f1 = gcnew CheckingForm(obj);
+		CheckingForm^ f1 = gcnew CheckingForm(obj, cID);
 		f1->ShowDialog();
 		this->Show();
 	}
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		SavingForm^ f2 = gcnew SavingForm(obj);
+		SavingForm^ f2 = gcnew SavingForm(obj, cID);
 		f2->ShowDialog();
 		this->Show();
 	}

@@ -18,6 +18,7 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+		String^ cID;
 		TransferForm(void)
 		{
 			InitializeComponent();
@@ -42,6 +43,28 @@ namespace TestGUI {
 			//TODO: Add the constructor code here
 			//
 		}
+
+		TransferForm(Form^ _obj, String^ _cID)
+		{
+			obj = _obj;
+			cID = _cID;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		TransferForm(Form^ _obj, Form^ _prev, String^ _cID)
+		{
+			obj = _obj;
+			prev = _prev;
+			cID = _cID;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
 
 	protected:
 		/// <summary>
@@ -196,86 +219,93 @@ namespace TestGUI {
 private: System::Void TransferForm_Load(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
-	String^ transferAmount = this->tbTransfer->Text;
-	String^ checkingBalance = "";
-	String^ savingBalance = "";
-	String^ newSavingsBalance = "";
-	String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
-	MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-	MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
-	MySqlConnection^ conDatabase2 = gcnew MySqlConnection(consting);
-
-	if (prev->Name == L"CheckingForm")
+	if (MessageBox::Show("Do you really want to transfer $" + this->tbTransfer->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
-		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
-		MySqlDataReader^ myReader;
-		MySqlDataReader^ myReader1;
-		MySqlDataReader^ myReader2;
-		try
+		String^ transferAmount = this->tbTransfer->Text;
+		String^ checkingBalance = "";
+		String^ savingBalance = "";
+		String^ newSavingsBalance = "";
+		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+		MySqlConnection^ conDatabase2 = gcnew MySqlConnection(consting);
+
+		if (prev->Name == L"CheckingForm")
 		{
-
-			conDatabase1->Open();
-			myReader1 = cmDataBase1->ExecuteReader();
-			if (myReader1->Read())
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
+			MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update testcreation.edata set savingBalance = savingBalance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
+			MySqlDataReader^ myReader;
+			MySqlDataReader^ myReader1;
+			MySqlDataReader^ myReader2;
+			try
 			{
-				savingBalance = myReader1->GetInt32("balance").ToString();
-				newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+
+				conDatabase1->Open();
+				myReader1 = cmDataBase1->ExecuteReader();
+				if (myReader1->Read())
+				{
+					savingBalance = myReader1->GetDouble("balance").ToString();
+					newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+				}
+				if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+				{
+					conDatabase->Open();
+					myReader = cmDataBase->ExecuteReader();
+
+					conDatabase2->Open();
+					myReader2 = cmDataBase2->ExecuteReader();
+
+
+				}
+				MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your checking account into your savings account. \nCurrent savings balance is $" + newSavingsBalance);
 			}
-			if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+			catch (Exception^ ex)
 			{
-				conDatabase->Open();
-				myReader = cmDataBase->ExecuteReader();
-
-				conDatabase2->Open();
-				myReader2 = cmDataBase2->ExecuteReader();
-
-
+				MessageBox::Show(ex->Message);
 			}
-			MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your checking account into your savings account. \nCurrent savings balance is $" + newSavingsBalance);
 		}
-		catch (Exception^ ex)
+		else if (prev->Name == L"SavingForm")
 		{
-			MessageBox::Show(ex->Message);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
+			MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
+			MySqlDataReader^ myReader;
+			MySqlDataReader^ myReader1;
+			MySqlDataReader^ myReader2;
+			try
+			{
+
+				conDatabase1->Open();
+				myReader1 = cmDataBase1->ExecuteReader();
+				if (myReader1->Read())
+				{
+					savingBalance = myReader1->GetDouble("balance").ToString();
+					newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
+				}
+				if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
+				{
+					conDatabase->Open();
+					myReader = cmDataBase->ExecuteReader();
+
+					conDatabase2->Open();
+					myReader2 = cmDataBase2->ExecuteReader();
+
+
+				}
+				MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your savings account into your checkings account. \nCurrent savings balance is $" + newSavingsBalance);
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
 		}
+		this->tbTransfer->Text = "";
 	}
-	else if (prev->Name == L"SavingForm")
+	else
 	{
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase);
-		MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
-		MySqlCommand^ cmDataBase2 = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + this->tbTransfer->Text + "' accountNo = 5326;", conDatabase2);
-		MySqlDataReader^ myReader;
-		MySqlDataReader^ myReader1;
-		MySqlDataReader^ myReader2;
-		try
-		{
 
-			conDatabase1->Open();
-			myReader1 = cmDataBase1->ExecuteReader();
-			if (myReader1->Read())
-			{
-				savingBalance = myReader1->GetInt32("balance").ToString();
-				newSavingsBalance = System::Convert::ToString(System::Convert::ToDouble(savingBalance) - System::Convert::ToDouble(transferAmount));
-			}
-			if (System::Convert::ToDouble(savingBalance) >= System::Convert::ToDouble(transferAmount))
-			{
-				conDatabase->Open();
-				myReader = cmDataBase->ExecuteReader();
-
-				conDatabase2->Open();
-				myReader2 = cmDataBase2->ExecuteReader();
-
-
-			}
-			MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your savings account into your checkings account. \nCurrent savings balance is $" + newSavingsBalance);
-		}
-		catch (Exception^ ex)
-		{
-			MessageBox::Show(ex->Message);
-		}
 	}
-	this->tbTransfer->Text = "";
 }
 };
 }

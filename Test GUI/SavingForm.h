@@ -19,6 +19,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		String^ cID;
 		SavingForm(void)
 		{
 			InitializeComponent();
@@ -26,10 +27,10 @@ namespace TestGUI {
 			//TODO: Add the constructor code here
 			//
 		}
-		SavingForm(Form^ _obj)
+		SavingForm(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
-
+			cID = _cID;
 			InitializeComponent();
 		}
 
@@ -200,17 +201,17 @@ namespace TestGUI {
 
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		DepositForm^ f1 = gcnew DepositForm(obj);
+		DepositForm^ f1 = gcnew DepositForm(obj, cID);
 		f1->ShowDialog();
 	}
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		TransferForm^ f2 = gcnew TransferForm(obj);
+		TransferForm^ f2 = gcnew TransferForm(obj, cID);
 		f2->ShowDialog();
 	}
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckBalanceForm^ f3 = gcnew CheckBalanceForm(obj);
+		CheckBalanceForm^ f3 = gcnew CheckBalanceForm(obj, cID);
 		f3->ShowDialog();
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {

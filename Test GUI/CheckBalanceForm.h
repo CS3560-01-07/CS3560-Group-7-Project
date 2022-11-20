@@ -18,7 +18,7 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
-		String^ cardNum;
+		String^ cID;
 		CheckBalanceForm(void)
 		{
 			InitializeComponent();
@@ -40,6 +40,26 @@ namespace TestGUI {
 		{
 			obj = _obj;
 			prev = _prev;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+		CheckBalanceForm(Form^ _obj, String^ _cID)
+		{
+			obj = _obj;
+			cID = _cID;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		CheckBalanceForm(Form^ _obj, Form^ _prev, String^ _cID)
+		{
+			obj = _obj;
+			prev = _prev;
+			cID = _cID;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -154,7 +174,7 @@ namespace TestGUI {
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		if (prev->Name == L"CheckingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM checking INNER JOIN accounts ON checking.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
@@ -163,7 +183,7 @@ namespace TestGUI {
 
 				if (myReader->Read())
 				{
-					curBalance = myReader->GetInt32("balance").ToString();
+					curBalance = myReader->GetDouble("balance").ToString();
 				}
 			}
 			catch (Exception^ ex)
@@ -173,7 +193,7 @@ namespace TestGUI {
 		}
 		else if (prev->Name == L"SavingForm")
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase);
+			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM saving INNER JOIN accounts ON saving.accountNo=accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
@@ -182,7 +202,7 @@ namespace TestGUI {
 
 				if (myReader->Read())
 				{
-					curBalance = myReader->GetInt32("balance").ToString();
+					curBalance = myReader->GetDouble("balance").ToString();
 				}
 			}
 			catch (Exception^ ex)

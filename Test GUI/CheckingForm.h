@@ -19,6 +19,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		String^ cID;
 		CheckingForm(void)
 		{
 			InitializeComponent();
@@ -27,9 +28,10 @@ namespace TestGUI {
 			//
 		}
 
-		CheckingForm(Form^ _obj)
+		CheckingForm(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
+			cID = _cID;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -220,22 +222,22 @@ namespace TestGUI {
 	}
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		DepositForm^ f1 = gcnew DepositForm(obj, this);
+		DepositForm^ f1 = gcnew DepositForm(obj, this, cID);
 		f1->ShowDialog();
 	}
 	private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		WithdrawlForm^ f2 = gcnew WithdrawlForm(obj, this);
+		WithdrawlForm^ f2 = gcnew WithdrawlForm(obj, this, cID);
 		f2->ShowDialog();
 	}
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		TransferForm^ f3 = gcnew TransferForm(obj, this);
+		TransferForm^ f3 = gcnew TransferForm(obj, this, cID);
 		f3->ShowDialog();
 	}
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		CheckBalanceForm^ f4 = gcnew CheckBalanceForm(obj, this);
+		CheckBalanceForm^ f4 = gcnew CheckBalanceForm(obj, this, cID);
 		f4->ShowDialog();
 	}
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {

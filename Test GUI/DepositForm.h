@@ -17,7 +17,7 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
-		String^ cardNum;
+		String^ cID;
 	private: System::Windows::Forms::Button^ btnPrev;
 	public:
 		String^ pinNum;
@@ -38,10 +38,10 @@ namespace TestGUI {
 			//
 		}
 
-		DepositForm(Form^ _obj, String^ _cardNum)
+		DepositForm(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
-			cardNum = _cardNum;
+			cID = _cID;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -58,11 +58,11 @@ namespace TestGUI {
 			//
 		}
 
-		DepositForm(Form^ _obj, Form^ _prev, String^ _cardNum)
+		DepositForm(Form^ _obj, Form^ _prev, String^ _cID)
 		{
 			obj = _obj;
 			prev = _prev;
-			cardNum = _cardNum;
+			cID = _cID;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -227,66 +227,79 @@ namespace TestGUI {
 	private: System::Void txtDeposit_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ depositAmount = this->tbDeposit->Text;
-		String^ newBalance = "";
-		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
-		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
-		MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
-		if (prev->Name == L"CheckingForm")
+		DateTime datetime = DateTime::Now;
+		String^ date = datetime.Date.ToString();
+		String^ time = datetime.TimeOfDay.ToString();
+		String^ transactionID = "00000";
+		if (MessageBox::Show("Do you really want to deposit $" + this->tbDeposit->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 5326;", conDatabase);
-			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
-			MySqlDataReader^ myReader;
-			MySqlDataReader^ myReader1;
-
-			try
+			String^ depositAmount = this->tbDeposit->Text;
+			String^ newBalance = "";
+			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+			MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+			MySqlConnection^ conDatabase2 = gcnew MySqlConnection(consting);
+			if (prev->Name == L"CheckingForm")
 			{
-				conDatabase->Open();
-				myReader = cmDataBase->ExecuteReader();
+				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where customerID = '"+cID+"';", conDatabase);
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader;
+				MySqlDataReader^ myReader1;
 
-				conDatabase1->Open();
-				myReader1 = cmDataBase1->ExecuteReader();
-
-				if (myReader1->Read())
+				try
 				{
-					newBalance = myReader1->GetInt32("balance").ToString();
+					conDatabase->Open();
+					myReader = cmDataBase->ExecuteReader();
+
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					if (myReader1->Read())
+					{
+						newBalance = myReader1->GetDouble("balance").ToString();
+					}
+					MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
 				}
-				MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+				}
 			}
-			catch (Exception^ ex)
+			else if (prev->Name == L"SavingForm")
 			{
-				MessageBox::Show(ex->Message);
+				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where customerID = '" + cID + "';", conDatabase);
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader;
+				MySqlDataReader^ myReader1;
+
+				try
+				{
+					conDatabase->Open();
+					myReader = cmDataBase->ExecuteReader();
+
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					if (myReader1->Read())
+					{
+						newBalance = myReader1->GetDouble("balance").ToString();
+					}
+					MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+				}
+
 			}
+
+			this->tbDeposit->Text = "";
 		}
-		else if (prev->Name == L"SavingForm")
+		else
 		{
-			MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where accountNo = 5326;", conDatabase);
-			MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("select * from atm_system.accounts where accountNo = 5326;", conDatabase1);
-			MySqlDataReader^ myReader;
-			MySqlDataReader^ myReader1;
-
-			try
-			{
-				conDatabase->Open();
-				myReader = cmDataBase->ExecuteReader();
-
-				conDatabase1->Open();
-				myReader1 = cmDataBase1->ExecuteReader();
-
-				if (myReader1->Read())
-				{
-					newBalance = myReader1->GetInt32("balance").ToString();
-				}
-				MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your account. \nCurrent balance is $" + newBalance);
-			}
-			catch (Exception^ ex)
-			{
-				MessageBox::Show(ex->Message);
-			}
 
 		}
 		
-		this->tbDeposit->Text = "";
 	}
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
