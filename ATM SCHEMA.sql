@@ -1,34 +1,37 @@
-DROP DATABASE ATM_SYSTEM;
+#DROP DATABASE ATM_SYSTEM;
+
+#Remove Comment "DROP DATABSE" after first run
+
 CREATE DATABASE ATM_SYSTEM;
 USE ATM_SYSTEM;
-
+ 
 CREATE TABLE Customer (
 	customerID int,
     socialSecurNo int,
-    name VARCHAR(20),
-    dateOfBirth datetime,
-    address VARCHAR(50),
-    phoneNum int,
-    email VARCHAR(30),
+    name VARCHAR(50),
+    dateOfBirth VARCHAR(50),
+    address VARCHAR(100),
+    phoneNum bigint,
+    email VARCHAR(100),
     PRIMARY KEY (customerID)
 );
 
 CREATE TABLE AtmCard (
-	cardNo int,
+	cardNo bigint,
     expirDate datetime,
     pinNo int,
-    currBalance decimal,
+    currBalance float,
     PRIMARY KEY (cardNo)
 );
 
-CREATE TABLE Account (
+CREATE TABLE Accounts (
 	accountNo int,
     customerID int,
     dateCreated datetime,
-    cardNo int,
+    cardNo bigint,
     routingNumber int,
-    balance decimal,
-    minBalance decimal,
+    balance float,
+    minBalance float,
     PRIMARY KEY (accountNo),
     FOREIGN KEY (customerID) REFERENCES Customer(customerID),
     FOREIGN KEY (cardNo) REFERENCES AtmCard(cardNo)
@@ -36,17 +39,17 @@ CREATE TABLE Account (
 
 CREATE TABLE Saving (
 	accountNo int,
-    interestRate decimal,
-    minDeposit  decimal,
+    interestRate float,
+    minDeposit  float,
     PRIMARY KEY (accountNo),
-    FOREIGN KEY (accountNo) REFERENCES Account(accountNo)
+    FOREIGN KEY (accountNo) REFERENCES Accounts(accountNo)
 );
 
 CREATE TABLE Checking (
 	accountNo int,
-    maxWithdrawAmt decimal,
+    maxWithdrawAmt float,
     PRIMARY KEY (accountNo),
-    FOREIGN KEY (accountNo) REFERENCES Account(accountNo)
+    FOREIGN KEY (accountNo) REFERENCES Accounts(accountNo)
 );
 
 
@@ -56,19 +59,19 @@ CREATE TABLE Transaction (
     dateOfTransaction datetime,
     timeOfTransaction time,
     PRIMARY KEY (transactionID),
-    FOREIGN KEY (accountNo) REFERENCES Account(accountNo)
+    FOREIGN KEY (accountNo) REFERENCES Accounts(accountNo)
 );
 
 CREATE TABLE Withdraw (
 	transactionID int,
-    ammountWithdrawn decimal, 
+    ammountWithdrawn float, 
     PRIMARY KEY (transactionID),
     FOREIGN KEY (transactionID) REFERENCES Transaction(transactionID)
 );
 
 CREATE TABLE Deposit (
 	transactionID int,
-    ammountDeposited decimal, 
+    ammountDeposited float, 
     PRIMARY KEY (transactionID),
     FOREIGN KEY (transactionID) REFERENCES Transaction(transactionID)
 );
