@@ -171,9 +171,7 @@ namespace TestGUI {
 			this->lbDisplay->Location = System::Drawing::Point(41, 441);
 			this->lbDisplay->Name = L"lbDisplay";
 			this->lbDisplay->Size = System::Drawing::Size(0, 17);
-			this->lbDisplay->TabIndex = 3;
-			this->lbDisplay->Click += gcnew System::EventHandler(this, &MainForm::label1_Click_1);
-			// 
+			this->lbDisplay->TabIndex = 3;			// 
 			// contextMenuStrip1
 			// 
 			this->contextMenuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
@@ -190,7 +188,6 @@ namespace TestGUI {
 			this->tbCustomerID->PasswordChar = '*';
 			this->tbCustomerID->Size = System::Drawing::Size(607, 22);
 			this->tbCustomerID->TabIndex = 6;
-			this->tbCustomerID->TextChanged += gcnew System::EventHandler(this, &MainForm::tb4DigitPinNum_TextChanged);
 			// 
 			// lbCustomerID
 			// 
@@ -238,34 +235,26 @@ namespace TestGUI {
 
 		}
 #pragma endregion
-
+	//Submits user inputs to database and checks if their inputed email and id exist
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Takes in user inputs and stores them in variables
 		String^ custEmail = this->tbEmail->Text;
 		String^ custID = this->tbCustomerID->Text;
 		email = custEmail;
 		cID = custID;
-		/*if (sixTeenDigitCardNum->Length != 16 || fourDigitPinNum->Length != 4)
-		{
-			this->lbDisplay->Text = "Error: You entered in a " + sixTeenDigitCardNum->Length + " card number";
-		}
-		if (fourDigitPinNum->Length != 4)
-		{
-			this->lbDisplay->Text = "Error: You entered in a " + fourDigitPinNum->Length + " ID number";
-		}
-		else
-		{
-			this->lbDisplay->Text += sixTeenDigitCardNum;
-			this->lbDisplay->Text += fourDigitPinNum;
-		}*/
+		
+		//Connect to MySql data base and to check if a user with the email and id inputted into text box exist
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		MySqlCommand^ cmDataBase = gcnew MySqlCommand("select * from atm_system.customer where customerID ='" + this->tbCustomerID->Text + "' and email='" + this->tbEmail->Text + "';", conDatabase);
 		MySqlDataReader^ myReader;
 		try
 		{
+			//Execute query
 			conDatabase->Open();
 			myReader = cmDataBase->ExecuteReader();
 
+			//Checks if duplicate your inputed email and Id belong to multiple users
 			int count = 0;
 			while (myReader->Read())
 			{
@@ -274,6 +263,13 @@ namespace TestGUI {
 			if (count == 1)
 			{
 				MessageBox::Show("Email and ID are correct");
+				//Opens next form after hiding current one
+				this->Hide();
+				this->tbEmail->Text = "";
+				this->tbCustomerID->Text = "";
+				//Sends a handle of the customer to the next form in order to perform future queries
+				Form2^ f2 = gcnew Form2(this, cID);
+				f2->ShowDialog();
 			}
 			else if (count > 1)
 			{
@@ -283,26 +279,18 @@ namespace TestGUI {
 			{
 				MessageBox::Show("Email and/or ID Incorrect ...Please Try Again");
 			}
-			this->Hide();
-			this->tbEmail->Text = "";
-			this->tbCustomerID->Text = "";
-			Form2^ f2 = gcnew Form2(this, cID);
-			f2->ShowDialog();
+			
 		}
 		catch (Exception^ ex)
 		{
 			MessageBox::Show(ex->Message);
 		}
 	}
+	//Sets text in text boxes to blank
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->tbEmail->Text = "";
 		this->tbCustomerID->Text = "";
 	}
-	private: System::Void label1_Click_1(System::Object^ sender, System::EventArgs^ e) {
-		this->lbDisplay->Text = "";
-	}
-	
-private: System::Void tb4DigitPinNum_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-}
+
 };
 }

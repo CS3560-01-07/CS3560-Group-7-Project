@@ -226,7 +226,9 @@ namespace TestGUI {
 	}
 	private: System::Void txtDeposit_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
+	//Submits user inputed deposit amount to database and updates balance amount
 	private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Get current date and time and store them in respective variables after properly formating them
 		DateTime datetime = DateTime::Now;
 		String^month = datetime.ToString()->Substring(0, 2);
 		String^ day = datetime.ToString()->Substring(3, 2);
@@ -237,49 +239,63 @@ namespace TestGUI {
 		{
 			time = "0" + datetime.ToString()->Substring(11, 7);
 		}
-		String^ transactionID = "00000";
+		
+		String^ transactionID = "00000";//For testing use only
+		//Display a message box asking if user wants to deposit their specified amount (yes/no)
 		if (MessageBox::Show("Do you really want to deposit $" + this->tbDeposit->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
 			String^ depositAmount = this->tbDeposit->Text;
 			String^ newBalance = "";
 			String^ accountNo = "";
+			//Make connecions to MySql using log in credentials
 			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 			MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToDeposit = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToTransaction = gcnew MySqlConnection(consting);
+			//Check whether the user is in Checking or Savings Mode
 			if (prev->Text == L"CheckingForm")
 			{
+				//Create query to update checking account balance
 				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where customerID = '"+cID+"';", conDatabase);
+				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
 				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
 				{
+					//Execute query to update checking account balance
 					conDatabase->Open();
 					myReader = cmDataBase->ExecuteReader();
 
+					//Execute query to get checking account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
 
+					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
 						newBalance = myReader1->GetDouble("balance").ToString();
 						accountNo = myReader1->GetInt32("accountNo").ToString();
 					}
 
+					//Create query to insert a new entry into Transaction table
 					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
+					//Create query to insert a new entry into Deposit table
 					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + transactionID + "', '" + this->tbDeposit->Text + "');", conDatabaseInsertToDeposit);
 					MySqlDataReader^ myReaderInsertToTransaction;
 					MySqlDataReader^ myReaderInsertToDeposit;
 
+					//Execute query to insert a new entry into Transaction table
 					conDatabaseInsertToTransaction->Open();
 					myReaderInsertToTransaction = cmDataBaseInsertToTransaction->ExecuteReader();
-					this->tbDeposit->Text = accountNo;
+					//this->tbDeposit->Text = accountNo;
+					//Execute query to insert a new entry into Deposit table
 					conDatabaseInsertToDeposit->Open();
 					myReaderInsertToDeposit = cmDataBaseInsertToDeposit->ExecuteReader();
 
+					//Display Success Message box with current checking balance
 					MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your checkings account. \nCurrent balance is $" + newBalance);
 				}
 				catch (Exception^ ex)
@@ -289,36 +305,46 @@ namespace TestGUI {
 			}
 			else if (prev->Text == L"SavingForm")
 			{
+				//Create query to update saving account balance
 				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + this->tbDeposit->Text + "' where customerID = '" + cID + "';", conDatabase);
+				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
 				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
 				{
+					//Execute query to update saving account balance
 					conDatabase->Open();
 					myReader = cmDataBase->ExecuteReader();
 
+					//Execute query to get saving account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
 
+					//Store the current saving account balance and accountNo into variables
 					if (myReader1->Read())
 					{
 						newBalance = myReader1->GetDouble("balance").ToString();
 						accountNo = myReader1->GetInt32("accountNo").ToString();
 					}
 
+					//Create query to insert a new entry into Transaction table
 					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
+					//Create query to insert a new entry into Deposit table
 					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + transactionID + "', '" + this->tbDeposit->Text + "');", conDatabaseInsertToDeposit);
 					MySqlDataReader^ myReaderInsertToTransaction;
 					MySqlDataReader^ myReaderInsertToDeposit;
 
+					//Execute query to insert a new entry into Transaction table
 					conDatabaseInsertToTransaction->Open();
 					myReaderInsertToTransaction = cmDataBaseInsertToTransaction->ExecuteReader();
-					this->tbDeposit->Text = accountNo;
+					//this->tbDeposit->Text = accountNo;
+					//Execute query to insert a new entry into Deposit table
 					conDatabaseInsertToDeposit->Open();
 					myReaderInsertToDeposit = cmDataBaseInsertToDeposit->ExecuteReader();
 
+					//Display Success Message box with current savings balance
 					MessageBox::Show("You Have Succsesfully Deposited $" + depositAmount + " into your savings account. \nCurrent balance is $" + newBalance);
 				}
 				catch (Exception^ ex)
@@ -328,6 +354,7 @@ namespace TestGUI {
 
 			}
 
+			//Clear Deposit text box
 			this->tbDeposit->Text = "";
 		}
 		else
@@ -336,20 +363,26 @@ namespace TestGUI {
 		}
 		
 	}
+	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Sends conformation box asking user if they want to logout
 		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
+			//takes user back to login page
 			this->Close();
 			obj->Show();
 		}
 		else
 		{
-
+			//do nothing
 		}
 	}
+//Clears Deposit text box
 private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->tbDeposit->Text = "";
 }
+
+//Hides this form and shows previous one
 private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 }

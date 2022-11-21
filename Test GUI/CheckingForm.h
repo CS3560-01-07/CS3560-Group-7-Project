@@ -220,38 +220,50 @@ namespace TestGUI {
 
 	private: System::Void CheckingForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
+	//Opens deposit form and hides current form
 	private: System::Void btnDeposit_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		DepositForm^ f1 = gcnew DepositForm(obj, this, cID);
 		f1->ShowDialog();
 	}
+	//Opens withdral form and hides current form
 	private: System::Void btnWithdraw_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		WithdrawlForm^ f2 = gcnew WithdrawlForm(obj, this, cID);
 		f2->ShowDialog();
 	}
+	//Opens transfer form and hides current form
 	private: System::Void btnTransfer_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		TransferForm^ f3 = gcnew TransferForm(obj, this, cID);
 		f3->ShowDialog();
 	}
+	//Opens check balance form and hides current form
 	private: System::Void btnCheckBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		CheckBalanceForm^ f4 = gcnew CheckBalanceForm(obj, this, cID);
 		f4->ShowDialog();
 	}
+	//Hides this form and shows previous one
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 	}
+	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Sends conformation box asking user if they want to logout
 		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
+			//takes user back to login page
 			this->Close();
 			obj->Show();
 		}
 		else
 		{
-
+			//do nothing
 		}
 	}
 };

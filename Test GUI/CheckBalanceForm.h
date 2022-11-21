@@ -168,24 +168,32 @@ namespace TestGUI {
 
 		}
 #pragma endregion
+
+	//Displays current balance after user presses on label
 	private: System::Void lbCurrentBalance_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ curBalance = "";
+		//Make a connecion to MySql using log in credentials
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
+		//Check whether the user is in Checking or Savings Mode
 		if (prev->Text == L"CheckingForm")
 		{
+			//Create query to get user data from checking and account tables
 			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo=atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
+				//Initiate the connection to the database and execute the query
 				conDatabase->Open();
 				myReader = cmDataBase->ExecuteReader();
 
+				//Find the curBalance of user's checking account and stores it in curBalance
 				if (myReader->Read())
 				{
 					curBalance = myReader->GetDouble("balance").ToString();
 				}
 			}
+			//Throw an exception if error happens
 			catch (Exception^ ex)
 			{
 				MessageBox::Show(ex->Message);
@@ -193,39 +201,47 @@ namespace TestGUI {
 		}
 		else if (prev->Text == L"SavingForm")
 		{
+			//Create query to get user data from saving and account tables
 			MySqlCommand^ cmDataBase = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo=atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase);
 			MySqlDataReader^ myReader;
 			try
 			{
+				//Initiate the connection to the database and execute the query
 				conDatabase->Open();
 				myReader = cmDataBase->ExecuteReader();
 
+				//Find the curBalance of user's savings account and stores it in curBalance
 				if (myReader->Read())
 				{
 					curBalance = myReader->GetDouble("balance").ToString();
 				}
 			}
+			//Throw an exception if error happens
 			catch (Exception^ ex)
 			{
 				MessageBox::Show(ex->Message);
 			}
 		}
-
+		//Display the balance to the user
 		this->lbCurrentBalance->Text = L"Current Balance: $" + curBalance;
 	}
+	//Hides this form and shows previous one
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 	}
-private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
-	{
-		this->Close();
-		obj->Show();
+	//Allows user to logout of their account
+	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Sends conformation box asking user if they want to logout
+		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			//takes user back to login page
+			this->Close();
+			obj->Show();
+		}
+		else
+		{
+			//do nothing
+		}
 	}
-	else
-	{
-
-	}
-}
 };
 }

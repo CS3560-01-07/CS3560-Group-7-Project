@@ -176,29 +176,35 @@ namespace TestGUI {
 
 		}
 #pragma endregion
+	//Opens checking form and hides current form
 	private: System::Void btnChecking_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		CheckingForm^ f1 = gcnew CheckingForm(obj, cID);
 		f1->ShowDialog();
 		this->Show();
 	}
+	//Opens saving form and hides current form
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		SavingForm^ f2 = gcnew SavingForm(obj, cID);
 		f2->ShowDialog();
 		this->Show();
 	}
 
-
+	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Sends conformation box asking user if they want to logout
 		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
+			//takes user back to login page
 			this->Close();
 			obj->Show();
 		}
 		else
 		{
-			
+			//Do nothing
 		}
 	}
 	private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {
