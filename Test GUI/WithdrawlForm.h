@@ -282,7 +282,7 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 				//Store the current checking account balance and accountNo into variables
 				if (myReader1->Read())
 				{
-					newBalance = myReader1->GetDouble("balance").ToString();
+					newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
 					accountNo = myReader1->GetInt32("accountNo").ToString();
 				}
 
@@ -331,7 +331,7 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 				//Store the current saving account balance and accountNo into variables
 				if (myReader1->Read())
 				{
-					newBalance = myReader1->GetDouble("balance").ToString();
+					newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
 					accountNo = myReader1->GetInt32("accountNo").ToString();
 				}
 
