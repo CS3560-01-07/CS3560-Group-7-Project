@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cmath>
 namespace TestGUI {
 
 	using namespace System;
@@ -92,10 +92,16 @@ namespace TestGUI {
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
+		//rounds up doubles
+		double round_up(double value, int decimal_places) {
+			const double multiplier = std::pow(10.0, decimal_places);
+			return std::ceil(value * multiplier) / multiplier;
+		}
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
+		/// 
 		void InitializeComponent(void)
 		{
 			this->lbCurBalance = (gcnew System::Windows::Forms::Label());
@@ -190,7 +196,7 @@ namespace TestGUI {
 				//Find the curBalance of user's checking account and stores it in curBalance
 				if (myReader->Read())
 				{
-					curBalance = myReader->GetDouble("balance").ToString();
+					curBalance = round_up(myReader->GetDouble("balance"), 2).ToString();
 				}
 			}
 			//Throw an exception if error happens
@@ -213,7 +219,7 @@ namespace TestGUI {
 				//Find the curBalance of user's savings account and stores it in curBalance
 				if (myReader->Read())
 				{
-					curBalance = myReader->GetDouble("balance").ToString();
+					curBalance = round_up(myReader->GetDouble("balance"), 2).ToString();
 				}
 			}
 			//Throw an exception if error happens
@@ -228,6 +234,7 @@ namespace TestGUI {
 	//Hides this form and shows previous one
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		prev->Show();
 	}
 	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {

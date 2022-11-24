@@ -169,7 +169,7 @@ namespace TestGUI {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->MinimumSize = System::Drawing::Size(651, 305);
 			this->Name = L"Form2";
-			this->Text = L"Form2";
+			this->Text = L"Account Selection";
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -182,7 +182,6 @@ namespace TestGUI {
 		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		CheckingForm^ f1 = gcnew CheckingForm(obj, cID);
 		f1->ShowDialog();
-		this->Show();
 	}
 	//Opens saving form and hides current form
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -190,7 +189,6 @@ namespace TestGUI {
 		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
 		SavingForm^ f2 = gcnew SavingForm(obj, cID);
 		f2->ShowDialog();
-		this->Show();
 	}
 
 	//Allows user to logout of their account
@@ -199,7 +197,7 @@ namespace TestGUI {
 		if (MessageBox::Show("Do you really want to logout?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
 			//takes user back to login page
-			this->Close();
+			this->Hide();
 			obj->Show();
 		}
 		else

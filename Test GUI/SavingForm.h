@@ -19,6 +19,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		String^ cID;
 		SavingForm(void)
 		{
@@ -30,6 +31,13 @@ namespace TestGUI {
 		SavingForm(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
+			cID = _cID;
+			InitializeComponent();
+		}
+		SavingForm(Form^ _obj, Form^ _prev, String^ _cID)
+		{
+			obj = _obj;
+			prev = _prev;
 			cID = _cID;
 			InitializeComponent();
 		}

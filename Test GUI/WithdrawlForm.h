@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cmath>
 namespace TestGUI {
 
 	using namespace System;
@@ -86,6 +86,11 @@ namespace TestGUI {
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
+		//Rounds up a double
+		double round_up(double value, int decimal_places) {
+			const double multiplier = std::pow(10.0, decimal_places);
+			return std::ceil(value * multiplier) / multiplier;
+		}
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.

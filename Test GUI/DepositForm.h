@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cmath>
 namespace TestGUI {
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -96,10 +96,16 @@ namespace TestGUI {
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
+		//Rounds up a double
+		double round_up(double value, int decimal_places) {
+			const double multiplier = std::pow(10.0, decimal_places);
+			return std::ceil(value * multiplier) / multiplier;
+		}
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
+		
 		void InitializeComponent(void)
 		{
 			this->lbDepositAmount = (gcnew System::Windows::Forms::Label());
@@ -240,7 +246,7 @@ namespace TestGUI {
 			time = "0" + datetime.ToString()->Substring(11, 7);
 		}
 		
-		String^ transactionID = "00000";//For testing use only
+		String^ transactionID = "00221";//For testing use only
 		//Display a message box asking if user wants to deposit their specified amount (yes/no)
 		if (MessageBox::Show("Do you really want to deposit $" + this->tbDeposit->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
