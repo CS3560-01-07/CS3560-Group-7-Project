@@ -180,14 +180,14 @@ namespace TestGUI {
 	private: System::Void btnChecking_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
-		CheckingForm^ f1 = gcnew CheckingForm(obj, cID);
+		CheckingForm^ f1 = gcnew CheckingForm(obj, this, cID);
 		f1->ShowDialog();
 	}
 	//Opens saving form and hides current form
 	private: System::Void btnSaving_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
-		SavingForm^ f2 = gcnew SavingForm(obj, cID);
+		SavingForm^ f2 = gcnew SavingForm(obj, this, cID);
 		f2->ShowDialog();
 	}
 

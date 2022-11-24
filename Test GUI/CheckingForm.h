@@ -19,6 +19,7 @@ namespace TestGUI {
 	{
 	public:
 		Form^ obj;
+		Form^ prev;
 		String^ cID;
 		CheckingForm(void)
 		{
@@ -31,6 +32,17 @@ namespace TestGUI {
 		CheckingForm(Form^ _obj, String^ _cID)
 		{
 			obj = _obj;
+			cID = _cID;
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+		CheckingForm(Form^ _obj, Form^ _prev, String^ _cID)
+		{
+			obj = _obj;
+			prev = _prev;
 			cID = _cID;
 			InitializeComponent();
 			//
@@ -165,7 +177,7 @@ namespace TestGUI {
 			// 
 			// btnPrev
 			// 
-			this->btnPrev->Location = System::Drawing::Point(24, 411);
+			this->btnPrev->Location = System::Drawing::Point(24, 389);
 			this->btnPrev->Name = L"btnPrev";
 			this->btnPrev->Size = System::Drawing::Size(121, 41);
 			this->btnPrev->TabIndex = 9;
@@ -202,12 +214,12 @@ namespace TestGUI {
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(1159, 538);
+			this->ClientSize = System::Drawing::Size(1159, 453);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->MinimumSize = System::Drawing::Size(1177, 585);
+			this->MinimumSize = System::Drawing::Size(1177, 500);
 			this->Name = L"CheckingForm";
 			this->Text = L"CheckingForm";
 			this->Load += gcnew System::EventHandler(this, &CheckingForm::CheckingForm_Load);
@@ -251,6 +263,7 @@ namespace TestGUI {
 	//Hides this form and shows previous one
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		prev->Show();
 	}
 	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {

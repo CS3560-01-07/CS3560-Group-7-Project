@@ -391,6 +391,7 @@ private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ 
 //Hides this form and shows previous one
 private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
+	prev->Show();
 }
 };
 }

@@ -18,6 +18,8 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+	private: System::Windows::Forms::Button^ btnPrev;
+	public:
 		String^ cID;
 		WithdrawlForm(void)
 		{
@@ -103,6 +105,7 @@ namespace TestGUI {
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
+			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -183,17 +186,28 @@ namespace TestGUI {
 			this->btnLogout->UseVisualStyleBackColor = false;
 			this->btnLogout->Click += gcnew System::EventHandler(this, &WithdrawlForm::btnLogout_Click);
 			// 
+			// btnPrev
+			// 
+			this->btnPrev->Location = System::Drawing::Point(16, 213);
+			this->btnPrev->Name = L"btnPrev";
+			this->btnPrev->Size = System::Drawing::Size(90, 31);
+			this->btnPrev->TabIndex = 15;
+			this->btnPrev->Text = L"Prev";
+			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->Click += gcnew System::EventHandler(this, &WithdrawlForm::btnPrev_Click);
+			// 
 			// WithdrawlForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(480, 235);
+			this->ClientSize = System::Drawing::Size(480, 268);
+			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbWithdrawl);
 			this->Controls->Add(this->lbWithdrawlAmount);
-			this->MinimumSize = System::Drawing::Size(498, 282);
+			this->MinimumSize = System::Drawing::Size(498, 315);
 			this->Name = L"WithdrawlForm";
 			this->Text = L"WithdrawlForm";
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -358,6 +372,10 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 //Clears Withdrawl text box
 private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->tbWithdrawl->Text = "";
+}
+private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	prev->Show();
 }
 };
 }

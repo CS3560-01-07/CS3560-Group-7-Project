@@ -104,7 +104,7 @@ namespace TestGUI {
 			// 
 			// btnPrev
 			// 
-			this->btnPrev->Location = System::Drawing::Point(12, 335);
+			this->btnPrev->Location = System::Drawing::Point(12, 356);
 			this->btnPrev->Name = L"btnPrev";
 			this->btnPrev->Size = System::Drawing::Size(162, 41);
 			this->btnPrev->TabIndex = 11;
@@ -191,12 +191,12 @@ namespace TestGUI {
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(1150, 498);
+			this->ClientSize = System::Drawing::Size(1150, 453);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
-			this->MinimumSize = System::Drawing::Size(1168, 545);
+			this->MinimumSize = System::Drawing::Size(1168, 500);
 			this->Name = L"SavingForm";
 			this->Text = L"SavingForm";
 			this->Load += gcnew System::EventHandler(this, &SavingForm::SavingForm_Load);
@@ -232,6 +232,7 @@ namespace TestGUI {
 	//Hides this form and shows previous one
 	private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		prev->Show();
 	}
 	//Allows user to logout of their account
 	private: System::Void btnLogout_Click(System::Object^ sender, System::EventArgs^ e) {

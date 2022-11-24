@@ -18,6 +18,8 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+	private: System::Windows::Forms::Button^ btnPrev;
+	public:
 		String^ cID;
 		TransferForm(void)
 		{
@@ -112,6 +114,7 @@ namespace TestGUI {
 			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
+			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -144,7 +147,7 @@ namespace TestGUI {
 				50)));
 			this->tableLayoutPanel1->Controls->Add(this->btnClear, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnSubmit, 0, 0);
-			this->tableLayoutPanel1->Location = System::Drawing::Point(16, 139);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(16, 125);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
@@ -191,12 +194,23 @@ namespace TestGUI {
 			this->btnLogout->UseVisualStyleBackColor = false;
 			this->btnLogout->Click += gcnew System::EventHandler(this, &TransferForm::btnLogout_Click);
 			// 
+			// btnPrev
+			// 
+			this->btnPrev->Location = System::Drawing::Point(19, 220);
+			this->btnPrev->Name = L"btnPrev";
+			this->btnPrev->Size = System::Drawing::Size(90, 31);
+			this->btnPrev->TabIndex = 16;
+			this->btnPrev->Text = L"Prev";
+			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->Click += gcnew System::EventHandler(this, &TransferForm::btnPrev_Click);
+			// 
 			// TransferForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(480, 235);
+			this->ClientSize = System::Drawing::Size(480, 263);
+			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbTransfer);
@@ -411,6 +425,10 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 //Clears Transfer text box
 private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->tbTransfer->Text = "";
+}
+private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	prev->Show();
 }
 };
 }
