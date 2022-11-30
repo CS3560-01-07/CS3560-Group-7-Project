@@ -109,12 +109,15 @@ namespace TestGUI {
 			// 
 			// dataGridView1
 			// 
+			this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->dataGridView1->BackgroundColor = System::Drawing::SystemColors::ActiveCaption;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Location = System::Drawing::Point(12, 50);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersWidth = 51;
 			this->dataGridView1->RowTemplate->Height = 24;
-			this->dataGridView1->Size = System::Drawing::Size(748, 220);
+			this->dataGridView1->Size = System::Drawing::Size(728, 220);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &TransactionHistoryForm::dataGridView1_CellContentClick);
 			// 
@@ -124,7 +127,7 @@ namespace TestGUI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnRefresh->Location = System::Drawing::Point(3, 3);
 			this->btnRefresh->Name = L"btnRefresh";
-			this->btnRefresh->Size = System::Drawing::Size(124, 35);
+			this->btnRefresh->Size = System::Drawing::Size(127, 35);
 			this->btnRefresh->TabIndex = 1;
 			this->btnRefresh->Text = L"Withdraw History";
 			this->btnRefresh->UseVisualStyleBackColor = true;
@@ -134,9 +137,9 @@ namespace TestGUI {
 			// 
 			this->button1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->button1->Location = System::Drawing::Point(133, 3);
+			this->button1->Location = System::Drawing::Point(136, 3);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(125, 35);
+			this->button1->Size = System::Drawing::Size(140, 35);
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"Deposit History";
 			this->button1->UseVisualStyleBackColor = true;
@@ -146,9 +149,9 @@ namespace TestGUI {
 			// 
 			this->button2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->button2->Location = System::Drawing::Point(264, 3);
+			this->button2->Location = System::Drawing::Point(282, 3);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(118, 35);
+			this->button2->Size = System::Drawing::Size(121, 35);
 			this->button2->TabIndex = 3;
 			this->button2->Text = L"All History";
 			this->button2->UseVisualStyleBackColor = true;
@@ -158,7 +161,7 @@ namespace TestGUI {
 			// 
 			this->btnLogout->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnLogout->BackColor = System::Drawing::Color::MistyRose;
-			this->btnLogout->Location = System::Drawing::Point(652, 12);
+			this->btnLogout->Location = System::Drawing::Point(636, 12);
 			this->btnLogout->Name = L"btnLogout";
 			this->btnLogout->Size = System::Drawing::Size(108, 32);
 			this->btnLogout->TabIndex = 12;
@@ -189,23 +192,22 @@ namespace TestGUI {
 			// 
 			// tableLayoutPanel1
 			// 
-			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->tableLayoutPanel1->ColumnCount = 3;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				49.85549F)));
+				47.84173F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				50.14451F)));
+				52.15827F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				123)));
+				126)));
 			this->tableLayoutPanel1->Controls->Add(this->btnRefresh, 0, 0);
 			this->tableLayoutPanel1->Controls->Add(this->button1, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->button2, 2, 0);
-			this->tableLayoutPanel1->Location = System::Drawing::Point(375, 324);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(338, 324);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(385, 41);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(406, 41);
 			this->tableLayoutPanel1->TabIndex = 15;
 			// 
 			// TransactionHistoryForm
@@ -213,13 +215,13 @@ namespace TestGUI {
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->ClientSize = System::Drawing::Size(782, 387);
+			this->ClientSize = System::Drawing::Size(756, 387);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->dataGridView1);
-			this->MinimumSize = System::Drawing::Size(800, 434);
+			this->MinimumSize = System::Drawing::Size(774, 434);
 			this->Name = L"TransactionHistoryForm";
 			this->Text = L"TransactionHistoryForm";
 			this->Load += gcnew System::EventHandler(this, &TransactionHistoryForm::TransactionHistoryForm_Load);
