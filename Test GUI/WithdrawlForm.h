@@ -245,14 +245,17 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	{
 		time = "0" + datetime.ToString()->Substring(11, 7);
 	}
-	String^ transactionID = "00004"; // For testing purposes
+	String^ transactionID = "28894"; // For testing purposes
 	
 	//Display a message box asking if user wants to deposit their specified amount (yes/no)
-	if (MessageBox::Show("Do you really want to deposit $" + this->tbWithdrawl->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+	if (MessageBox::Show("Do you really want to withdraw $" + this->tbWithdrawl->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 	{
-		String^ depositAmount = this->tbWithdrawl->Text;
+		String^ withdrawAmount = this->tbWithdrawl->Text;
+		double curBalance;
 		String^ newBalance = "";
 		String^ accountNo = "";
+		double minBalance;
+		double maxWithdraw;
 		//Make connecions to MySql using log in credentials
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
@@ -271,10 +274,6 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 
 			try
 			{
-				//Execute query to update checking account balance
-				conDatabase->Open();
-				myReader = cmDataBase->ExecuteReader();
-
 				//Execute query to get checking account balance
 				conDatabase1->Open();
 				myReader1 = cmDataBase1->ExecuteReader();
@@ -282,8 +281,40 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 				//Store the current checking account balance and accountNo into variables
 				if (myReader1->Read())
 				{
-					newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-					accountNo = myReader1->GetInt32("accountNo").ToString();
+					curBalance = round_up(myReader1->GetDouble("balance"), 2);
+					maxWithdraw = round_up(myReader1->GetDouble("maxWithdrawAmt"), 2);
+					minBalance = round_up(myReader1->GetDouble("minBalance"), 2);
+					if (minBalance <= curBalance - Double::Parse(withdrawAmount))
+					{
+						if (maxWithdraw > Double::Parse(withdrawAmount))
+						{
+							//Execute query to update checking account balance
+							conDatabase->Open();
+							myReader = cmDataBase->ExecuteReader();
+
+
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+						}
+						else
+						{
+							MessageBox::Show("Error: You can only withdraw a maximum of $" + maxWithdraw + ". Please enter a new withdraw amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
+						}
+					}
+					else if(minBalance < Double::Parse(withdrawAmount) && maxWithdraw < Double::Parse(withdrawAmount))
+					{
+						//Initiates overdraft protection
+						if (MessageBox::Show("Error: You must have a minimum balance of $" + minBalance + " would you like to initiate an overdraft?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+						{
+
+						}
+						else
+						{
+							return;
+						}
+					}
+					
 				}
 
 				//Create query to insert a new entry into Transaction table
@@ -302,7 +333,7 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 				myReaderInsertToWithdraw = cmDataBaseInsertToWithdraw->ExecuteReader();
 
 				//Display Success Message box with current checking balance
-				MessageBox::Show("You Have Succsesfully Withdrawn $" + depositAmount + " into your checkings account. \nCurrent balance is $" + newBalance);
+				MessageBox::Show("You Have Succsesfully Withdrawn $" + withdrawAmount + " into your checkings account. \nCurrent balance is $" + newBalance);
 			}
 			catch (Exception^ ex)
 			{
@@ -351,7 +382,7 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 				myReaderInsertToWithdraw = cmDataBaseInsertToWithdraw->ExecuteReader();
 
 				//Display Success Message box with current checking balance
-				MessageBox::Show("You Have Succsesfully Withdrawn $" + depositAmount + " into your savings account. \nCurrent balance is $" + newBalance);
+				MessageBox::Show("You Have Succsesfully Withdrawn $" + withdrawAmount + " into your savings account. \nCurrent balance is $" + newBalance);
 			}
 			catch (Exception^ ex)
 			{

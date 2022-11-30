@@ -208,7 +208,7 @@ namespace TestGUI {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->BackColor = System::Drawing::Color::AntiqueWhite;
 			this->ClientSize = System::Drawing::Size(480, 263);
 			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);

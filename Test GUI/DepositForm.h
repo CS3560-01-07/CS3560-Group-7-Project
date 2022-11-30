@@ -246,13 +246,15 @@ namespace TestGUI {
 			time = "0" + datetime.ToString()->Substring(11, 7);
 		}
 		
-		String^ transactionID = "00221";//For testing use only
+		String^ transactionID = "00331";//For testing use only
 		//Display a message box asking if user wants to deposit their specified amount (yes/no)
 		if (MessageBox::Show("Do you really want to deposit $" + this->tbDeposit->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 		{
 			String^ depositAmount = this->tbDeposit->Text;
 			String^ newBalance = "";
 			String^ accountNo = "";
+			double minDeposit;
+			double minBalance;
 			//Make connecions to MySql using log in credentials
 			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 			MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
@@ -282,8 +284,16 @@ namespace TestGUI {
 					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
+						if (minBalance >= Double::Parse(depositAmount))
+						{
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+						}
+						else
+						{
+							MessageBox::Show("Do you really want to deposit $" + this->tbDeposit->Text + "?", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
+						}
 					}
 
 					//Create query to insert a new entry into Transaction table
@@ -320,19 +330,30 @@ namespace TestGUI {
 
 				try
 				{
-					//Execute query to update saving account balance
-					conDatabase->Open();
-					myReader = cmDataBase->ExecuteReader();
-
 					//Execute query to get saving account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
 
+
 					//Store the current saving account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
+						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
+						if (minDeposit < Double::Parse(depositAmount))
+						{
+							//Execute query to update saving account balance
+							conDatabase->Open();
+							myReader = cmDataBase->ExecuteReader();
+
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+						}
+						else
+						{
+							MessageBox::Show("Error: You must deposit an amount greater than or equal to  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
+						}
+						
 					}
 
 					//Create query to insert a new entry into Transaction table

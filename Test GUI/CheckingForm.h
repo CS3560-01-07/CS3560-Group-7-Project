@@ -21,7 +21,9 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ btnTransactionHistory;
+	public:
+
 	public:
 		String^ cID;
 		CheckingForm(void)
@@ -95,7 +97,7 @@ namespace TestGUI {
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->lbTransactionType = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->btnTransactionHistory = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -103,15 +105,18 @@ namespace TestGUI {
 			// 
 			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->tableLayoutPanel1->ColumnCount = 4;
+			this->tableLayoutPanel1->ColumnCount = 5;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				25)));
+				20)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				25)));
+				20)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				25)));
+				20)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				25)));
+				20)));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				20)));
+			this->tableLayoutPanel1->Controls->Add(this->btnTransactionHistory, 4, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnDeposit, 0, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnTransfer, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnWithdraw, 1, 0);
@@ -131,7 +136,7 @@ namespace TestGUI {
 				static_cast<System::Byte>(0)));
 			this->btnDeposit->Location = System::Drawing::Point(3, 3);
 			this->btnDeposit->Name = L"btnDeposit";
-			this->btnDeposit->Size = System::Drawing::Size(274, 206);
+			this->btnDeposit->Size = System::Drawing::Size(218, 206);
 			this->btnDeposit->TabIndex = 4;
 			this->btnDeposit->Text = L"Deposit";
 			this->btnDeposit->UseVisualStyleBackColor = true;
@@ -143,9 +148,9 @@ namespace TestGUI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnTransfer->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnTransfer->Location = System::Drawing::Point(563, 3);
+			this->btnTransfer->Location = System::Drawing::Point(451, 3);
 			this->btnTransfer->Name = L"btnTransfer";
-			this->btnTransfer->Size = System::Drawing::Size(274, 206);
+			this->btnTransfer->Size = System::Drawing::Size(218, 206);
 			this->btnTransfer->TabIndex = 5;
 			this->btnTransfer->Text = L"Transfer";
 			this->btnTransfer->UseVisualStyleBackColor = true;
@@ -157,9 +162,9 @@ namespace TestGUI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnWithdraw->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnWithdraw->Location = System::Drawing::Point(283, 3);
+			this->btnWithdraw->Location = System::Drawing::Point(227, 3);
 			this->btnWithdraw->Name = L"btnWithdraw";
-			this->btnWithdraw->Size = System::Drawing::Size(274, 206);
+			this->btnWithdraw->Size = System::Drawing::Size(218, 206);
 			this->btnWithdraw->TabIndex = 6;
 			this->btnWithdraw->Text = L"Withdraw";
 			this->btnWithdraw->UseVisualStyleBackColor = true;
@@ -171,9 +176,9 @@ namespace TestGUI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnCheckBalance->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnCheckBalance->Location = System::Drawing::Point(843, 3);
+			this->btnCheckBalance->Location = System::Drawing::Point(675, 3);
 			this->btnCheckBalance->Name = L"btnCheckBalance";
-			this->btnCheckBalance->Size = System::Drawing::Size(275, 206);
+			this->btnCheckBalance->Size = System::Drawing::Size(218, 206);
 			this->btnCheckBalance->TabIndex = 7;
 			this->btnCheckBalance->Text = L"CheckBalance";
 			this->btnCheckBalance->UseVisualStyleBackColor = true;
@@ -207,21 +212,23 @@ namespace TestGUI {
 			this->lbTransactionType->AutoSize = true;
 			this->lbTransactionType->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lbTransactionType->Location = System::Drawing::Point(20, 12);
+			this->lbTransactionType->Location = System::Drawing::Point(11, 21);
 			this->lbTransactionType->Name = L"lbTransactionType";
-			this->lbTransactionType->Size = System::Drawing::Size(288, 23);
+			this->lbTransactionType->Size = System::Drawing::Size(206, 23);
 			this->lbTransactionType->TabIndex = 11;
-			this->lbTransactionType->Text = L"Please Select a Transaction Type";
+			this->lbTransactionType->Text = L"Please Select an Action";
 			// 
-			// button1
+			// btnTransactionHistory
 			// 
-			this->button1->Location = System::Drawing::Point(668, 378);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(143, 51);
-			this->button1->TabIndex = 12;
-			this->button1->Text = L"button1";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &CheckingForm::button1_Click);
+			this->btnTransactionHistory->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnTransactionHistory->Location = System::Drawing::Point(899, 3);
+			this->btnTransactionHistory->Name = L"btnTransactionHistory";
+			this->btnTransactionHistory->Size = System::Drawing::Size(219, 206);
+			this->btnTransactionHistory->TabIndex = 12;
+			this->btnTransactionHistory->Text = L"Transaction History";
+			this->btnTransactionHistory->UseVisualStyleBackColor = true;
+			this->btnTransactionHistory->Click += gcnew System::EventHandler(this, &CheckingForm::button1_Click);
 			// 
 			// CheckingForm
 			// 
@@ -229,7 +236,6 @@ namespace TestGUI {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(1159, 453);
-			this->Controls->Add(this->button1);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->btnPrev);
