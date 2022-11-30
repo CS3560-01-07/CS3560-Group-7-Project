@@ -3,6 +3,7 @@
 #include "TransferForm.h"
 #include "WithdrawlForm.h"
 #include "CheckBalanceForm.h"
+#include "TransactionHistoryForm1.h";
 namespace TestGUI {
 
 	using namespace System;
@@ -20,6 +21,8 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+	private: System::Windows::Forms::Button^ button1;
+	public:
 		String^ cID;
 		CheckingForm(void)
 		{
@@ -92,6 +95,7 @@ namespace TestGUI {
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->lbTransactionType = (gcnew System::Windows::Forms::Label());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -209,12 +213,23 @@ namespace TestGUI {
 			this->lbTransactionType->TabIndex = 11;
 			this->lbTransactionType->Text = L"Please Select a Transaction Type";
 			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(668, 378);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(143, 51);
+			this->button1->TabIndex = 12;
+			this->button1->Text = L"button1";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &CheckingForm::button1_Click);
+			// 
 			// CheckingForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(1159, 453);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->btnPrev);
@@ -279,5 +294,12 @@ namespace TestGUI {
 			//do nothing
 		}
 	}
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
+	TransactionHistoryForm^ f5 = gcnew TransactionHistoryForm(obj, this, cID);
+	f5->ShowDialog();
+
+}
 };
 }

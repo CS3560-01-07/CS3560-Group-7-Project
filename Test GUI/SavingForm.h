@@ -2,6 +2,8 @@
 #include "DepositForm.h"
 #include "TransferForm.h"
 #include "CheckBalanceForm.h"
+#include "TransactionHistoryForm1.h";
+
 
 namespace TestGUI {
 
@@ -20,6 +22,8 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+	private: System::Windows::Forms::Button^ button1;
+	public:
 		String^ cID;
 		SavingForm(void)
 		{
@@ -87,6 +91,7 @@ namespace TestGUI {
 			this->btnCheckBalance = (gcnew System::Windows::Forms::Button());
 			this->btnDeposit = (gcnew System::Windows::Forms::Button());
 			this->btnTransfer = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -186,12 +191,23 @@ namespace TestGUI {
 			this->btnTransfer->UseVisualStyleBackColor = true;
 			this->btnTransfer->Click += gcnew System::EventHandler(this, &SavingForm::btnTransfer_Click);
 			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(770, 349);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(157, 47);
+			this->button1->TabIndex = 14;
+			this->button1->Text = L"button1";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &SavingForm::button1_Click);
+			// 
 			// SavingForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(1150, 453);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->btnPrev);
@@ -249,6 +265,12 @@ namespace TestGUI {
 		}
 	}
 private: System::Void SavingForm_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	//Sends a handle of the customer to the next form in order to perform future queries as well as a handle to this form so prev button will function
+	TransactionHistoryForm^ f4 = gcnew TransactionHistoryForm(obj, this, cID);
+	f4->ShowDialog();
 }
 };
 }

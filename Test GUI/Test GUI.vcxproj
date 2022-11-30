@@ -129,6 +129,7 @@
     <ClCompile Include="Form2.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="SavingForm.cpp" />
+    <ClCompile Include="TransactionHistoryForm1.cpp" />
     <ClCompile Include="TransferForm.cpp" />
     <ClCompile Include="WithdrawlForm.cpp" />
   </ItemGroup>
@@ -149,6 +150,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="SavingForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="TransactionHistoryForm1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="TransferForm.h">
@@ -176,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SavingForm.resx">
       <DependentUpon>SavingForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransactionHistoryForm1.resx">
+      <DependentUpon>TransactionHistoryForm1.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferForm.resx">
       <DependentUpon>TransferForm.h</DependentUpon>
