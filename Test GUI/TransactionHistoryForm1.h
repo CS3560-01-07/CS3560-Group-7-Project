@@ -24,6 +24,7 @@ namespace TestGUI {
 	private: System::Windows::Forms::Button^ btnPrev;
 	private: System::Windows::Forms::Label^ lbTransactionType;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	public:
 		String^ cID;
 		TransactionHistoryForm(void)
@@ -103,15 +104,18 @@ namespace TestGUI {
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->lbTransactionType = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->tableLayoutPanel1->SuspendLayout();
+			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// dataGridView1
 			// 
 			this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->dataGridView1->BackgroundColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->dataGridView1->BackgroundColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Location = System::Drawing::Point(12, 50);
 			this->dataGridView1->Name = L"dataGridView1";
@@ -125,36 +129,48 @@ namespace TestGUI {
 			// 
 			this->btnRefresh->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnRefresh->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->btnRefresh->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->btnRefresh->Location = System::Drawing::Point(3, 3);
 			this->btnRefresh->Name = L"btnRefresh";
 			this->btnRefresh->Size = System::Drawing::Size(127, 35);
 			this->btnRefresh->TabIndex = 1;
 			this->btnRefresh->Text = L"Withdraw History";
-			this->btnRefresh->UseVisualStyleBackColor = true;
+			this->btnRefresh->UseVisualStyleBackColor = false;
 			this->btnRefresh->Click += gcnew System::EventHandler(this, &TransactionHistoryForm::button1_Click);
 			// 
 			// button1
 			// 
 			this->button1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->button1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->button1->Location = System::Drawing::Point(136, 3);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(140, 35);
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"Deposit History";
-			this->button1->UseVisualStyleBackColor = true;
+			this->button1->UseVisualStyleBackColor = false;
 			this->button1->Click += gcnew System::EventHandler(this, &TransactionHistoryForm::button1_Click_1);
 			// 
 			// button2
 			// 
 			this->button2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->button2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->button2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->button2->Location = System::Drawing::Point(282, 3);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(121, 35);
 			this->button2->TabIndex = 3;
 			this->button2->Text = L"All History";
-			this->button2->UseVisualStyleBackColor = true;
+			this->button2->UseVisualStyleBackColor = false;
 			this->button2->Click += gcnew System::EventHandler(this, &TransactionHistoryForm::button2_Click);
 			// 
 			// btnLogout
@@ -171,19 +187,26 @@ namespace TestGUI {
 			// 
 			// btnPrev
 			// 
-			this->btnPrev->Location = System::Drawing::Point(12, 324);
+			this->btnPrev->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->btnPrev->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->btnPrev->Location = System::Drawing::Point(3, 3);
 			this->btnPrev->Name = L"btnPrev";
-			this->btnPrev->Size = System::Drawing::Size(151, 41);
+			this->btnPrev->Size = System::Drawing::Size(132, 32);
 			this->btnPrev->TabIndex = 13;
 			this->btnPrev->Text = L"Prev";
-			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->UseVisualStyleBackColor = false;
 			this->btnPrev->Click += gcnew System::EventHandler(this, &TransactionHistoryForm::btnPrev_Click);
 			// 
 			// lbTransactionType
 			// 
 			this->lbTransactionType->AutoSize = true;
+			this->lbTransactionType->BackColor = System::Drawing::Color::Transparent;
 			this->lbTransactionType->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->lbTransactionType->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)),
+				static_cast<System::Int32>(static_cast<System::Byte>(40)), static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->lbTransactionType->Location = System::Drawing::Point(8, 21);
 			this->lbTransactionType->Name = L"lbTransactionType";
 			this->lbTransactionType->Size = System::Drawing::Size(177, 23);
@@ -193,6 +216,8 @@ namespace TestGUI {
 			// tableLayoutPanel1
 			// 
 			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->tableLayoutPanel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->tableLayoutPanel1->ColumnCount = 3;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				47.84173F)));
@@ -210,23 +235,43 @@ namespace TestGUI {
 			this->tableLayoutPanel1->Size = System::Drawing::Size(406, 41);
 			this->tableLayoutPanel1->TabIndex = 15;
 			// 
+			// tableLayoutPanel2
+			// 
+			this->tableLayoutPanel2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel2->ColumnCount = 1;
+			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel2->Controls->Add(this->btnPrev, 0, 0);
+			this->tableLayoutPanel2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel2->Location = System::Drawing::Point(12, 324);
+			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
+			this->tableLayoutPanel2->RowCount = 1;
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel2->Size = System::Drawing::Size(138, 38);
+			this->tableLayoutPanel2->TabIndex = 18;
+			// 
 			// TransactionHistoryForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
+				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(756, 387);
+			this->Controls->Add(this->tableLayoutPanel2);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->lbTransactionType);
-			this->Controls->Add(this->btnPrev);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->dataGridView1);
+			this->MaximumSize = System::Drawing::Size(774, 434);
 			this->MinimumSize = System::Drawing::Size(774, 434);
 			this->Name = L"TransactionHistoryForm";
 			this->Text = L"TransactionHistoryForm";
 			this->Load += gcnew System::EventHandler(this, &TransactionHistoryForm::TransactionHistoryForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->tableLayoutPanel1->ResumeLayout(false);
+			this->tableLayoutPanel2->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

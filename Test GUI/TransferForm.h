@@ -19,6 +19,7 @@ namespace TestGUI {
 		Form^ obj;
 		Form^ prev;
 	private: System::Windows::Forms::Button^ btnPrev;
+	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	public:
 		String^ cID;
 		TransferForm(void)
@@ -115,14 +116,19 @@ namespace TestGUI {
 			this->btnSubmit = (gcnew System::Windows::Forms::Button());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
+			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tableLayoutPanel1->SuspendLayout();
+			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// lbTransferAmount
 			// 
 			this->lbTransferAmount->AutoSize = true;
+			this->lbTransferAmount->BackColor = System::Drawing::Color::Transparent;
 			this->lbTransferAmount->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->lbTransferAmount->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->lbTransferAmount->Location = System::Drawing::Point(12, 21);
 			this->lbTransferAmount->Name = L"lbTransferAmount";
 			this->lbTransferAmount->Size = System::Drawing::Size(283, 23);
@@ -131,6 +137,8 @@ namespace TestGUI {
 			// 
 			// tbTransfer
 			// 
+			this->tbTransfer->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->tbTransfer->Location = System::Drawing::Point(16, 74);
 			this->tbTransfer->Name = L"tbTransfer";
 			this->tbTransfer->Size = System::Drawing::Size(344, 22);
@@ -140,6 +148,8 @@ namespace TestGUI {
 			// 
 			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->tableLayoutPanel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->tableLayoutPanel1->ColumnCount = 2;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				50)));
@@ -151,42 +161,50 @@ namespace TestGUI {
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(344, 63);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(444, 63);
 			this->tableLayoutPanel1->TabIndex = 4;
 			// 
 			// btnClear
 			// 
 			this->btnClear->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnClear->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->btnClear->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnClear->Location = System::Drawing::Point(175, 3);
+			this->btnClear->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->btnClear->Location = System::Drawing::Point(225, 3);
 			this->btnClear->Name = L"btnClear";
-			this->btnClear->Size = System::Drawing::Size(166, 57);
+			this->btnClear->Size = System::Drawing::Size(216, 57);
 			this->btnClear->TabIndex = 4;
 			this->btnClear->Text = L"Clear";
-			this->btnClear->UseVisualStyleBackColor = true;
+			this->btnClear->UseVisualStyleBackColor = false;
 			this->btnClear->Click += gcnew System::EventHandler(this, &TransferForm::btnClear_Click);
 			// 
 			// btnSubmit
 			// 
 			this->btnSubmit->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnSubmit->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->btnSubmit->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->btnSubmit->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->btnSubmit->Location = System::Drawing::Point(3, 3);
 			this->btnSubmit->Name = L"btnSubmit";
-			this->btnSubmit->Size = System::Drawing::Size(166, 57);
+			this->btnSubmit->Size = System::Drawing::Size(216, 57);
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
-			this->btnSubmit->UseVisualStyleBackColor = true;
+			this->btnSubmit->UseVisualStyleBackColor = false;
 			this->btnSubmit->Click += gcnew System::EventHandler(this, &TransferForm::btnSubmit_Click);
 			// 
 			// btnLogout
 			// 
 			this->btnLogout->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnLogout->BackColor = System::Drawing::Color::MistyRose;
-			this->btnLogout->Location = System::Drawing::Point(360, 12);
+			this->btnLogout->Location = System::Drawing::Point(460, 12);
 			this->btnLogout->Name = L"btnLogout";
 			this->btnLogout->Size = System::Drawing::Size(108, 32);
 			this->btnLogout->TabIndex = 11;
@@ -196,30 +214,54 @@ namespace TestGUI {
 			// 
 			// btnPrev
 			// 
-			this->btnPrev->Location = System::Drawing::Point(19, 220);
+			this->btnPrev->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->btnPrev->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->btnPrev->Location = System::Drawing::Point(3, 3);
 			this->btnPrev->Name = L"btnPrev";
-			this->btnPrev->Size = System::Drawing::Size(90, 31);
+			this->btnPrev->Size = System::Drawing::Size(88, 31);
 			this->btnPrev->TabIndex = 16;
 			this->btnPrev->Text = L"Prev";
-			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->UseVisualStyleBackColor = false;
 			this->btnPrev->Click += gcnew System::EventHandler(this, &TransferForm::btnPrev_Click);
+			// 
+			// tableLayoutPanel2
+			// 
+			this->tableLayoutPanel2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel2->ColumnCount = 1;
+			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel2->Controls->Add(this->btnPrev, 0, 0);
+			this->tableLayoutPanel2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel2->Location = System::Drawing::Point(19, 222);
+			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
+			this->tableLayoutPanel2->RowCount = 1;
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel2->Size = System::Drawing::Size(94, 38);
+			this->tableLayoutPanel2->TabIndex = 19;
 			// 
 			// TransferForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::Color::AntiqueWhite;
-			this->ClientSize = System::Drawing::Size(480, 263);
-			this->Controls->Add(this->btnPrev);
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
+				static_cast<System::Int32>(static_cast<System::Byte>(246)));
+			this->ClientSize = System::Drawing::Size(580, 291);
+			this->Controls->Add(this->tableLayoutPanel2);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbTransfer);
 			this->Controls->Add(this->lbTransferAmount);
-			this->MinimumSize = System::Drawing::Size(498, 282);
+			this->MaximumSize = System::Drawing::Size(598, 338);
+			this->MinimumSize = System::Drawing::Size(598, 338);
 			this->Name = L"TransferForm";
 			this->Text = L"TransferForm";
 			this->Load += gcnew System::EventHandler(this, &TransferForm::TransferForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
+			this->tableLayoutPanel2->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

@@ -260,6 +260,7 @@ namespace TestGUI {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbCardNum);
 			this->Controls->Add(this->lbCardNum);
+			this->MaximumSize = System::Drawing::Size(839, 482);
 			this->MinimumSize = System::Drawing::Size(839, 482);
 			this->Name = L"MainForm";
 			this->Text = L"ATM Login";

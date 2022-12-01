@@ -18,6 +18,8 @@ namespace TestGUI {
 	public:
 		Form^ obj;
 		Form^ prev;
+	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+	public:
 		String^ cID;
 		CheckBalanceForm(void)
 		{
@@ -108,13 +110,18 @@ namespace TestGUI {
 			this->lbCurrentBalance = (gcnew System::Windows::Forms::Label());
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
+			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// lbCurBalance
 			// 
 			this->lbCurBalance->AutoSize = true;
+			this->lbCurBalance->BackColor = System::Drawing::Color::Transparent;
 			this->lbCurBalance->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->lbCurBalance->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->lbCurBalance->Location = System::Drawing::Point(12, 26);
 			this->lbCurBalance->Name = L"lbCurBalance";
 			this->lbCurBalance->Size = System::Drawing::Size(149, 23);
@@ -124,9 +131,12 @@ namespace TestGUI {
 			// lbCurrentBalance
 			// 
 			this->lbCurrentBalance->AutoSize = true;
-			this->lbCurrentBalance->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->lbCurrentBalance->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->lbCurrentBalance->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->lbCurrentBalance->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->lbCurrentBalance->Location = System::Drawing::Point(12, 85);
 			this->lbCurrentBalance->Name = L"lbCurrentBalance";
 			this->lbCurrentBalance->Size = System::Drawing::Size(131, 24);
@@ -148,27 +158,53 @@ namespace TestGUI {
 			// 
 			// btnPrev
 			// 
-			this->btnPrev->Location = System::Drawing::Point(12, 155);
+			this->btnPrev->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnPrev->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
+			this->btnPrev->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->btnPrev->Location = System::Drawing::Point(3, 3);
 			this->btnPrev->Name = L"btnPrev";
-			this->btnPrev->Size = System::Drawing::Size(90, 31);
+			this->btnPrev->Size = System::Drawing::Size(82, 32);
 			this->btnPrev->TabIndex = 13;
 			this->btnPrev->Text = L"Prev";
-			this->btnPrev->UseVisualStyleBackColor = true;
+			this->btnPrev->UseVisualStyleBackColor = false;
 			this->btnPrev->Click += gcnew System::EventHandler(this, &CheckBalanceForm::btnPrev_Click);
+			// 
+			// tableLayoutPanel1
+			// 
+			this->tableLayoutPanel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel1->ColumnCount = 1;
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel1->Controls->Add(this->btnPrev, 0, 0);
+			this->tableLayoutPanel1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->tableLayoutPanel1->Location = System::Drawing::Point(12, 158);
+			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
+			this->tableLayoutPanel1->RowCount = 1;
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel1->Size = System::Drawing::Size(88, 38);
+			this->tableLayoutPanel1->TabIndex = 14;
 			// 
 			// CheckBalanceForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
+				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(403, 208);
-			this->Controls->Add(this->btnPrev);
+			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->lbCurrentBalance);
 			this->Controls->Add(this->lbCurBalance);
+			this->MaximumSize = System::Drawing::Size(421, 255);
 			this->MinimumSize = System::Drawing::Size(421, 255);
 			this->Name = L"CheckBalanceForm";
 			this->Text = L"CheckBalanceForm";
+			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

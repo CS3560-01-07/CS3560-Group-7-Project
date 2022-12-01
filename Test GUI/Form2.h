@@ -92,34 +92,44 @@ namespace TestGUI {
 			// 
 			this->btnChecking->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnChecking->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->btnChecking->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->btnChecking->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->btnChecking->Location = System::Drawing::Point(3, 3);
 			this->btnChecking->Name = L"btnChecking";
-			this->btnChecking->Size = System::Drawing::Size(433, 245);
+			this->btnChecking->Size = System::Drawing::Size(433, 265);
 			this->btnChecking->TabIndex = 4;
 			this->btnChecking->Text = L"Checking";
-			this->btnChecking->UseVisualStyleBackColor = true;
+			this->btnChecking->UseVisualStyleBackColor = false;
 			this->btnChecking->Click += gcnew System::EventHandler(this, &Form2::btnChecking_Click);
 			// 
 			// btnSaving
 			// 
 			this->btnSaving->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->btnSaving->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)), static_cast<System::Int32>(static_cast<System::Byte>(40)),
+				static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->btnSaving->Font = (gcnew System::Drawing::Font(L"Times New Roman", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->btnSaving->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->btnSaving->Location = System::Drawing::Point(442, 3);
 			this->btnSaving->Name = L"btnSaving";
-			this->btnSaving->Size = System::Drawing::Size(433, 245);
+			this->btnSaving->Size = System::Drawing::Size(433, 265);
 			this->btnSaving->TabIndex = 5;
 			this->btnSaving->Text = L"Saving";
-			this->btnSaving->UseVisualStyleBackColor = true;
+			this->btnSaving->UseVisualStyleBackColor = false;
 			this->btnSaving->Click += gcnew System::EventHandler(this, &Form2::btnSaving_Click);
 			// 
 			// tableLayoutPanel1
 			// 
 			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->tableLayoutPanel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
+				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->tableLayoutPanel1->ColumnCount = 2;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				50)));
@@ -129,9 +139,8 @@ namespace TestGUI {
 			this->tableLayoutPanel1->Controls->Add(this->btnChecking, 0, 0);
 			this->tableLayoutPanel1->Location = System::Drawing::Point(29, 102);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
-			this->tableLayoutPanel1->RowCount = 2;
+			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
 			this->tableLayoutPanel1->Size = System::Drawing::Size(878, 271);
 			this->tableLayoutPanel1->TabIndex = 6;
 			// 
@@ -140,6 +149,8 @@ namespace TestGUI {
 			this->lbTransactionType->AutoSize = true;
 			this->lbTransactionType->Font = (gcnew System::Drawing::Font(L"Times New Roman", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->lbTransactionType->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(24)),
+				static_cast<System::Int32>(static_cast<System::Byte>(40)), static_cast<System::Int32>(static_cast<System::Byte>(74)));
 			this->lbTransactionType->Location = System::Drawing::Point(25, 50);
 			this->lbTransactionType->Name = L"lbTransactionType";
 			this->lbTransactionType->Size = System::Drawing::Size(242, 23);
@@ -162,14 +173,17 @@ namespace TestGUI {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
+				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(948, 445);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->lbTransactionType);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->MinimumSize = System::Drawing::Size(651, 305);
+			this->MaximumSize = System::Drawing::Size(966, 492);
+			this->MinimumSize = System::Drawing::Size(966, 492);
 			this->Name = L"Form2";
 			this->Text = L"Account Selection";
+			this->Load += gcnew System::EventHandler(this, &Form2::Form2_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -207,5 +221,7 @@ namespace TestGUI {
 	}
 	private: System::Void lbTransactionType_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-	};
+	private: System::Void Form2_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }
