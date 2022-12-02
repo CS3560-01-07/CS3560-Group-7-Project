@@ -410,6 +410,7 @@ namespace TestGUI {
 			this->tbWithdrawl->Name = L"tbWithdrawl";
 			this->tbWithdrawl->Size = System::Drawing::Size(344, 22);
 			this->tbWithdrawl->TabIndex = 4;
+			this->tbWithdrawl->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &WithdrawlForm::tbWithdrawl_KeyPress);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -587,6 +588,17 @@ private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ 
 private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 	prev->Show();
+}
+private: System::Void tbWithdrawl_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	if (e->KeyChar == '.') {
+		if (this->tbWithdrawl->Text->Contains(".") && !this->tbWithdrawl->SelectedText->Contains("."))
+			e->Handled = true;
+	}
+
+	// Accept only digits ".", and the Backspace character
+	else if (!Char::IsDigit(e->KeyChar) && e->KeyChar != 0x08) {
+		e->Handled = true;
+	}
 }
 };
 }

@@ -282,6 +282,7 @@ namespace TestGUI {
 			this->tbDeposit->Size = System::Drawing::Size(344, 22);
 			this->tbDeposit->TabIndex = 2;
 			this->tbDeposit->TextChanged += gcnew System::EventHandler(this, &DepositForm::txtDeposit_TextChanged);
+			this->tbDeposit->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &DepositForm::tbDeposit_KeyPress);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -462,6 +463,17 @@ private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ 
 private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 	prev->Show();
+}
+private: System::Void tbDeposit_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	if (e->KeyChar == '.') {
+		if (this->tbDeposit->Text->Contains(".") && !this->tbDeposit->SelectedText->Contains("."))
+			e->Handled = true;
+	}
+	
+	// Accept only digits ".", and the Backspace character
+	else if (!Char::IsDigit(e->KeyChar) && e->KeyChar != 0x08) {
+		e->Handled = true;
+	}
 }
 };
 }

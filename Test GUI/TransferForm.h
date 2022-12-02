@@ -143,6 +143,7 @@ namespace TestGUI {
 			this->tbTransfer->Name = L"tbTransfer";
 			this->tbTransfer->Size = System::Drawing::Size(344, 22);
 			this->tbTransfer->TabIndex = 3;
+			this->tbTransfer->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &TransferForm::tbTransfer_KeyPress);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -157,11 +158,11 @@ namespace TestGUI {
 				50)));
 			this->tableLayoutPanel1->Controls->Add(this->btnClear, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnSubmit, 0, 0);
-			this->tableLayoutPanel1->Location = System::Drawing::Point(16, 125);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(16, 120);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(444, 63);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(344, 67);
 			this->tableLayoutPanel1->TabIndex = 4;
 			// 
 			// btnClear
@@ -174,9 +175,9 @@ namespace TestGUI {
 				static_cast<System::Byte>(0)));
 			this->btnClear->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)), static_cast<System::Int32>(static_cast<System::Byte>(249)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->btnClear->Location = System::Drawing::Point(225, 3);
+			this->btnClear->Location = System::Drawing::Point(175, 3);
 			this->btnClear->Name = L"btnClear";
-			this->btnClear->Size = System::Drawing::Size(216, 57);
+			this->btnClear->Size = System::Drawing::Size(166, 61);
 			this->btnClear->TabIndex = 4;
 			this->btnClear->Text = L"Clear";
 			this->btnClear->UseVisualStyleBackColor = false;
@@ -194,7 +195,7 @@ namespace TestGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->btnSubmit->Location = System::Drawing::Point(3, 3);
 			this->btnSubmit->Name = L"btnSubmit";
-			this->btnSubmit->Size = System::Drawing::Size(216, 57);
+			this->btnSubmit->Size = System::Drawing::Size(166, 61);
 			this->btnSubmit->TabIndex = 3;
 			this->btnSubmit->Text = L"Submit";
 			this->btnSubmit->UseVisualStyleBackColor = false;
@@ -204,7 +205,7 @@ namespace TestGUI {
 			// 
 			this->btnLogout->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnLogout->BackColor = System::Drawing::Color::MistyRose;
-			this->btnLogout->Location = System::Drawing::Point(460, 12);
+			this->btnLogout->Location = System::Drawing::Point(360, 12);
 			this->btnLogout->Name = L"btnLogout";
 			this->btnLogout->Size = System::Drawing::Size(108, 32);
 			this->btnLogout->TabIndex = 11;
@@ -236,7 +237,7 @@ namespace TestGUI {
 			this->tableLayoutPanel2->Controls->Add(this->btnPrev, 0, 0);
 			this->tableLayoutPanel2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(235)),
 				static_cast<System::Int32>(static_cast<System::Byte>(249)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->tableLayoutPanel2->Location = System::Drawing::Point(19, 222);
+			this->tableLayoutPanel2->Location = System::Drawing::Point(16, 215);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 1;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
@@ -249,14 +250,14 @@ namespace TestGUI {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
 				static_cast<System::Int32>(static_cast<System::Byte>(246)));
-			this->ClientSize = System::Drawing::Size(580, 291);
+			this->ClientSize = System::Drawing::Size(480, 265);
 			this->Controls->Add(this->tableLayoutPanel2);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->tbTransfer);
 			this->Controls->Add(this->lbTransferAmount);
-			this->MaximumSize = System::Drawing::Size(598, 338);
-			this->MinimumSize = System::Drawing::Size(598, 338);
+			this->MaximumSize = System::Drawing::Size(498, 312);
+			this->MinimumSize = System::Drawing::Size(498, 312);
 			this->Name = L"TransferForm";
 			this->Text = L"TransferForm";
 			this->Load += gcnew System::EventHandler(this, &TransferForm::TransferForm_Load);
@@ -471,6 +472,17 @@ private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ 
 private: System::Void btnPrev_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 	prev->Show();
+}
+private: System::Void tbTransfer_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	if (e->KeyChar == '.') {
+		if (this->tbTransfer->Text->Contains(".") && !this->tbTransfer->SelectedText->Contains("."))
+			e->Handled = true;
+	}
+
+	// Accept only digits ".", and the Backspace character
+	else if (!Char::IsDigit(e->KeyChar) && e->KeyChar != 0x08) {
+		e->Handled = true;
+	}
 }
 };
 }
