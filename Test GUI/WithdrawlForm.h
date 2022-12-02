@@ -118,9 +118,6 @@ namespace TestGUI {
 
 				try
 				{
-					//Execute query to update checking account balance
-					conDatabase->Open();
-					myReader = cmDataBase->ExecuteReader();
 
 					//Execute query to get checking account balance
 					conDatabase1->Open();
@@ -129,8 +126,21 @@ namespace TestGUI {
 					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
+						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
+						if (Double::Parse(depositAmount) >= minDeposit)
+						{
+							//Execute query to update checking account balance
+							conDatabase->Open();
+							myReader = cmDataBase->ExecuteReader();
+
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+						}
+						else
+						{
+							MessageBox::Show("Error: You must deposit a minimum of $" + minDeposit + ". Please enter a new deposit amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
+						}
 					}
 
 					//Create query to insert a new entry into Transaction table
