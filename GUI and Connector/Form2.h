@@ -1,7 +1,7 @@
 #pragma once
 #include "CheckingForm.h"
 #include "SavingForm.h"
-namespace TestGUI {
+namespace GUI {
 
 	using namespace System;
 	using namespace System::ComponentModel;

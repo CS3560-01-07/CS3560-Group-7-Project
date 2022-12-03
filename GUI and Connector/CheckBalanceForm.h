@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-namespace TestGUI {
+namespace GUI {
 
 	using namespace System;
 	using namespace System::ComponentModel;
