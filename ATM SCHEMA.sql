@@ -9,8 +9,8 @@ CREATE TABLE Customer (
 	customerID int,
     socialSecurNo int,
     name VARCHAR(50),
-    dateOfBirth VARCHAR(50),
-    address VARCHAR(100),
+    dateOfBirth VARCHAR(20),
+    address VARCHAR(50),
     phoneNum bigint,
     email VARCHAR(100),
     PRIMARY KEY (customerID)
