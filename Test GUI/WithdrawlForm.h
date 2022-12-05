@@ -94,18 +94,25 @@ namespace TestGUI {
 			const double multiplier = std::pow(10.0, decimal_places);
 			return std::ceil(value * multiplier) / multiplier;
 		}
-		void makeDeposit(String^ transactionID, String^ depositAmount, String^ date, String^ time)
+		void makeDeposit(String^ depositAmount, String^ date, String^ time)
 		{
 			String^ newBalance = "";
 			String^ accountNo = "";
 			double minDeposit;
 			double minBalance;
+			int curTranID;
+			int transactionID = NULL;
 			//Make connecions to MySql using log in credentials
 			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 			MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToDeposit = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToTransaction = gcnew MySqlConnection(consting);
+			MySqlConnection^ conDatabaseGetCurrentTransactionID = gcnew MySqlConnection(consting);
+			//Create query to get current transaction id
+			MySqlCommand^ cmDataBaseGetCurrentTransactionID = gcnew MySqlCommand("SELECT max(transactionid) from atm_system.transaction;", conDatabaseGetCurrentTransactionID);
+			MySqlDataReader^ myReaderGetCurrentTransactionID;
+
 			//Check whether the user is in Checking or Savings Mode
 			if (prev->Text == L"CheckingForm")
 			{
@@ -119,6 +126,7 @@ namespace TestGUI {
 				try
 				{
 
+
 					//Execute query to get checking account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
@@ -126,34 +134,34 @@ namespace TestGUI {
 					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
-						if (Double::Parse(depositAmount) >= minDeposit)
-						{
 							//Execute query to update checking account balance
 							conDatabase->Open();
 							myReader = cmDataBase->ExecuteReader();
 
 							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
 							accountNo = myReader1->GetInt32("accountNo").ToString();
-						}
-						else
-						{
-							MessageBox::Show("Error: You must deposit a minimum of $" + minDeposit + ". Please enter a new deposit amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
-							return;
-						}
 					}
 
 					//Create query to insert a new entry into Transaction table
-					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
-					//Create query to insert a new entry into Deposit table
-					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + transactionID + "', '" + depositAmount + "');", conDatabaseInsertToDeposit);
+					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
 					MySqlDataReader^ myReaderInsertToTransaction;
+
+					//Get Current transacition id
+					conDatabaseGetCurrentTransactionID->Open();
+					myReaderGetCurrentTransactionID = cmDataBaseGetCurrentTransactionID->ExecuteReader();
+					if (myReaderGetCurrentTransactionID->Read())
+					{
+						curTranID = myReaderGetCurrentTransactionID->GetInt32("max(transactionid)") + 1;
+					}
+
+					//Create query to insert a new entry into Deposit table
+					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + curTranID + "', '" + depositAmount + "');", conDatabaseInsertToDeposit);
 					MySqlDataReader^ myReaderInsertToDeposit;
 
 					//Execute query to insert a new entry into Transaction table
 					conDatabaseInsertToTransaction->Open();
 					myReaderInsertToTransaction = cmDataBaseInsertToTransaction->ExecuteReader();
-					//this->tbDeposit->Text = accountNo;
+
 					//Execute query to insert a new entry into Deposit table
 					conDatabaseInsertToDeposit->Open();
 					myReaderInsertToDeposit = cmDataBaseInsertToDeposit->ExecuteReader();
@@ -204,16 +212,25 @@ namespace TestGUI {
 					}
 
 					//Create query to insert a new entry into Transaction table
-					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
-					//Create query to insert a new entry into Deposit table
-					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + transactionID + "', '" + depositAmount  + "');", conDatabaseInsertToDeposit);
+					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
 					MySqlDataReader^ myReaderInsertToTransaction;
+
+					//Get Current transacition id
+					conDatabaseGetCurrentTransactionID->Open();
+					myReaderGetCurrentTransactionID = cmDataBaseGetCurrentTransactionID->ExecuteReader();
+					if (myReaderGetCurrentTransactionID->Read())
+					{
+						curTranID = myReaderGetCurrentTransactionID->GetInt32("max(transactionid)") + 1;
+					}
+
+					//Create query to insert a new entry into Deposit table
+					MySqlCommand^ cmDataBaseInsertToDeposit = gcnew MySqlCommand("insert into atm_system.deposit (transactionid, ammountdeposited) values ('" + curTranID + "', '" + depositAmount + "');", conDatabaseInsertToDeposit);
 					MySqlDataReader^ myReaderInsertToDeposit;
 
 					//Execute query to insert a new entry into Transaction table
 					conDatabaseInsertToTransaction->Open();
 					myReaderInsertToTransaction = cmDataBaseInsertToTransaction->ExecuteReader();
-					//this->tbDeposit->Text = accountNo;
+
 					//Execute query to insert a new entry into Deposit table
 					conDatabaseInsertToDeposit->Open();
 					myReaderInsertToDeposit = cmDataBaseInsertToDeposit->ExecuteReader();
@@ -228,19 +245,28 @@ namespace TestGUI {
 
 			}
 		}
-		void makeWithdraw(String^ transactionID, String^ withdrawAmount, String^ date, String^ time)
+		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time)
 		{
+			//transactionID = (Int32::Parse(transactionID) + 1).ToString();
 			double curBalance;
 			String^ newBalance = "";
 			String^ accountNo = "";
+			//String^ transactionID = "NULL";
 			double minBalance;
 			double maxWithdraw;
+			int curTranID;
+			int transactionID = NULL;
 			//Make connecions to MySql using log in credentials
 			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 			MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToWithdraw = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToTransaction = gcnew MySqlConnection(consting);
+			MySqlConnection^ conDatabaseGetCurrentTransactionID = gcnew MySqlConnection(consting);
+			//Create query to get current transaction id
+			MySqlCommand^ cmDataBaseGetCurrentTransactionID = gcnew MySqlCommand("SELECT max(transactionid) from atm_system.transaction;", conDatabaseGetCurrentTransactionID);
+			MySqlDataReader^ myReaderGetCurrentTransactionID;
+			
 			//Check whether the user is in Checking or Savings Mode
 			if (prev->Text == L"CheckingForm")
 			{
@@ -296,11 +322,20 @@ namespace TestGUI {
 
 					}
 
+					//tbDebug->Text += curTranID + accountNo;
 					//Create query to insert a new entry into Transaction table
-					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
-					//Create query to insert a new entry into Withdraw table
-					MySqlCommand^ cmDataBaseInsertToWithdraw = gcnew MySqlCommand("insert into atm_system.withdraw (transactionid, ammountwithdrawn) values ('" + transactionID + "', '" + withdrawAmount + "');", conDatabaseInsertToWithdraw);
+					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
 					MySqlDataReader^ myReaderInsertToTransaction;
+
+					//Get Current transacition id
+					conDatabaseGetCurrentTransactionID->Open();
+					myReaderGetCurrentTransactionID = cmDataBaseGetCurrentTransactionID->ExecuteReader();
+					if (myReaderGetCurrentTransactionID->Read())
+					{
+						curTranID = myReaderGetCurrentTransactionID->GetInt32("max(transactionid)") + 1;
+					}
+					//Create query to insert a new entry into Withdraw table
+					MySqlCommand^ cmDataBaseInsertToWithdraw = gcnew MySqlCommand("insert into atm_system.withdraw (transactionID, ammountwithdrawn) values ('" + curTranID + "', '" + withdrawAmount + "');", conDatabaseInsertToWithdraw);
 					MySqlDataReader^ myReaderInsertToWithdraw;
 
 					//Execute query to insert a new entry into Transaction table
@@ -345,12 +380,22 @@ namespace TestGUI {
 						accountNo = myReader1->GetInt32("accountNo").ToString();
 					}
 
+					//tbDebug->Text += curTranID + accountNo;
 					//Create query to insert a new entry into Transaction table
-					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + transactionID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
-					//Create query to insert a new entry into Withdraw table
-					MySqlCommand^ cmDataBaseInsertToWithdraw = gcnew MySqlCommand("insert into atm_system.withdraw (transactionid, ammountwithdrawn) values ('" + transactionID + "', '" + withdrawAmount + "');", conDatabaseInsertToWithdraw);
+					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
 					MySqlDataReader^ myReaderInsertToTransaction;
+
+					//Get Current transacition id
+					conDatabaseGetCurrentTransactionID->Open();
+					myReaderGetCurrentTransactionID = cmDataBaseGetCurrentTransactionID->ExecuteReader();
+					if (myReaderGetCurrentTransactionID->Read())
+					{
+						curTranID = myReaderGetCurrentTransactionID->GetInt32("max(transactionid)") + 1;
+					}
+					//Create query to insert a new entry into Withdraw table
+					MySqlCommand^ cmDataBaseInsertToWithdraw = gcnew MySqlCommand("insert into atm_system.withdraw (transactionID, ammountwithdrawn) values ('" + curTranID + "', '" + withdrawAmount + "');", conDatabaseInsertToWithdraw);
 					MySqlDataReader^ myReaderInsertToWithdraw;
+
 
 					//Execute query to insert a new entry into Transaction table
 					conDatabaseInsertToTransaction->Open();
@@ -369,6 +414,20 @@ namespace TestGUI {
 				}
 			}
 		}
+		/*void makeTransfer(String^ transferAmount, String^ date, String^ time, String^ transferDirection)
+		{
+			if (transferDirection == L"SavingToChecking")
+			{
+				makeWithdraw(transferAmount, date, time, "Saving");
+				makeDeposit(transferAmount, date, time, "Checking");
+			}
+			else if (transferDirection == L"CheckingToSaving")
+			{
+				makeWithdraw(transferAmount, date, time, "Checking");
+				makeDeposit(transferAmount, date, time, "Saving");
+			}
+
+		}*/
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method d the code editor.
@@ -556,21 +615,25 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	DateTime datetime = DateTime::Now;
 	String^ month = datetime.ToString()->Substring(0, 2);
 	String^ day = datetime.ToString()->Substring(3, 2);
-	String^ year = datetime.ToString()->Substring(6, 4);
+	String^ year = datetime.ToString()->Substring(5, 4);
+	if (year != "2022")
+	{
+		String^ year = datetime.ToString()->Substring(6, 4);
+	}
 	String^ date = year + "-" + month + "-" + day + " 00:00:00";
 	String^ time = datetime.ToString()->Substring(10, 8);
 	if (time->Substring(0, 1) == " ")
 	{
 		time = "0" + datetime.ToString()->Substring(11, 7);
 	}
-	String^ transactionID = "28894"; // For testing purposes
+	String^ transactionID = "28994"; // For testing purposes
 	
 	//Display a message box asking if user wants to deposit their specified amount (yes/no)
 	if (MessageBox::Show("Do you really want to withdraw $" + this->tbWithdrawl->Text + "?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 	{
 		String^ withdrawAmount = this->tbWithdrawl->Text;
 		
-		makeWithdraw(transactionID, withdrawAmount, date, time);
+		makeWithdraw(withdrawAmount, date, time);
 
 		//Clear Withdrawl text box
 		this->tbWithdrawl->Text = "";
