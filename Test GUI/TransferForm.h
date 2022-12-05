@@ -270,6 +270,7 @@ namespace TestGUI {
 
 			}
 		}
+		
 		void makeDeposit(String^ depositAmount, String^ date, String^ time,String^ accountType)
 		{
 			//tbDebug->Text += "In Deposit";
@@ -382,7 +383,7 @@ namespace TestGUI {
 						}
 						else
 						{
-							MessageBox::Show("Error: You must deposit an amount greater than or equal to  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							MessageBox::Show("Error: Account " + accountNo + " must recieve an amount greater than or equal to  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
 							return;
 						}
 
@@ -485,21 +486,15 @@ namespace TestGUI {
 							else
 							{
 								//tbDebug->Text += "In eles1" + accountNo;
-								MessageBox::Show("Error: You can only withdraw a maximum of $" + maxWithdraw + ". Please enter a new withdraw amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+								MessageBox::Show("Error: Account " + accountNo + " can only transfer a maximum of $" + maxWithdraw + "'s at a time. Please enter a new transfer amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
 								return;
 							}
 						}
-						else if (minBalance < Double::Parse(withdrawAmount) && maxWithdraw < Double::Parse(withdrawAmount))
+						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
 						{
-							//Initiates overdraft protection
-							if (MessageBox::Show("Error: You must have a minimum balance of $" + minBalance + " would you like to initiate an overdraft?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
-							{
-
-							}
-							else
-							{
-								return;
-							}
+							//Display error
+							MessageBox::Show("Error: You will be $" + (minBalance - (curBalance - Double::Parse(withdrawAmount))) + " below your minimum balance for account " + accountNo + " which must have a minimum balance of $" + minBalance + ".Please enter a new transfer amount ", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
 						}
 
 					}
@@ -564,8 +559,21 @@ namespace TestGUI {
 					//Store the current saving account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
+						curBalance = round_up(myReader1->GetDouble("balance"), 2);
+						minBalance = round_up(myReader1->GetDouble("minBalance"), 2);
+						//tbDebug->Text +=  (curBalance - Double::Parse(withdrawAmount));
+						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
+						{
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+						}
+						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
+						{
+							//Display error
+							MessageBox::Show("Error: You will be $" + (minBalance - (curBalance - Double::Parse(withdrawAmount))) + " below your minimum balance for account " + accountNo + " which must have a minimum balance of $" + minBalance + ".Please enter a new transfer amount ", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return;
+						}
+						
 					}
 
 					//Create query to insert a new entry into Transaction table
@@ -859,6 +867,8 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	{
 		time = "0" + datetime.ToString()->Substring(11, 7);
 	}
+
+
 	//String^ transactionID = "22235"; //For testing
 	if (transferDir == L"")
 	{
