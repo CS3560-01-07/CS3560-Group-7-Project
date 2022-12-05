@@ -7,6 +7,6 @@ void main(array<String^>^ args)
 {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	GUI::MainForm form;
+	TestGUI::MainForm form;
 	Application::Run(% form);
 }

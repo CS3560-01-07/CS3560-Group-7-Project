@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GUI {
+namespace TestGUI {
 
 	using namespace System;
 	using namespace System::ComponentModel;

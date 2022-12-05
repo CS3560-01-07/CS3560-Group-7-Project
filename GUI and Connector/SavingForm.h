@@ -5,7 +5,7 @@
 #include "TransactionHistoryForm1.h";
 
 
-namespace GUI {
+namespace TestGUI {
 
 	using namespace System;
 	using namespace System::ComponentModel;
