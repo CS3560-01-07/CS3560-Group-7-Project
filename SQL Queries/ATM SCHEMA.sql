@@ -6,9 +6,9 @@ CREATE DATABASE ATM_SYSTEM;
 USE ATM_SYSTEM;
  
 CREATE TABLE Customer (
-	customerID int,
+	customerID int NOT NULL AUTO_INCREMENT,
     socialSecurNo int,
-    name VARCHAR(50),
+    name VARCHAR(50) NOT NULL,
     dateOfBirth VARCHAR(20),
     address VARCHAR(50),
     phoneNum bigint,
@@ -17,18 +17,18 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE AtmCard (
-	cardNo bigint,
+	cardNo bigint NOT NULL,
     expirDate datetime,
-    pinNo int,
+    pinNo int NOT NULL,
     currBalance float,
     PRIMARY KEY (cardNo)
 );
 
 CREATE TABLE Accounts (
-	accountNo int,
-    customerID int,
+	accountNo int NOT NULL AUTO_INCREMENT,
+    customerID int NOT NULL,
     dateCreated datetime,
-    cardNo bigint,
+    cardNo bigint NOT NULL,
     routingNumber int,
     balance float,
     minBalance float,
@@ -38,7 +38,7 @@ CREATE TABLE Accounts (
 );
 
 CREATE TABLE Saving (
-	accountNo int,
+	accountNo int NOT NULL,
     interestRate float,
     minDeposit  float,
     PRIMARY KEY (accountNo),
@@ -46,7 +46,7 @@ CREATE TABLE Saving (
 );
 
 CREATE TABLE Checking (
-	accountNo int,
+	accountNo int NOT NULL,
     maxWithdrawAmt float,
     PRIMARY KEY (accountNo),
     FOREIGN KEY (accountNo) REFERENCES Accounts(accountNo)
@@ -54,8 +54,8 @@ CREATE TABLE Checking (
 
 
 CREATE TABLE Transaction (
-	transactionID int,
-    accountNo int,
+	transactionID int NOT NULL AUTO_INCREMENT,
+    accountNo int NOT NULL,
     dateOfTransaction datetime,
     timeOfTransaction time,
     PRIMARY KEY (transactionID),
@@ -63,14 +63,14 @@ CREATE TABLE Transaction (
 );
 
 CREATE TABLE Withdraw (
-	transactionID int,
+	transactionID int NOT NULL,
     ammountWithdrawn float, 
     PRIMARY KEY (transactionID),
     FOREIGN KEY (transactionID) REFERENCES Transaction(transactionID)
 );
 
 CREATE TABLE Deposit (
-	transactionID int,
+	transactionID int NOT NULL,
     ammountDeposited float, 
     PRIMARY KEY (transactionID),
     FOREIGN KEY (transactionID) REFERENCES Transaction(transactionID)
