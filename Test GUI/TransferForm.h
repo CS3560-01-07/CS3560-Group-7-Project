@@ -338,7 +338,7 @@ namespace TestGUI {
 						}
 						else
 						{
-							MessageBox::Show("Error: You must transfer an amount greater than or equal to  $" + minDeposit + " into account "+accountNo+"!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							MessageBox::Show("Error: You must transfer an amount greater than  $" + minDeposit + " into account "+accountNo+"!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
 							return false;
 						}
 
@@ -422,15 +422,25 @@ namespace TestGUI {
 
 				try
 				{
-					//Execute query to get checking account balance
+					//Execute query to get saving account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
 
 					//Store the current saving account balance and accountNo into variables
 					if (myReader1->Read())
 					{
-						accountNo = myReader1->GetInt32("accountNo").ToString();
-						return true;
+						curBalance = round_up(myReader1->GetDouble("balance"), 2);
+						minBalance = round_up(myReader1->GetDouble("minBalance"), 2);
+						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
+						{
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+							return true;
+						}
+						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
+						{
+							MessageBox::Show("Error: You will be $" + (minBalance - (curBalance - Double::Parse(withdrawAmount))) + " below your minimum balance for account " + accountNo + " which must have a minimum balance of $" + minBalance + ".Please enter a new transfer amount ", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return false;
+						}
 					}
 				}
 				catch (Exception^ ex)
@@ -560,7 +570,7 @@ namespace TestGUI {
 						}
 						else
 						{
-							MessageBox::Show("Error: Account " + accountNo + " must recieve an amount greater than or equal to  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							MessageBox::Show("Error: Account " + accountNo + " must recieve an amount greater than  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
 							return;
 						}
 
