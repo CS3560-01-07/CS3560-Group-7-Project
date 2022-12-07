@@ -342,7 +342,10 @@ namespace TestGUI {
 				MessageBox::Show(ex->Message);
 			}
 		}
-
+		conDatabase->Close();
+		conDatabaseChecking->Close();
+		conDatabaseGetCID->Close();
+		conDatabaseSaving->Close();
 	}
 
 	private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
@@ -428,6 +431,10 @@ namespace TestGUI {
 				MessageBox::Show(ex->Message);
 			}
 		}
+		conDatabase->Close();
+		conDatabaseChecking->Close();
+		conDatabaseGetCID->Close();
+		conDatabaseSaving->Close();
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

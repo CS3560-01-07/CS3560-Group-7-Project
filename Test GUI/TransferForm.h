@@ -269,6 +269,12 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabase2->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
+			conDatabaseInsertToDeposit->Close();
 		}
 		
 		bool checkIfDepositIsValid(String^ depositAmount, String^ date, String^ time, String^ accountType)
@@ -337,6 +343,7 @@ namespace TestGUI {
 						}
 
 					}
+
 				}
 				catch (Exception^ ex)
 				{
@@ -345,6 +352,7 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase1->Close();
 		}
 		bool checkIfWithdrawIsValid(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
 		{
@@ -399,7 +407,6 @@ namespace TestGUI {
 						}
 
 					}
-					return true;
 				}
 				catch (Exception^ ex)
 				{
@@ -432,6 +439,7 @@ namespace TestGUI {
 					return false;
 				}
 			}
+			conDatabase1->Close();
 		}
 
 		//Overloaded versions of makeDeposit and makeWithdraw that are meant to be used for transfers in case of overdraft
@@ -451,17 +459,15 @@ namespace TestGUI {
 			MySqlConnection^ conDatabaseInsertToDeposit = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToTransaction = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseGetCurrentTransactionID = gcnew MySqlConnection(consting);
+			
 			//Create query to get current transaction id
 			MySqlCommand^ cmDataBaseGetCurrentTransactionID = gcnew MySqlCommand("SELECT max(transactionid) from atm_system.transaction;", conDatabaseGetCurrentTransactionID);
 			MySqlDataReader^ myReaderGetCurrentTransactionID;
 			//Check whether the user is in Checking or Savings Mode
 			if (accountType == L"Checking")
 			{
-				//Create query to update checking account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);				
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 				
 				
@@ -474,13 +480,17 @@ namespace TestGUI {
 					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						
+						//Create query to update checking account balance
+						MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+						MySqlDataReader^ myReader;
+
 						//Execute query to update checking account balance
 						conDatabase->Open();
 						myReader = cmDataBase->ExecuteReader();
 
 						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
-						
 					}
 					//Create query to insert a new entry into Transaction table
 					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
@@ -518,11 +528,8 @@ namespace TestGUI {
 			}
 			else if (accountType == L"Saving")
 			{
-				//Create query to update saving account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
@@ -538,12 +545,18 @@ namespace TestGUI {
 						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
 						if (minDeposit < Double::Parse(depositAmount))
 						{
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+
+							//Create query to update saving account balance
+							MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+							MySqlDataReader^ myReader;
+
 							//Execute query to update saving account balance
 							conDatabase->Open();
 							myReader = cmDataBase->ExecuteReader();
-
+							
 							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-							accountNo = myReader1->GetInt32("accountNo").ToString();
+
 						}
 						else
 						{
@@ -585,8 +598,12 @@ namespace TestGUI {
 				{
 					MessageBox::Show(ex->Message);
 				}
-
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToDeposit->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
 		{
@@ -613,11 +630,8 @@ namespace TestGUI {
 			//Check whether the user is in Checking or Savings Mode
 			if (accountType == L"Checking")
 			{
-				//Create query to update checking account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
@@ -638,14 +652,20 @@ namespace TestGUI {
 
 							if (maxWithdraw > Double::Parse(withdrawAmount))
 							{
+								accountNo = myReader1->GetInt32("accountNo").ToString();
+								//tbDebug->Text += newBalance;
+								//tbDebug->Text += accountNo;
+								
+								//Create query to update checking account balance
+								MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+								MySqlDataReader^ myReader;
+
 								//Execute query to update checking account balance
 								conDatabase->Open();
 								myReader = cmDataBase->ExecuteReader();
 
 								newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-								accountNo = myReader1->GetInt32("accountNo").ToString();
-								//tbDebug->Text += newBalance;
-								//tbDebug->Text += accountNo;
+
 							}
 							else
 							{
@@ -703,18 +723,13 @@ namespace TestGUI {
 			}
 			else if (accountType == L"Saving")
 			{
-				//Create query to update savings account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from savings and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
 				{
-					//Execute query to update savings account balance
-					conDatabase->Open();
-					myReader = cmDataBase->ExecuteReader();
+					
 
 					//Execute query to get saving account balance
 					conDatabase1->Open();
@@ -728,8 +743,18 @@ namespace TestGUI {
 						//tbDebug->Text +=  (curBalance - Double::Parse(withdrawAmount));
 						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
 						{
-							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
 							accountNo = myReader1->GetInt32("accountNo").ToString();
+							
+							//Create query to update savings account balance
+							MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+							MySqlDataReader^ myReader;
+
+							//Execute query to update savings account balance
+							conDatabase->Open();
+							myReader = cmDataBase->ExecuteReader();
+
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+
 						}
 						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
 						{
@@ -772,6 +797,11 @@ namespace TestGUI {
 					MessageBox::Show(ex->Message);
 				}
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 
 		void makeTransfer(String^ transferAmount, String^ date, String^ time, String^ transferDirection)

@@ -140,8 +140,8 @@ namespace TestGUI {
 					{
 						
 						
-						
 						accountNo = myReader1->GetInt32("accountNo").ToString();
+						
 						//Create query to update checking account balance
 						MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
 						MySqlDataReader^ myReader;
@@ -261,6 +261,11 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToDeposit->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time)
 		{
@@ -430,6 +435,11 @@ namespace TestGUI {
 					MessageBox::Show(ex->Message);
 				}
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 
 		/// <summary>
