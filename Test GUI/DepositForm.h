@@ -147,8 +147,8 @@ namespace TestGUI {
 						//Execute query to update checking account balance
 						conDatabase->Open();
 						myReader = cmDataBase->ExecuteReader();
-
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+						
+						newBalance = round_up(myReader1->GetDouble("balance") + Double::Parse(depositAmount), 2).ToString();
 						accountNo = myReader1->GetInt32("accountNo").ToString();
 						
 					}
@@ -211,7 +211,7 @@ namespace TestGUI {
 							conDatabase->Open();
 							myReader = cmDataBase->ExecuteReader();
 
-							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+							newBalance = round_up(myReader1->GetDouble("balance") + Double::Parse(depositAmount), 2).ToString();
 							accountNo = myReader1->GetInt32("accountNo").ToString();
 						}
 						else
