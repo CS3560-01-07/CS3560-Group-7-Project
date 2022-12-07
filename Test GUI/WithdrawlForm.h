@@ -21,7 +21,7 @@ namespace TestGUI {
 		Form^ prev;
 	private: System::Windows::Forms::Button^ btnPrev;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
-	private: System::Windows::Forms::TextBox^ tbDebug;
+
 	public:
 		String^ cID;
 		WithdrawlForm(void)
@@ -315,7 +315,7 @@ namespace TestGUI {
 							if (MessageBox::Show("Error: You must have a minimum balance of $" + minBalance + " would you like to initiate an overdraft for $" + (minBalance - (curBalance - Double::Parse(withdrawAmount)))+"?", "ATM System", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
 							{
 								String^ transf = abs((minBalance - (curBalance - Double::Parse(withdrawAmount)))).ToString();
-								tbDebug->Text += "Transf:" + transf;
+								//tbDebug->Text += "Transf:" + transf;
 								makeTransfer(transf, date, time, "SavingToChecking");
 								accountNo = myReader1->GetInt32("accountNo").ToString();
 								newBalance = minBalance.ToString();
@@ -524,6 +524,7 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase1->Close();
 		}
 		bool checkIfWithdrawIsValid(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
 		{
@@ -611,6 +612,7 @@ namespace TestGUI {
 					return false;
 				}
 			}
+			conDatabase1->Close();
 		}
 
 		
@@ -654,7 +656,7 @@ namespace TestGUI {
 					MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = '" + minDeposit + "' where customerID = '" + cID + "'and accountNo = '" + accountNo + "';", conDatabase);
 					MySqlDataReader^ myReader;
 
-					tbDebug->Text += "Withdrawlll: " + depositAmount;
+					//tbDebug->Text += "Withdrawlll: " + depositAmount;
 					//Execute query to update checking account balance
 					conDatabase->Open();
 					myReader = cmDataBase->ExecuteReader();
@@ -712,7 +714,7 @@ namespace TestGUI {
 					MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "';", conDatabase);
 					MySqlDataReader^ myReader;
 
-					tbDebug->Text += "Withdrawlll: " + withdrawAmount;
+					//tbDebug->Text += "Withdrawlll: " + withdrawAmount;
 					//Execute query to update checking account balance
 					conDatabase->Open();
 					myReader = cmDataBase->ExecuteReader();
@@ -723,6 +725,8 @@ namespace TestGUI {
 					MessageBox::Show(ex->Message);
 				}
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
 		}
 
 
@@ -879,10 +883,15 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseInsertToDeposit->Close();
+			conDatabaseInsertToTransaction->Close();
+			conDatabaseGetCurrentTransactionID->Close();
 		}
 		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
 		{
-			tbDebug->Text += "In Twithdraw";
+			//tbDebug->Text += "In Twithdraw";
 			//tbDebug->Text += withdrawAmount + "In TWithdrdaw";
 			//transactionID = (Int32::Parse(transactionID) + 1).ToString();
 			double curBalance;
@@ -995,12 +1004,12 @@ namespace TestGUI {
 			}
 			else if (accountType == L"Saving")
 			{
-				tbDebug->Text += "Seption" + withdrawAmount;
+				//tbDebug->Text += "Seption" + withdrawAmount;
 				makeWithdraw(withdrawAmount, date, time, 0);
 				//Create query to get user data from savings and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
 				MySqlDataReader^ myReader1;
-				tbDebug->Text += "In TWSaving: ";
+				//tbDebug->Text += "In TWSaving: ";
 				try
 				{
 					
@@ -1062,17 +1071,17 @@ namespace TestGUI {
 					MessageBox::Show(ex->Message);
 				}
 			}
-			/*conDatabase->Close();
+			conDatabase->Close();
 			conDatabase1->Close();
 			conDatabaseGetCurrentTransactionID->Close();
 			conDatabaseInsertToTransaction->Close();
-			conDatabaseInsertToWithdraw->Close();*/
+			conDatabaseInsertToWithdraw->Close();
 		}
 
 		//Used in case of overdraft
 		void makeTransfer(String^ transferAmount, String^ date, String^ time, String^ transferDirection)
 		{
-			tbDebug->Text += transferAmount;
+			//tbDebug->Text += transferAmount;
 			if (transferDirection == L"SavingToChecking")
 			{
 				if (checkIfDepositIsValid(transferAmount, date, time, "Checking") == true && checkIfWithdrawIsValid(transferAmount, date, time, "Saving") == true)
@@ -1120,7 +1129,6 @@ namespace TestGUI {
 			this->btnLogout = (gcnew System::Windows::Forms::Button());
 			this->btnPrev = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->tbDebug = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
@@ -1249,13 +1257,6 @@ namespace TestGUI {
 			this->tableLayoutPanel2->Size = System::Drawing::Size(102, 38);
 			this->tableLayoutPanel2->TabIndex = 20;
 			// 
-			// tbDebug
-			// 
-			this->tbDebug->Location = System::Drawing::Point(163, 213);
-			this->tbDebug->Name = L"tbDebug";
-			this->tbDebug->Size = System::Drawing::Size(239, 22);
-			this->tbDebug->TabIndex = 21;
-			// 
 			// WithdrawlForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -1263,7 +1264,6 @@ namespace TestGUI {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
 				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(480, 268);
-			this->Controls->Add(this->tbDebug);
 			this->Controls->Add(this->tableLayoutPanel2);
 			this->Controls->Add(this->btnLogout);
 			this->Controls->Add(this->tableLayoutPanel1);

@@ -24,7 +24,7 @@ namespace TestGUI {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::RadioButton^ rbtnSavingToChecking;
 	private: System::Windows::Forms::RadioButton^ rbtnCheckingToSaving;
-	private: System::Windows::Forms::TextBox^ tbDebug;
+
 
 
 	public:
@@ -822,7 +822,6 @@ namespace TestGUI {
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->rbtnSavingToChecking = (gcnew System::Windows::Forms::RadioButton());
 			this->rbtnCheckingToSaving = (gcnew System::Windows::Forms::RadioButton());
-			this->tbDebug = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
@@ -983,13 +982,6 @@ namespace TestGUI {
 			this->rbtnCheckingToSaving->UseVisualStyleBackColor = true;
 			this->rbtnCheckingToSaving->CheckedChanged += gcnew System::EventHandler(this, &TransferForm::radioButton2_CheckedChanged);
 			// 
-			// tbDebug
-			// 
-			this->tbDebug->Location = System::Drawing::Point(341, 124);
-			this->tbDebug->Name = L"tbDebug";
-			this->tbDebug->Size = System::Drawing::Size(204, 22);
-			this->tbDebug->TabIndex = 22;
-			// 
 			// TransferForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -997,7 +989,6 @@ namespace TestGUI {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
 				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(568, 338);
-			this->Controls->Add(this->tbDebug);
 			this->Controls->Add(this->rbtnCheckingToSaving);
 			this->Controls->Add(this->rbtnSavingToChecking);
 			this->Controls->Add(this->tableLayoutPanel2);
