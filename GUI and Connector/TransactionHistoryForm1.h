@@ -260,51 +260,181 @@ namespace TestGUI {
 	private: System::Void dataGridView1_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ accountNo = "";
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		MySqlConnection^ conDatabaseGetCID = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.withdraw.ammountWithdrawn FROM atm_system.transaction INNER JOIN atm_system.withdraw ON atm_system.withdraw.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + 1266 + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
-		MySqlDataReader^ myReader;
-		try
+		MySqlConnection^ conDatabaseChecking = gcnew MySqlConnection(consting);
+		MySqlConnection^ conDatabaseSaving = gcnew MySqlConnection(consting);
+		
+		
+		if (prev->Text == L"CheckingForm")
 		{
-			MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
-			sda->SelectCommand = cmDataBase;
-			DataTable^ dbdataset = gcnew DataTable();
-			sda->Fill(dbdataset);
-			BindingSource^ bSource = gcnew BindingSource();
+			//Create query to get a join of withdraw transaction information for specified checking acount
+			MySqlCommand^ cmDataBaseChecking = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabaseChecking);
+			MySqlDataReader^ myReaderChecking;
+			try
+			{
+				//Execute query to get checking account balance
+				conDatabaseChecking->Open();
+				myReaderChecking = cmDataBaseChecking->ExecuteReader();
+				if (myReaderChecking->Read())
+				{
+					//Get accountNo
+					accountNo = myReaderChecking->GetInt32("accountNo").ToString();
 
-			bSource->DataSource = dbdataset;
-			dataGridView1->DataSource = bSource;
-			sda->Update(dbdataset);
+					//Executes query to get a join of withdraw transaction information for specified checking acount
+					MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.withdraw.ammountWithdrawn FROM atm_system.transaction INNER JOIN atm_system.withdraw ON atm_system.withdraw.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + accountNo + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
+					MySqlDataReader^ myReader;
+
+					//Populates the on screen table with relevant information
+					MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
+					sda->SelectCommand = cmDataBase;
+					DataTable^ dbdataset = gcnew DataTable();
+					sda->Fill(dbdataset);
+					BindingSource^ bSource = gcnew BindingSource();
+
+					bSource->DataSource = dbdataset;
+					dataGridView1->DataSource = bSource;
+					sda->Update(dbdataset);
+				}
+				
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
 		}
-		catch(Exception^ex)
+		else if (prev->Text == L"SavingForm")
 		{
-			MessageBox::Show(ex->Message);
-		}
+			//Create query to get a join of withdraw transaction information for specified savings acount
+			MySqlCommand^ cmDataBaseSaving = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabaseSaving);
+			MySqlDataReader^ myReaderSaving;
+			try
+			{
+				//Execute query to get checking account balance
+				conDatabaseSaving->Open();
+				myReaderSaving = cmDataBaseSaving->ExecuteReader();
+				if (myReaderSaving->Read())
+				{
+					//Get accountNo
+					accountNo = myReaderSaving->GetInt32("accountNo").ToString();
 
+					//Executes query to get a join of withdraw transaction information for specified checking acount
+					MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.withdraw.ammountWithdrawn FROM atm_system.transaction INNER JOIN atm_system.withdraw ON atm_system.withdraw.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + accountNo + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
+					MySqlDataReader^ myReader;
+
+					//Populates the onscreen table with relevent info
+					MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
+					sda->SelectCommand = cmDataBase;
+					DataTable^ dbdataset = gcnew DataTable();
+					sda->Fill(dbdataset);
+					BindingSource^ bSource = gcnew BindingSource();
+
+					bSource->DataSource = dbdataset;
+					dataGridView1->DataSource = bSource;
+					sda->Update(dbdataset);
+				}
+
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+		}
+		conDatabase->Close();
+		conDatabaseChecking->Close();
+		conDatabaseGetCID->Close();
+		conDatabaseSaving->Close();
 	}
+
 	private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
+		String^ accountNo = "";
 		String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
 		MySqlConnection^ conDatabase = gcnew MySqlConnection(consting);
 		MySqlConnection^ conDatabaseGetCID = gcnew MySqlConnection(consting);
-		MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.deposit.ammountDeposited FROM atm_system.transaction INNER JOIN atm_system.deposit ON atm_system.deposit.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + 1266 + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
-		MySqlDataReader^ myReader;
-		try
-		{
-			MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
-			sda->SelectCommand = cmDataBase;
-			DataTable^ dbdataset = gcnew DataTable();
-			sda->Fill(dbdataset);
-			BindingSource^ bSource = gcnew BindingSource();
+		MySqlConnection^ conDatabaseChecking = gcnew MySqlConnection(consting);
+		MySqlConnection^ conDatabaseSaving = gcnew MySqlConnection(consting);
+		
 
-			bSource->DataSource = dbdataset;
-			dataGridView1->DataSource = bSource;
-			sda->Update(dbdataset);
-		}
-		catch (Exception^ ex)
+		if (prev->Text == L"CheckingForm")
 		{
-			MessageBox::Show(ex->Message);
+			//Create query to get a join of deposit transaction information for specified checking acount
+			MySqlCommand^ cmDataBaseChecking = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabaseChecking);
+			MySqlDataReader^ myReaderChecking;
+			try
+			{
+				//Execute query to get checking account balance
+				conDatabaseChecking->Open();
+				myReaderChecking = cmDataBaseChecking->ExecuteReader();
+				if (myReaderChecking->Read())
+				{
+					//Get accountNo
+					accountNo = myReaderChecking->GetInt32("accountNo").ToString();
+
+					//Executes query to get a join of deposit transaction information for specified checking acount
+					MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.deposit.ammountDeposited FROM atm_system.transaction INNER JOIN atm_system.deposit ON atm_system.deposit.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + accountNo + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
+					MySqlDataReader^ myReader;
+
+					//Populates onscreen table with relevant info
+					MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
+					sda->SelectCommand = cmDataBase;
+					DataTable^ dbdataset = gcnew DataTable();
+					sda->Fill(dbdataset);
+					BindingSource^ bSource = gcnew BindingSource();
+
+					bSource->DataSource = dbdataset;
+					dataGridView1->DataSource = bSource;
+					sda->Update(dbdataset);
+				}
+
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
 		}
+		else if (prev->Text == L"SavingForm")
+		{
+			//Create query to get a join of deposit transaction information for specified savings acount
+			MySqlCommand^ cmDataBaseSaving = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabaseSaving);
+			MySqlDataReader^ myReaderSaving;
+			try
+			{
+				//Execute query to get checking account balance
+				conDatabaseSaving->Open();
+				myReaderSaving = cmDataBaseSaving->ExecuteReader();
+				if (myReaderSaving->Read())
+				{
+					//Get accountNo
+					accountNo = myReaderSaving->GetInt32("accountNo").ToString();
+
+					//Executes query to get a join of deposit transaction information for specified savings acount
+					MySqlCommand^ cmDataBase = gcnew MySqlCommand(" SELECT atm_system.transaction.*, atm_system.deposit.ammountDeposited FROM atm_system.transaction INNER JOIN atm_system.deposit ON atm_system.deposit.transactionID = atm_system.transaction.transactionID WHERE accountNo = '" + accountNo + "' ORDER BY atm_system.transaction.dateOfTransaction, atm_system.transaction.timeOfTransaction;", conDatabase);
+					MySqlDataReader^ myReader;
+
+					//Populates onscreen table with relevant info
+					MySqlDataAdapter^ sda = gcnew MySqlDataAdapter();
+					sda->SelectCommand = cmDataBase;
+					DataTable^ dbdataset = gcnew DataTable();
+					sda->Fill(dbdataset);
+					BindingSource^ bSource = gcnew BindingSource();
+
+					bSource->DataSource = dbdataset;
+					dataGridView1->DataSource = bSource;
+					sda->Update(dbdataset);
+				}
+
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+		}
+		conDatabase->Close();
+		conDatabaseChecking->Close();
+		conDatabaseGetCID->Close();
+		conDatabaseSaving->Close();
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

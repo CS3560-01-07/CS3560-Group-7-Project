@@ -24,7 +24,7 @@ namespace TestGUI {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::RadioButton^ rbtnSavingToChecking;
 	private: System::Windows::Forms::RadioButton^ rbtnCheckingToSaving;
-	private: System::Windows::Forms::TextBox^ tbDebug;
+
 
 
 	public:
@@ -269,8 +269,190 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabase2->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
+			conDatabaseInsertToDeposit->Close();
 		}
 		
+		bool checkIfDepositIsValid(String^ depositAmount, String^ date, String^ time, String^ accountType)
+		{
+			String^ newBalance = "";
+			String^ accountNo = "";
+			double minDeposit;
+			double minBalance;
+			int curTranID;
+			int transactionID = NULL;
+			//Make connecions to MySql using log in credentials
+			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+
+			//Check whether the user is in Checking or Savings Mode
+			if (accountType == L"Checking")
+			{
+				//Create query to get user data from checking and account tables
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader1;
+
+				try
+				{
+					//Execute query to get checking account balance
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					//Store the current checking account balance and accountNo into variables
+					if (myReader1->Read())
+					{
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						return true;
+					}
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+					return false;
+				}
+			}
+			else if (accountType == L"Saving")
+			{
+				//Create query to get user data from checking and account tables
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader1;
+
+				try
+				{
+					//Execute query to get saving account balance
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					//Store the current saving account balance and accountNo into variables
+					if (myReader1->Read())
+					{
+						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						if (minDeposit < Double::Parse(depositAmount))
+						{
+							return true;
+						}
+						else
+						{
+							MessageBox::Show("Error: You must transfer an amount greater than  $" + minDeposit + " into account "+accountNo+"!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return false;
+						}
+
+					}
+
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+					return false;
+				}
+
+			}
+			conDatabase1->Close();
+		}
+		bool checkIfWithdrawIsValid(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
+		{
+			double curBalance;
+			String^ newBalance = "";
+			String^ accountNo = "";
+			double minBalance;
+			double maxWithdraw;
+			int curTranID;
+			int transactionID = NULL;
+			//Make connecions to MySql using log in credentials
+			String^ consting = L"datasource=localhost;port=3306;username=root;password=storage*Queenlion5";
+			MySqlConnection^ conDatabase1 = gcnew MySqlConnection(consting);
+
+			//Check whether the user is in Checking or Savings Mode
+			if (accountType == L"Checking")
+			{
+				//Create query to get user data from checking and account tables
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader1;
+
+				try
+				{
+					//Execute query to get checking account balance
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					//Store the current checking account balance and accountNo into variables
+					if (myReader1->Read())
+					{
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						curBalance = round_up(myReader1->GetDouble("balance"), 2);
+						maxWithdraw = round_up(myReader1->GetDouble("maxWithdrawAmt"), 2);
+						minBalance = round_up(myReader1->GetDouble("minBalance"), 2);
+						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
+						{
+							if (maxWithdraw >= Double::Parse(withdrawAmount))
+							{
+								return true;
+							}
+							else
+							{
+								MessageBox::Show("Error: Account " + accountNo + " can only have a maximum of $" + maxWithdraw + " withdrawn. Please enter a new transfer amount.", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+								return false;
+							}
+						}
+						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
+						{
+							//Display error
+							MessageBox::Show("Error: You will be $" + (minBalance - (curBalance - Double::Parse(withdrawAmount))) + " below your minimum balance for account " + accountNo + " which must have a minimum balance of $" + minBalance + ".Please enter a new transfer amount ", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return false;
+						}
+
+					}
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+					return false;
+				}
+			}
+			else if (accountType == L"Saving")
+			{
+				//Create query to get user data from savings and account tables
+				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
+				MySqlDataReader^ myReader1;
+
+				try
+				{
+					//Execute query to get saving account balance
+					conDatabase1->Open();
+					myReader1 = cmDataBase1->ExecuteReader();
+
+					//Store the current saving account balance and accountNo into variables
+					if (myReader1->Read())
+					{
+						curBalance = round_up(myReader1->GetDouble("balance"), 2);
+						minBalance = round_up(myReader1->GetDouble("minBalance"), 2);
+						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
+						{
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+							return true;
+						}
+						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
+						{
+							MessageBox::Show("Error: You will be $" + (minBalance - (curBalance - Double::Parse(withdrawAmount))) + " below your minimum balance for account " + accountNo + " which must have a minimum balance of $" + minBalance + ".Please enter a new transfer amount ", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							return false;
+						}
+					}
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+					return false;
+				}
+			}
+			conDatabase1->Close();
+		}
+
+		//Overloaded versions of makeDeposit and makeWithdraw that are meant to be used for transfers in case of overdraft
 		void makeDeposit(String^ depositAmount, String^ date, String^ time,String^ accountType)
 		{
 			//tbDebug->Text += "In Deposit";
@@ -287,17 +469,15 @@ namespace TestGUI {
 			MySqlConnection^ conDatabaseInsertToDeposit = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseInsertToTransaction = gcnew MySqlConnection(consting);
 			MySqlConnection^ conDatabaseGetCurrentTransactionID = gcnew MySqlConnection(consting);
+			
 			//Create query to get current transaction id
 			MySqlCommand^ cmDataBaseGetCurrentTransactionID = gcnew MySqlCommand("SELECT max(transactionid) from atm_system.transaction;", conDatabaseGetCurrentTransactionID);
 			MySqlDataReader^ myReaderGetCurrentTransactionID;
 			//Check whether the user is in Checking or Savings Mode
 			if (accountType == L"Checking")
 			{
-				//Create query to update checking account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);				
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 				
 				
@@ -310,13 +490,17 @@ namespace TestGUI {
 					//Store the current checking account balance and accountNo into variables
 					if (myReader1->Read())
 					{
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						
+						//Create query to update checking account balance
+						MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+						MySqlDataReader^ myReader;
+
 						//Execute query to update checking account balance
 						conDatabase->Open();
 						myReader = cmDataBase->ExecuteReader();
 
 						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
-						
 					}
 					//Create query to insert a new entry into Transaction table
 					MySqlCommand^ cmDataBaseInsertToTransaction = gcnew MySqlCommand("insert into atm_system.transaction (transactionid, accountno, dateoftransaction, timeoftransaction) values ('" + curTranID + "', '" + accountNo + "', '" + date + "', '" + time + "');", conDatabaseInsertToTransaction);
@@ -354,11 +538,8 @@ namespace TestGUI {
 			}
 			else if (accountType == L"Saving")
 			{
-				//Create query to update saving account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
@@ -374,16 +555,22 @@ namespace TestGUI {
 						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
 						if (minDeposit < Double::Parse(depositAmount))
 						{
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+
+							//Create query to update saving account balance
+							MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+							MySqlDataReader^ myReader;
+
 							//Execute query to update saving account balance
 							conDatabase->Open();
 							myReader = cmDataBase->ExecuteReader();
-
+							
 							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-							accountNo = myReader1->GetInt32("accountNo").ToString();
+
 						}
 						else
 						{
-							MessageBox::Show("Error: Account " + accountNo + " must recieve an amount greater than or equal to  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
+							MessageBox::Show("Error: Account " + accountNo + " must recieve an amount greater than  $" + minDeposit + "!", "ATM System", MessageBoxButtons::OK, MessageBoxIcon::Error);
 							return;
 						}
 
@@ -421,8 +608,12 @@ namespace TestGUI {
 				{
 					MessageBox::Show(ex->Message);
 				}
-
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToDeposit->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time, String^ accountType)
 		{
@@ -449,11 +640,8 @@ namespace TestGUI {
 			//Check whether the user is in Checking or Savings Mode
 			if (accountType == L"Checking")
 			{
-				//Create query to update checking account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
@@ -474,14 +662,20 @@ namespace TestGUI {
 
 							if (maxWithdraw > Double::Parse(withdrawAmount))
 							{
+								accountNo = myReader1->GetInt32("accountNo").ToString();
+								//tbDebug->Text += newBalance;
+								//tbDebug->Text += accountNo;
+								
+								//Create query to update checking account balance
+								MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+								MySqlDataReader^ myReader;
+
 								//Execute query to update checking account balance
 								conDatabase->Open();
 								myReader = cmDataBase->ExecuteReader();
 
 								newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-								accountNo = myReader1->GetInt32("accountNo").ToString();
-								//tbDebug->Text += newBalance;
-								//tbDebug->Text += accountNo;
+
 							}
 							else
 							{
@@ -539,20 +733,15 @@ namespace TestGUI {
 			}
 			else if (accountType == L"Saving")
 			{
-				//Create query to update savings account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from savings and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
 				{
-					//Execute query to update savings account balance
-					conDatabase->Open();
-					myReader = cmDataBase->ExecuteReader();
+					
 
-					//Execute query to get checking account balance
+					//Execute query to get saving account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
 
@@ -564,8 +753,18 @@ namespace TestGUI {
 						//tbDebug->Text +=  (curBalance - Double::Parse(withdrawAmount));
 						if (minBalance <= curBalance - Double::Parse(withdrawAmount))
 						{
-							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
 							accountNo = myReader1->GetInt32("accountNo").ToString();
+							
+							//Create query to update savings account balance
+							MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance - '" + withdrawAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+							MySqlDataReader^ myReader;
+
+							//Execute query to update savings account balance
+							conDatabase->Open();
+							myReader = cmDataBase->ExecuteReader();
+
+							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
+
 						}
 						else if (minBalance > curBalance - Double::Parse(withdrawAmount))
 						{
@@ -607,23 +806,46 @@ namespace TestGUI {
 				{
 					MessageBox::Show(ex->Message);
 				}
-			}this->tbTransfer->Text += "Withdrawing";
+			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 
 		void makeTransfer(String^ transferAmount, String^ date, String^ time, String^ transferDirection)
 		{
 			if (transferDirection == L"SavingToChecking")
 			{
-				makeWithdraw(transferAmount, date, time, "Saving");
-				makeDeposit(transferAmount, date, time, "Checking");	
+				if (checkIfDepositIsValid(transferAmount, date, time, "Checking") == true && checkIfWithdrawIsValid(transferAmount, date, time, "Saving") == true)
+				{
+					makeWithdraw(transferAmount, date, time, "Saving");
+					makeDeposit(transferAmount, date, time, "Checking");
+					//Display Success Message box with current savings balance
+					MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your Savings Account and into your Checking Account.");
+				}
+				else
+				{
+					return;
+				}
 			}
 			else if (transferDirection == L"CheckingToSaving")
 			{
-				makeWithdraw(transferAmount, date, time, "Checking");
-				makeDeposit(transferAmount, date, time, "Saving");	
+				if (checkIfDepositIsValid(transferAmount, date, time, "Saving") == true && checkIfWithdrawIsValid(transferAmount, date, time, "Checking") == true)
+				{
+					makeWithdraw(transferAmount, date, time, "Checking");
+					makeDeposit(transferAmount, date, time, "Saving");
+					
+					//Display Success Message box with current savings balance
+					MessageBox::Show("You Have Succsesfully Transfered $" + transferAmount + " from your Checking Account and into your Savings Account.");
+				}
+				else
+				{
+					return;
+				}
 			}
-			
-		}
+			}
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -640,7 +862,6 @@ namespace TestGUI {
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->rbtnSavingToChecking = (gcnew System::Windows::Forms::RadioButton());
 			this->rbtnCheckingToSaving = (gcnew System::Windows::Forms::RadioButton());
-			this->tbDebug = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
@@ -688,6 +909,7 @@ namespace TestGUI {
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel1->Size = System::Drawing::Size(432, 67);
 			this->tableLayoutPanel1->TabIndex = 4;
+			this->tableLayoutPanel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &TransferForm::tableLayoutPanel1_Paint);
 			// 
 			// btnClear
 			// 
@@ -800,13 +1022,6 @@ namespace TestGUI {
 			this->rbtnCheckingToSaving->UseVisualStyleBackColor = true;
 			this->rbtnCheckingToSaving->CheckedChanged += gcnew System::EventHandler(this, &TransferForm::radioButton2_CheckedChanged);
 			// 
-			// tbDebug
-			// 
-			this->tbDebug->Location = System::Drawing::Point(341, 124);
-			this->tbDebug->Name = L"tbDebug";
-			this->tbDebug->Size = System::Drawing::Size(204, 22);
-			this->tbDebug->TabIndex = 22;
-			// 
 			// TransferForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -814,7 +1029,6 @@ namespace TestGUI {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(172)), static_cast<System::Int32>(static_cast<System::Byte>(214)),
 				static_cast<System::Int32>(static_cast<System::Byte>(246)));
 			this->ClientSize = System::Drawing::Size(568, 338);
-			this->Controls->Add(this->tbDebug);
 			this->Controls->Add(this->rbtnCheckingToSaving);
 			this->Controls->Add(this->rbtnSavingToChecking);
 			this->Controls->Add(this->tableLayoutPanel2);
@@ -867,8 +1081,7 @@ private: System::Void btnSubmit_Click(System::Object^ sender, System::EventArgs^
 	{
 		time = "0" + datetime.ToString()->Substring(11, 7);
 	}
-
-
+	
 	//String^ transactionID = "22235"; //For testing
 	if (transferDir == L"")
 	{
@@ -921,6 +1134,8 @@ private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System
 }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	transferDir = "CheckingToSaving";
+}
+private: System::Void tableLayoutPanel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 }
 };
 }

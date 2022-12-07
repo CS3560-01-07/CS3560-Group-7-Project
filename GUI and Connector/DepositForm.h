@@ -125,17 +125,12 @@ namespace TestGUI {
 			//Check whether the user is in Checking or Savings Mode
 			if (prev->Text == L"CheckingForm")
 			{
-				//Create query to update checking account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.checking INNER JOIN atm_system.accounts ON atm_system.checking.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
 				{
-
-
 					//Execute query to get checking account balance
 					conDatabase1->Open();
 					myReader1 = cmDataBase1->ExecuteReader();
@@ -144,12 +139,19 @@ namespace TestGUI {
 					if (myReader1->Read())
 					{
 						
+						
+						accountNo = myReader1->GetInt32("accountNo").ToString();
+						
+						//Create query to update checking account balance
+						MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+						MySqlDataReader^ myReader;
+
 						//Execute query to update checking account balance
 						conDatabase->Open();
 						myReader = cmDataBase->ExecuteReader();
 
-						newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-						accountNo = myReader1->GetInt32("accountNo").ToString();
+						newBalance = round_up(myReader1->GetDouble("balance") + Double::Parse(depositAmount), 2).ToString();
+
 						
 					}
 
@@ -187,11 +189,8 @@ namespace TestGUI {
 			}
 			else if (prev->Text == L"SavingForm")
 			{
-				//Create query to update saving account balance
-				MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "';", conDatabase);
 				//Create query to get user data from checking and account tables
 				MySqlCommand^ cmDataBase1 = gcnew MySqlCommand("SELECT * FROM atm_system.saving INNER JOIN atm_system.accounts ON atm_system.saving.accountNo = atm_system.accounts.accountNo  where customerID = '" + cID + "';", conDatabase1);
-				MySqlDataReader^ myReader;
 				MySqlDataReader^ myReader1;
 
 				try
@@ -207,12 +206,19 @@ namespace TestGUI {
 						minDeposit = round_up(myReader1->GetDouble("minDeposit"), 2);
 						if (minDeposit < Double::Parse(depositAmount))
 						{
+
+							accountNo = myReader1->GetInt32("accountNo").ToString();
+							
+							//Create query to update saving account balance
+							MySqlCommand^ cmDataBase = gcnew MySqlCommand("update atm_system.accounts set balance = balance + '" + depositAmount + "' where customerID = '" + cID + "' and accountNo = '" + accountNo + "';", conDatabase);
+							MySqlDataReader^ myReader;
+							
 							//Execute query to update saving account balance
 							conDatabase->Open();
 							myReader = cmDataBase->ExecuteReader();
+							
+							newBalance = round_up(myReader1->GetDouble("balance") + Double::Parse(depositAmount), 2).ToString();
 
-							newBalance = round_up(myReader1->GetDouble("balance"), 2).ToString();
-							accountNo = myReader1->GetInt32("accountNo").ToString();
 						}
 						else
 						{
@@ -255,6 +261,11 @@ namespace TestGUI {
 				}
 
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToDeposit->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 		void makeWithdraw(String^ withdrawAmount, String^ date, String^ time)
 		{
@@ -424,6 +435,11 @@ namespace TestGUI {
 					MessageBox::Show(ex->Message);
 				}
 			}
+			conDatabase->Close();
+			conDatabase1->Close();
+			conDatabaseGetCurrentTransactionID->Close();
+			conDatabaseInsertToWithdraw->Close();
+			conDatabaseInsertToTransaction->Close();
 		}
 
 		/// <summary>
