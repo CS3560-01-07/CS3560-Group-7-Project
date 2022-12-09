@@ -322,11 +322,11 @@ namespace TestGUI {
 			}
 			else if (count > 1)
 			{
-				MessageBox::Show("There are Duplicate Emails and IDs ...Access Denied");
+				MessageBox::Show("There are Duplicate Cards and/or Pins ...Access Denied");
 			}
 			else
 			{
-				MessageBox::Show("Email and/or ID Incorrect ...Please Try Again");
+				MessageBox::Show("Card number and/or Pin Incorrect ...Please Try Again");
 			}
 			
 		}
